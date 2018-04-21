@@ -105,7 +105,7 @@ export default {
     },
     watch: {
         model: {
-            handler(val, old) {
+            handler(val) {
                 console.log(JSON.stringify(val, false, 4));
             },
             deep: true

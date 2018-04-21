@@ -24,4 +24,10 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.el-form-item{
+    margin-bottom: 0;
+}
+legend{
+    margin-bottom: 0 !important;
+}
 </style>

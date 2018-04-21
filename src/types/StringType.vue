@@ -1,26 +1,19 @@
 <template>
     <div class="hello">
         <el-form-item :label="form.title">
-            <el-input v-model="modelThis"></el-input>
+            <el-input v-model="model"></el-input>
         </el-form-item>
     </div>
 </template>
 
 <script>
+import Type from "../mixins/type";
+
 export default {
     name: "StringType",
     mounted() {},
-    computed: {
-        modelThis: {
-            set(value) {
-                this.$emit('update:model', value);
-            },
-            get() {
-                return this.model;
-            }
-        }
-    },
-    props: ['form', 'model'],
+    mixins: [Type],
+    props: [],
     data() {
         return {};
     }

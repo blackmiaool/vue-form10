@@ -1,39 +1,38 @@
 <template>
     <div class="hello">
-        <component :is="componentId" :form="form" :model.sync="modelThis"></component>
+        <component :is="componentId"
+        :sf-form="sfForm"
+        :sf-model.sync="model"
+        :options="options"
+        :name="name"
+        ></component>
     </div>
 </template>
 
 <script>
 import ObjectType from "./ObjectType";
 import StringType from "./StringType";
+import Type from "../mixins/type";
 
 export default {
     name: "AnyType",
+    mixins: [Type],
     computed: {
-        modelThis: {
-            set(value) {
-                this.$emit('update:model', value);
-            },
-            get() {
-                return this.model;
-            }
-        },
         componentId() {
             const form = this.form;
-            console.log("any type form", form, form.type);
-            if (form.type === "object") {
+            const type = form.type || form.schema.type;
+            if (type === "object") {
                 return "ObjectType";
-            } else if (form.type === "string") {
+            } else if (type === "string") {
                 return "StringType";
-            } else if (form.type === "number") {
+            } else if (type === "number") {
                 return "StringType";
             }
             return "label";
         }
     },
     mounted() {},
-    props: ["form", "model", "options"],
+    props: [],
     data() {
         return {
             compForm: {}

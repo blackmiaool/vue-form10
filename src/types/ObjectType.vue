@@ -1,35 +1,39 @@
 <template>
     <div class="hello">
-        <el-form-item :label="form.title">
-            <AnyType v-for="(item,key) in form.properties" :key="key" :form="item" :model.sync="modelThis[key]"/>
-        </el-form-item>
+
+        <fieldset v-if="name">
+            <legend >{{form.title}}</legend>
+            <AnyType v-for="(item,key) in form.schema.properties"
+             :options="options"
+             :key="key"
+             :name="key"
+             :sf-form="item"
+             :sf-model.sync="model[key]"/>
+        </fieldset>
+        <AnyType  v-if="!name"
+            v-for="(item,key) in form.schema.properties"
+             :options="options"
+             :key="key"
+             :name="key"
+             :sf-form="item"
+             :sf-model.sync="model[key]"/>
     </div>
 </template>
 
 <script>
-import AnyType from "./AnyType";
+import Type from "../mixins/type";
 
-console.log(111, AnyType);
 export default {
     name: "ObjectType",
+    mixins: [Type],
     beforeCreate() {
         // eslint-disable-next-line
         this.$options.components.AnyType = require("./AnyType").default;
     },
-    computed: {
-        modelThis: {
-            set(value) {
-                this.$emit('update:model', value);
-            },
-            get() {
-                return this.model;
-            }
-        },
-    },
     mounted() {
-        console.log("objecttype", this.form, this.model);
+        console.log();
     },
-    props: ["form", "model"],
+    props: [],
     data() {
         return {};
     },
