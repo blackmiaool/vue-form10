@@ -43,7 +43,8 @@ const schema = {
         pic_url: {
             type: "string",
             title: "图片地址",
-            format: "link"
+            format: "link",
+            description: '描述',
         },
         color: {
             type: "string",

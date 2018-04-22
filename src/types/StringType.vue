@@ -1,7 +1,11 @@
 <template>
     <div class="hello">
         <el-form-item :label="form.title">
-            <el-input v-model="model"></el-input>
+            <el-input v-model="model">
+            </el-input>
+            <span v-if="form.description" class="form10-description">
+                {{form.description}}
+            </span>
         </el-form-item>
     </div>
 </template>
