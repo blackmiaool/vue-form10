@@ -1,4 +1,5 @@
 import { schemaDefaults } from "json-schema-form-core";
+import TypeWrapper from "../components/TypeWrapper";
 
 export default {
     computed: {
@@ -11,9 +12,18 @@ export default {
             }
         },
         form() {
-            return schemaDefaults.stdFormObj(this.name, this.sfForm);
+            const form = schemaDefaults.stdFormObj(this.name, this.sfForm);
+            if (form.schema.format) {
+                form.type = form.schema.format;
+            }
+            if (this.sfForm['x-schema-form']) {
+                Object.assign(form, this.sfForm['x-schema-form']);
+            }
+            console.log(form);
+            return form;
         },
     },
-    props: ['sf-model', 'sf-form', "options", "name"]
+    props: ['sf-model', 'sf-form', "options", "name"],
+    components: { TypeWrapper }
 };
 

@@ -22,10 +22,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 
   color: #2c3e50;
-  margin-top: 60px;
 }
 .el-form-item{
-    margin-bottom: 0;
+    margin-bottom: 10px;
+}
+.vue-form10 .el-form-item__content{
+    line-height: 25px;
+}
+.vue-form10  .el-form-item__label{
+    line-height: 25px;
 }
 legend{
     margin-bottom: 0 !important;

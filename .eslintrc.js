@@ -60,6 +60,7 @@ module.exports = {
     "no-new": 0,
     "no-await-in-loop": 0,
     "consistent-return": 0,
-    "func-names": 0
+    "func-names": 0,
+    "space-before-function-paren":0
   }
 }

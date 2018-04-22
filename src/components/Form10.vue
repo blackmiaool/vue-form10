@@ -1,14 +1,17 @@
 <template>
-    <div class="hello">
-        <el-form >
-            <AnyType :sf-model.sync="model" :sf-form="form" :options="this.sfOptions"></AnyType>
+    <div class="vue-form10">
+        <el-form>
+            <AnyType
+                :sf-model.sync="model"
+                :sf-form="form"
+                :options="this.sfOptions"
+            ></AnyType>
         </el-form>
     </div>
 </template>
 
 <script>
 import AnyType from "../types/AnyType";
-
 
 export default {
     name: "Form10",
@@ -38,7 +41,7 @@ export default {
     data() {
         return {
             componentId: "div",
-            compForm: {},
+            compForm: {}
         };
     },
     components: { AnyType }

@@ -1,13 +1,8 @@
 <template>
-    <div class="hello">
-        <el-form-item :label="form.title">
-            <el-input v-model="model">
-            </el-input>
-            <span v-if="form.description" class="form10-description">
-                {{form.description}}
-            </span>
-        </el-form-item>
-    </div>
+    <TypeWrapper :form="form">
+        <el-input v-model="model" slot="input" :placeholder="form.placeholder" :disabled="form.readonly">
+        </el-input>
+    </TypeWrapper>
 </template>
 
 <script>
@@ -20,7 +15,7 @@ export default {
     props: [],
     data() {
         return {};
-    }
+    },
 };
 </script>
 

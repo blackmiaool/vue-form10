@@ -1,18 +1,22 @@
 <template>
-    <div class="hello">
-        <component :is="componentId"
+    <component
+        :is="componentId"
         :sf-form="sfForm"
         :sf-model.sync="model"
         :options="options"
         :name="name"
-        ></component>
-    </div>
+    ></component>
+
 </template>
 
 <script>
+import Type from "../mixins/type";
 import ObjectType from "./ObjectType";
 import StringType from "./StringType";
-import Type from "../mixins/type";
+import NumberType from "./NumberType";
+import BooleanType from "./BooleanType";
+import EnumType from "./EnumType";
+import TimestampType from "./TimestampType";
 
 export default {
     name: "AnyType",
@@ -20,14 +24,26 @@ export default {
     computed: {
         componentId() {
             const form = this.form;
+            if (!this.sfForm || !Object.keys(this.sfForm).length) {
+                return null;
+            }
             const type = form.type || form.schema.type;
             if (type === "object") {
                 return "ObjectType";
             } else if (type === "string") {
+                if (form.schema.enum) {
+                    return "EnumType";
+                }
                 return "StringType";
             } else if (type === "number") {
-                return "StringType";
+                return "NumberType";
+            } else if (type === "boolean") {
+                return "BooleanType";
+            } else if (type === 'timestamp') {
+                return "TimestampType";
             }
+            console.error(`can't decide the type of `, this.sfForm, type, this);
+
             return "label";
         }
     },
@@ -38,7 +54,7 @@ export default {
             compForm: {}
         };
     },
-    components: { ObjectType, StringType }
+    components: { ObjectType, StringType, BooleanType, NumberType, EnumType, TimestampType }
 };
 </script>
 

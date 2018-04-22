@@ -3,12 +3,15 @@
         <div class="left">
             <div class="form-wrap" ref="formWrap">
                 <div ng-controller="FormController">
-                    <form name="myForm" sf-schema="schema" sf-model="model" sf-form="form" sf-options="options"></form>
+                    <form name="myForm" sf-schema="schema" sf-model="model"
+                        sf-form="form" sf-options="options"></form>
                 </div>
             </div>
         </div>
         <div class="right">
-            <Form10 :sf-schema="schema" :sf-model.sync="model" :sf-form="form" :sf-options="options" />
+            <Form10 :sf-schema="schema" :sf-model.sync="model"
+                :sf-form="form" :sf-options="options"
+            />
         </div>
     </div>
 </template>
@@ -27,7 +30,7 @@ angular
     ])
     .controller("FormController", [
         "$scope",
-        function () {
+        function() {
             // sp.model = {};
             // sp.copy = function () {
             //     localStorage.setItem(
@@ -40,31 +43,46 @@ angular
 const schema = {
     type: "object",
     properties: {
-        pic_url: {
+        string: {
             type: "string",
-            title: "图片地址",
-            format: "link",
-            description: '描述',
+            title: "字符串",
+            'x-schema-form': {
+                placeholder: "string哦"
+            }
         },
-        color: {
+        readonly: {
             type: "string",
-            title: "测试颜色",
-            format: "color"
+            title: "字符串",
+            description: "readonly",
+            'x-schema-form': {
+                readonly: true
+            }
+        },
+        boolean: {
+            type: "boolean",
+            title: "测试boolean"
+        },
+        number: {
+            type: "number",
+            title: "测试number"
+        },
+        enum: {
+            type: "string",
+            title: "测试enum",
+            enum: ["a", "b", "c"],
+            'x-schema-form': {
+                placeholder: "enum哦"
+            }
         },
         time: {
             type: "number",
             title: "测试时间戳",
             format: "timestamp"
         },
-        json: {
-            type: "string",
-            title: "测试json",
-            format: "json"
-        },
         money: {
             type: "number",
             title: "测试money",
-            format: "money"
+            // format: "money"
         },
         obj: {
             type: "object",
@@ -87,7 +105,7 @@ export default {
     mounted() {
         angular.bootstrap(this.$refs.formWrap, ["main"]);
         const scope = angular.element(this.$refs.formWrap).scope();
-        scope.schema = schema;
+        scope.schema = JSON.parse(JSON.stringify(schema));
         scope.form = form;
         scope.model = JSON.parse(JSON.stringify(model));
         scope.$digest();
@@ -134,5 +152,6 @@ export default {
 .right {
     width: 50%;
     float: left;
+    padding: 10px;
 }
 </style>
