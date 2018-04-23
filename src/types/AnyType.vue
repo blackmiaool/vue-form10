@@ -18,6 +18,7 @@ import NumberType from "./NumberType";
 import BooleanType from "./BooleanType";
 import EnumType from "./EnumType";
 import TimestampType from "./TimestampType";
+import ArrayType from "./ArrayType";
 
 export default {
     name: "AnyType",
@@ -39,6 +40,8 @@ export default {
                 return "StringType";
             } else if (type === "number") {
                 return "NumberType";
+            } else if (type === "array") {
+                return "ArrayType";
             } else if (type === "boolean") {
                 return "BooleanType";
             } else if (type === 'timestamp') {
@@ -49,7 +52,6 @@ export default {
             return "label";
         },
         condition() {
-            console.log(this.rootModel, this.form);
             if (this.form.condition) {
                 // eslint-disable-next-line
                 return new Function("model", `return ${this.form.condition};`)(this.rootModel);
@@ -66,7 +68,7 @@ export default {
             compForm: {}
         };
     },
-    components: { ObjectType, StringType, BooleanType, NumberType, EnumType, TimestampType }
+    components: { ObjectType, StringType, BooleanType, NumberType, EnumType, TimestampType, ArrayType }
 };
 </script>
 

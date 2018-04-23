@@ -31,7 +31,6 @@ export default {
         this.$options.components.AnyType = require("./AnyType").default;
     },
     mounted() {
-        console.log();
     },
     props: [],
     data() {

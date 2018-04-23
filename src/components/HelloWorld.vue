@@ -50,6 +50,14 @@ const schema = {
                 placeholder: "string哦"
             }
         },
+        array: {
+            type: 'array',
+            title: "array1",
+            items: {
+                title: 'item',
+                type: 'string',
+            }
+        },
         readonly: {
             type: "string",
             title: "字符串",
@@ -102,7 +110,8 @@ const schema = {
         }
     }
 };
-const model = { obj: {} };
+const model = { obj: {},
+array: ["a", "b"] };
 const form = ["*"];
 export default {
     name: "HelloWorld",
