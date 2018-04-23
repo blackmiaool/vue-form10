@@ -60,7 +60,11 @@ const schema = {
         },
         boolean: {
             type: "boolean",
-            title: "测试boolean"
+            title: "测试boolean",
+            'x-schema-form': {
+                readonly: true,
+                condition: "model.number>10"
+            }
         },
         number: {
             type: "number",

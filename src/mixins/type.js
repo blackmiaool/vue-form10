@@ -19,7 +19,6 @@ export default {
             if (this.sfForm['x-schema-form']) {
                 Object.assign(form, this.sfForm['x-schema-form']);
             }
-            console.log(form);
             return form;
         },
     },

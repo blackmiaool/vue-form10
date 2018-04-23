@@ -17,10 +17,13 @@ export default {
     name: "Form10",
     mounted() {
         const schema = this.sfSchema;
-        console.log("schema", schema);
+        console.log("schema", schema, this.sfOptions);
         if (schema.type === "object") {
             this.compForm = schema;
         }
+    },
+    provide() {
+        return { options: this.sfOptions, rootModel: this.model };
     },
     computed: {
         model: {

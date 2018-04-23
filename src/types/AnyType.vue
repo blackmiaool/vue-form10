@@ -1,5 +1,6 @@
 <template>
     <component
+        v-if="condition"
         :is="componentId"
         :sf-form="sfForm"
         :sf-model.sync="model"
@@ -21,6 +22,7 @@ import TimestampType from "./TimestampType";
 export default {
     name: "AnyType",
     mixins: [Type],
+    inject: ['rootModel'],
     computed: {
         componentId() {
             const form = this.form;
@@ -45,9 +47,19 @@ export default {
             console.error(`can't decide the type of `, this.sfForm, type, this);
 
             return "label";
+        },
+        condition() {
+            console.log(this.rootModel, this.form);
+            if (this.form.condition) {
+                // eslint-disable-next-line
+                return new Function("model", `return ${this.form.condition};`)(this.rootModel);
+            }
+            return true;
         }
     },
-    mounted() {},
+    mounted() {
+
+    },
     props: [],
     data() {
         return {
