@@ -13,7 +13,8 @@
   "dependencies": {
     "element-ui": "^2.3.5",
     "json-schema-form-core": "^1.0.0-alpha.2",
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vuedraggable": "^2.16.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
