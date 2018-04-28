@@ -46,6 +46,8 @@ export default {
                 return "BooleanType";
             } else if (type === 'timestamp') {
                 return "TimestampType";
+            } else if (type === 'textarea') {
+                return "StringType";
             }
             console.error(`can't decide the type of `, this.sfForm, type, this);
 

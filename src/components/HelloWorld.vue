@@ -46,6 +46,7 @@ const schema = {
         string: {
             type: "string",
             title: "字符串",
+            format: 'textarea',
             'x-schema-form': {
                 placeholder: "string哦"
             }

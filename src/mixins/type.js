@@ -3,6 +3,9 @@ import TypeWrapper from "../components/TypeWrapper";
 
 export default {
     computed: {
+        type() {
+            return this.form.type || this.form.schema.type;
+        },
         model: {
             set(value) {
                 this.$emit('update:sfModel', value);
