@@ -1,6 +1,5 @@
 <template>
-    <div class="hello">
-
+    <div>
         <fieldset v-if="name">
             <legend >{{form.title}}</legend>
             <AnyType v-for="(item,key) in form.schema.properties"
@@ -30,25 +29,23 @@ export default {
         // eslint-disable-next-line
         this.$options.components.AnyType = require("./AnyType").default;
     },
-    mounted() {
-    },
+    mounted() {},
     props: [],
     data() {
         return {};
     },
-    components: { }
+    components: {}
 };
 </script>
 
 
 <style scoped>
-fieldset{
- border-color: #dcdfe6;
+fieldset {
+    border: 1px solid #dcdfe6;
     border-width: 1px;
     border-radius: 4px;
 }
-legend{
-    color:#606266;
+legend {
+    color: #606266;
 }
-   
 </style>
