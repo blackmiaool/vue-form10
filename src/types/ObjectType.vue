@@ -42,5 +42,13 @@ export default {
 
 
 <style scoped>
-
+fieldset{
+ border-color: #dcdfe6;
+    border-width: 1px;
+    border-radius: 4px;
+}
+legend{
+    color:#606266;
+}
+   
 </style>
