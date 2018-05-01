@@ -1,22 +1,25 @@
 <template>
-    <div>
-        <fieldset v-if="name">
-            <legend >{{form.title}}</legend>
-            <AnyType v-for="(item,key) in form.schema.properties"
-             :options="options"
-             :key="key"
-             :name="key"
-             :sf-form="item"
-             :sf-model.sync="model[key]"/>
-        </fieldset>
-        <AnyType  v-if="!name"
+    <TypeWrapper :form="form" :hide-title="true">
+        <div slot="input">
+            <fieldset v-if="name">
+                <legend>{{form.title}}</legend>
+                <AnyType v-for="(item,key) in form.schema.properties"
+                :options="options"
+                :key="key"
+                :name="key"
+                :sf-form="item"
+                :sf-model.sync="model[key]"/>
+            </fieldset>
+            <AnyType  v-if="!name"
             v-for="(item,key) in form.schema.properties"
              :options="options"
              :key="key"
              :name="key"
              :sf-form="item"
              :sf-model.sync="model[key]"/>
-    </div>
+        </div>
+       
+    </TypeWrapper>
 </template>
 
 <script>
@@ -44,6 +47,7 @@ fieldset {
     border: 1px solid #dcdfe6;
     border-width: 1px;
     border-radius: 4px;
+    margin-left: 0;
 }
 legend {
     color: #606266;

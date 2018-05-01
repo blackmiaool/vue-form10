@@ -1,7 +1,9 @@
 <template>
-    <TypeWrapper :form="form">
-        <el-input-number v-model="model" slot="input" :disabled="form.readonly">
-        </el-input-number>
+    <TypeWrapper :form="form">           
+            <div slot="input" style="width:100%;">
+                <el-input-number v-model="model"  :disabled="form.readonly">
+            </el-input-number>
+            </div>
     </TypeWrapper>
 </template>
 
@@ -10,6 +12,6 @@ import Type from "../mixins/type";
 
 export default {
     name: "NumberType",
-    mixins: [Type],
+    mixins: [Type]
 };
 </script>

@@ -1,11 +1,9 @@
 <template>
     <TypeWrapper :form="form">
         <ol class="list-group" slot="input">
-
             <draggable element="li" :list="model" :options="{animation: 150}" v-for="(item,key) in model" :key="key"  class="list-group-item">
-                    <AnyType :options="options" :name="key" :sf-form="form.schema.items"
+                <AnyType :options="options" :name="key" :sf-form="form.schema.items"
                         :sf-model.sync="model[key]"/>
-           
             </draggable>
         </ol>
     </TypeWrapper>
@@ -36,6 +34,7 @@ export default {
 
 <style scoped>
 ol {
+    box-sizing: border-box;
     overflow: auto;
     margin: 0;
     width: 100%;
@@ -44,8 +43,8 @@ ol {
     margin-right: 0;
     margin-left: 0;
     background-color: #fff;
-    border:1px solid #dcdfe6;
+    border: 1px solid #dcdfe6;
     border-radius: 4px;
-    padding: 10px;    
+    padding: 10px;
 }
 </style>

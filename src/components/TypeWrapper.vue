@@ -1,7 +1,9 @@
 <template>
-    <el-form-item :label="(hideTitle||form.notitle)?'':form.title">
-        <slot name="input">
-        </slot>
+    <el-form-item :label="(hideTitle||form.notitle)?'':form.title" style="margin-bottom:10px;">        
+        <div style="clear:both;">
+            <slot name="input">
+            </slot>
+        </div>        
         <span v-if="form.description" class="form10-description">
             {{form.description}}
         </span>
