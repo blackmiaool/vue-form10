@@ -1,23 +1,21 @@
 <template>
-    <div class="hello">
+    <TypeWrapper :form="form" :hide-title="true">
+        <div slot="input">
+            <fieldset v-if="name">
+                <legend>{{form.title}}</legend>
+                <AnyType v-for="(item,key) in form.schema.properties"
+                    :options="options" :key="key"
+                    :name="key" :sf-form="item"
+                    :sf-model.sync="model[key]"
+                />
+            </fieldset>
+            <AnyType v-if="!name" v-for="(item,key) in form.schema.properties"
+                :options="options" :key="key"
+                :name="key" :sf-form="item" :sf-model.sync="model[key]"
+            />
+        </div>
 
-        <fieldset v-if="name">
-            <legend >{{form.title}}</legend>
-            <AnyType v-for="(item,key) in form.schema.properties"
-             :options="options"
-             :key="key"
-             :name="key"
-             :sf-form="item"
-             :sf-model.sync="model[key]"/>
-        </fieldset>
-        <AnyType  v-if="!name"
-            v-for="(item,key) in form.schema.properties"
-             :options="options"
-             :key="key"
-             :name="key"
-             :sf-form="item"
-             :sf-model.sync="model[key]"/>
-    </div>
+    </TypeWrapper>
 </template>
 
 <script>
@@ -30,17 +28,24 @@ export default {
         // eslint-disable-next-line
         this.$options.components.AnyType = require("./AnyType").default;
     },
-    mounted() {
-    },
+    mounted() {},
     props: [],
     data() {
         return {};
     },
-    components: { }
+    components: {}
 };
 </script>
 
 
 <style scoped>
-
+fieldset {
+    border: 1px solid #dcdfe6;
+    border-width: 1px;
+    border-radius: 4px;
+    margin-left: 0;
+}
+legend {
+    color: #606266;
+}
 </style>

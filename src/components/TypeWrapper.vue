@@ -1,7 +1,10 @@
 <template>
-    <el-form-item :label="(hideTitle||form.notitle)?'':form.title">
-        <slot name="input">
-        </slot>
+    <el-form-item :label="(hideTitle||form.notitle)?'':form.title"
+        style="margin-bottom:10px;">
+        <div style="clear:both;">
+            <slot name="input">
+            </slot>
+        </div>
         <span v-if="form.description" class="form10-description">
             {{form.description}}
         </span>
@@ -9,13 +12,11 @@
 </template>
 
 <script>
-
 export default {
     name: "TypeWrapper",
     mixins: [],
-    mounted() {
-    },
-    props: { form: {}, options: {}, 'hide-title': { type: Boolean } },
+    mounted() {},
+    props: { form: {}, options: {}, "hide-title": { type: Boolean } },
     data() {
         return {};
     }
@@ -24,10 +25,10 @@ export default {
 
 
 <style scoped>
-.form10-description{
+.form10-description {
     line-height: 20px;
     font-size: 14px;
     vertical-align: baseline;
-    color:#737373;
+    color: #737373;
 }
 </style>

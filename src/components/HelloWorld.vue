@@ -20,57 +20,58 @@
 import Form10 from "./Form10";
 
 const angular = window.angular;
-angular
-    .module("main", ["schemaForm"].concat(window.schemaFormTypesArr))
-    .config([
-        "$sceProvider",
-        $sceProvider => {
-            $sceProvider.enabled(false);
-        }
-    ])
-    .controller("FormController", [
-        "$scope",
-        function() {
-            // sp.model = {};
-            // sp.copy = function () {
-            //     localStorage.setItem(
-            //         "stable-model-save",
-            //         JSON.stringify(sp.model)
-            //     );
-            // };
-        }
-    ]);
+if (angular) {
+    angular
+        .module("main", ["schemaForm"].concat(window.schemaFormTypesArr))
+        .config([
+            "$sceProvider",
+            $sceProvider => {
+                $sceProvider.enabled(false);
+            }
+        ])
+        .controller("FormController", [
+            "$scope",
+            function() {
+                // sp.model = {};
+                // sp.copy = function () {
+                //     localStorage.setItem(
+                //         "stable-model-save",
+                //         JSON.stringify(sp.model)
+                //     );
+                // };
+            }
+        ]);
+}
 const schema = {
     type: "object",
     properties: {
         string: {
             type: "string",
             title: "字符串",
-            format: 'textarea',
-            'x-schema-form': {
+            "x-schema-form": {
                 placeholder: "string哦"
             }
         },
         array: {
-            type: 'array',
+            type: "array",
             title: "array1",
             items: {
-                title: 'item',
-                type: 'string',
+                title: "item",
+                type: "string"
             }
         },
         readonly: {
             type: "string",
             title: "字符串",
             description: "readonly",
-            'x-schema-form': {
+            "x-schema-form": {
                 readonly: true
             }
         },
         boolean: {
             type: "boolean",
             title: "测试boolean",
-            'x-schema-form': {
+            "x-schema-form": {
                 readonly: true,
                 condition: "model.number>10"
             }
@@ -83,7 +84,7 @@ const schema = {
             type: "string",
             title: "测试enum",
             enum: ["a", "b", "c"],
-            'x-schema-form': {
+            "x-schema-form": {
                 placeholder: "enum哦"
             }
         },
@@ -94,7 +95,7 @@ const schema = {
         },
         money: {
             type: "number",
-            title: "测试money",
+            title: "测试money"
             // format: "money"
         },
         obj: {
@@ -111,30 +112,34 @@ const schema = {
         }
     }
 };
-const model = { obj: {},
-array: ["a", "b"] };
+const model = {
+    obj: {},
+    array: ["a", "b"]
+};
 const form = ["*"];
 export default {
     name: "HelloWorld",
     mounted() {
-        angular.bootstrap(this.$refs.formWrap, ["main"]);
-        const scope = angular.element(this.$refs.formWrap).scope();
-        scope.schema = JSON.parse(JSON.stringify(schema));
-        scope.form = form;
-        scope.model = JSON.parse(JSON.stringify(model));
-        scope.$digest();
-        scope.$watch(
-            "model",
-            value => {
-                if (value) {
-                    // this.floor.setData(value);
-                }
-            },
-            true
-        );
-        scope.options = {
-            showArrayTools: false
-        };
+        if (window.angular) {
+            angular.bootstrap(this.$refs.formWrap, ["main"]);
+            const scope = angular.element(this.$refs.formWrap).scope();
+            scope.schema = JSON.parse(JSON.stringify(schema));
+            scope.form = form;
+            scope.model = JSON.parse(JSON.stringify(model));
+            scope.$digest();
+            scope.$watch(
+                "model",
+                value => {
+                    if (value) {
+                        // this.floor.setData(value);
+                    }
+                },
+                true
+            );
+            scope.options = {
+                showArrayTools: false
+            };
+        }
     },
     watch: {
         model: {
