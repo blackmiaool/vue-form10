@@ -1,9 +1,9 @@
 <template>
     <TypeWrapper :form="form">
         <ol class="list-group" slot="input">
-            <draggable element="li" :list="model" :options="{animation: 150}" v-for="(item,key) in model" :key="key"  class="list-group-item">
+            <draggable element="li" :list="model" :options="{animation: 150}"   class="list-group-item">
                 <AnyType :options="options" :name="key" :sf-form="form.schema.items"
-                        :sf-model.sync="model[key]"/>
+                        :sf-model.sync="model[key]"  v-for="(item,key) in model" :key="key"/>
             </draggable>
         </ol>
     </TypeWrapper>
