@@ -1,12 +1,7 @@
 <template>
-    <component
-        v-if="condition"
-        :is="componentId"
-        :sf-form="sfForm"
-        :sf-model.sync="model"
-        :options="options"
-        :name="name"
-    ></component>
+    <component v-if="condition" :is="componentId"
+        :sf-form="sfForm" :sf-model.sync="model"
+        :options="options" :name="name"></component>
 
 </template>
 
@@ -16,14 +11,14 @@ import ObjectType from "./ObjectType";
 import StringType from "./StringType";
 import NumberType from "./NumberType";
 import BooleanType from "./BooleanType";
-import EnumType from "./EnumType";
+import SelectType from "./SelectType";
 import TimestampType from "./TimestampType";
 import ArrayType from "./ArrayType";
 
 export default {
     name: "AnyType",
     mixins: [Type],
-    inject: ['rootModel'],
+    inject: ["rootModel"],
     computed: {
         componentId() {
             const form = this.form;
@@ -35,18 +30,20 @@ export default {
                 return "ObjectType";
             } else if (type === "string") {
                 if (form.schema.enum) {
-                    return "EnumType";
+                    return "SelectType";
                 }
                 return "StringType";
+            } else if (type === "select") {
+                return "SelectType";
             } else if (type === "number") {
                 return "NumberType";
             } else if (type === "array") {
                 return "ArrayType";
             } else if (type === "boolean") {
                 return "BooleanType";
-            } else if (type === 'timestamp') {
+            } else if (type === "timestamp") {
                 return "TimestampType";
-            } else if (type === 'textarea') {
+            } else if (type === "textarea") {
                 return "StringType";
             }
             console.error(`can't decide the type of `, this.sfForm, type, this);
@@ -56,21 +53,29 @@ export default {
         condition() {
             if (this.form.condition) {
                 // eslint-disable-next-line
-                return new Function("model", `return ${this.form.condition};`)(this.rootModel);
+                return new Function("model", `return ${this.form.condition};`)(
+                    this.rootModel
+                );
             }
             return true;
         }
     },
-    mounted() {
-
-    },
+    mounted() {},
     props: [],
     data() {
         return {
             compForm: {}
         };
     },
-    components: { ObjectType, StringType, BooleanType, NumberType, EnumType, TimestampType, ArrayType }
+    components: {
+        ObjectType,
+        StringType,
+        BooleanType,
+        NumberType,
+        SelectType,
+        TimestampType,
+        ArrayType
+    }
 };
 </script>
 
