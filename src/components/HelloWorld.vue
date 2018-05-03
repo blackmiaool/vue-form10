@@ -1,6 +1,6 @@
 <template>
     <div class="hello">
-        <div class="left">
+        <div class="left" v-if="!showForm10">
             <div class="form-wrap" ref="formWrap">
                 <div ng-controller="FormController">
                     <form name="myForm" sf-schema="schema" sf-model="model"
@@ -8,11 +8,16 @@
                 </div>
             </div>
         </div>
-        <div class="right">
+        <div class="left" v-if="showForm10" :style="{padding:showForm10?'10px':''}">
+            <iframe src="/index2.html" style="width:100%;border:none;height:100%;"
+            />
+        </div>
+        <div class="right" v-if="showForm10">
             <Form10 :sf-schema="schema" :sf-model.sync="model"
                 :sf-form="form" :sf-options="options"
             />
         </div>
+
     </div>
 </template>
 
@@ -83,8 +88,14 @@ const schema = {
         enum: {
             type: "string",
             title: "测试enum",
-            enum: ["a", "b", "c"],
+            // enum: ["a", "b", "c"],
             "x-schema-form": {
+                type: "select",
+                titleMap: [
+                    { value: "Andersson", name: "Andersson" },
+                    { value: "Johansson", name: "Johansson" },
+                    { value: "other", name: "Something else..." }
+                ],
                 placeholder: "enum哦"
             }
         },
@@ -119,6 +130,9 @@ const model = {
 const form = ["*"];
 export default {
     name: "HelloWorld",
+    computed: {
+        showForm10: () => !window.angular
+    },
     mounted() {
         if (window.angular) {
             angular.bootstrap(this.$refs.formWrap, ["main"]);
@@ -162,15 +176,17 @@ export default {
 };
 </script>
 
-<style scoped>
-.left {
-    width: 50%;
-    float: left;
-    padding: 10px;
-}
-.right {
-    width: 50%;
-    float: left;
-    padding: 10px;
+<style scoped lang="less">
+.hello {
+    height: 2000px;
+    display: flex;
+    .left {
+        flex: 1;
+        // padding:10px;
+        box-sizing: border-box;
+    }
+    .right {
+        flex: 1;
+    }
 }
 </style>
