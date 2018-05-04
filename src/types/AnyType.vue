@@ -19,6 +19,48 @@ export default {
     name: "AnyType",
     mixins: [Type],
     inject: ["rootModel"],
+    watch: {
+        condition(v, p) {
+            if (!(p === true && v === false)) {
+                return;
+            }
+            let destroyStrategy;
+            if (this.form.destroyStrategy) {
+                destroyStrategy = this.form.destroyStrategy;
+            } else {
+                destroyStrategy = "remove";
+            }
+            switch (destroyStrategy) {
+                case "retain":
+                    break;
+                case "null":
+                    this.model = null;
+                    break;
+                case "empty":
+                    switch (this.form.schema.type) {
+                        case "string":
+                            this.model = "";
+                            break;
+                        case "object":
+                            this.model = {};
+                            break;
+                        case "array":
+                            this.model = [];
+                            break;
+                        default:
+                        // treat as remove
+                    }
+                // eslint-disable-next-line
+                case "remove":
+                    this.model = undefined;
+                    this.$emit("remove");
+                    break;
+                default:
+                    console.warn("invalid destroyStrategy:", destroyStrategy);
+                    break;
+            }
+        }
+    },
     computed: {
         componentId() {
             const form = this.form;
@@ -51,13 +93,16 @@ export default {
             return "label";
         },
         condition() {
+            let ret;
             if (this.form.condition) {
                 // eslint-disable-next-line
-                return new Function("model", `return ${this.form.condition};`)(
+                ret = new Function("model", `return ${this.form.condition};`)(
                     this.rootModel
                 );
+            } else {
+                ret = true;
             }
-            return true;
+            return ret;
         }
     },
     mounted() {},

@@ -77,7 +77,8 @@ const schema = {
             type: "boolean",
             title: "测试boolean",
             "x-schema-form": {
-                readonly: true,
+                // readonly: true,
+                destroyStrategy: 'empty',
                 condition: "model.number>10"
             }
         },

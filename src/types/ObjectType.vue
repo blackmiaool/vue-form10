@@ -12,6 +12,7 @@
             <AnyType v-if="!name" v-for="(item,key) in form.schema.properties"
                 :options="options" :key="key"
                 :name="key" :sf-form="item" :sf-model.sync="model[key]"
+                @remove="remove(model,key)"
             />
         </div>
 
@@ -30,6 +31,11 @@ export default {
     },
     mounted() {},
     props: [],
+    methods: {
+        remove(model, key) {
+            delete model[key];
+        }
+    },
     data() {
         return {};
     },
