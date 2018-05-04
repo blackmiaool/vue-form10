@@ -2,20 +2,22 @@
 
 > A Vue.js project
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+* [ ]  key: "address.street"  
+* [x]  type: "text"  
+* [x]  title: "Street"  
+* [x]  notitle: false  
+* [x]  description: "Street name"  
+* [ ]  validationMessage: "Oh noes, please write a proper address"  
+* [ ]  onChange: "valueChanged(form.key,modelValue)"  
+* [ ]  feedback: false  
+* [ ]  disableSuccessState: false  
+* [ ]  disableErrorState: false  
+* [x]  placeholder: "Input..."  
+* [ ]  (won't support) ngModelOptions: { ... }  
+* [x]  readonly: true                                 
+* [ ]  htmlClass: "street foobar"  
+* [ ]  fieldHtmlClass: "street"  
+* [ ]  (won't support) labelHtmlClass: "street"  
+* [ ]  copyValueTo: ["address.street"]  
+* [x]  condition: "person.age < 18"  
+* [x]  destroyStrategy: "remove" 
