@@ -16,8 +16,8 @@
 * [ ]  (won't support) ngModelOptions: { ... }  
 * [x]  readonly: true                                 
 * [x]  htmlClass: "street foobar"  
-* [ ]  fieldHtmlClass: "street"  
+* [ ]  (won't support) fieldHtmlClass: "street"  
 * [ ]  (won't support) labelHtmlClass: "street"  
-* [ ]  copyValueTo: ["address.street"]  
+* [x]  copyValueTo: ["address.street"] (can't differentiate user input and model change though)
 * [x]  condition: "person.age < 18"  
 * [x]  destroyStrategy: "remove" 

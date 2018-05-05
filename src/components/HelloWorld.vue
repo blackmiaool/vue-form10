@@ -89,7 +89,8 @@ const schema = {
             type: "number",
             title: "测试number",
             "x-schema-form": {
-                onChange: (modelValue) => console.log('number change', modelValue)
+                onChange: (modelValue) => console.log('number change', modelValue),
+                copyValueTo: ['obj.b']
             }
         },
         enum: {

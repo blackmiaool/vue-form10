@@ -1,6 +1,6 @@
 import TypeWrapper from "../components/TypeWrapper";
+import { set } from 'lodash';
 
-// from json-schema-form-core
 
 function execWith(expression, context) {
     const keys = Object.keys(context);
@@ -9,6 +9,7 @@ function execWith(expression, context) {
     func(...keys.map(key => context[key]));
 }
 export function stdFormObj(name, schema, options) {
+    // from json-schema-form-core
     options = options || {};
 
     // The Object.assign used to be a angular.copy. Should work though.
@@ -31,6 +32,7 @@ export function stdFormObj(name, schema, options) {
     return f;
 }
 export default {
+    inject: ["rootModel"],
     watch: {
         model(value) {
             if (this.form.onChange) {
@@ -40,6 +42,11 @@ export default {
                 } else if (typeof onChange === 'string') {
                     execWith(onChange, Object.assign(this.options.$rootParent, { modelValue: this.modelValue, form: this.form }));
                 }
+            }
+            if (this.form.copyValueTo) {
+                this.form.copyValueTo.forEach((path) => {
+                    set(this.rootModel, path, value);
+                });
             }
         }
     },
