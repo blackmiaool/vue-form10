@@ -1,5 +1,5 @@
-import TypeWrapper from "../components/TypeWrapper";
 import { set } from 'lodash';
+import TypeWrapper from "../components/TypeWrapper";
 
 
 function execWith(expression, context) {

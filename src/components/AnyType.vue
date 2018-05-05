@@ -19,17 +19,8 @@ export default {
     name: "AnyType",
     mixins: [],
     inject: ["rootModel"],
-    watch: {
-        condition(v, p) {
-            if (!(p === true && v === false)) {
-                return;
-            }
-            let destroyStrategy;
-            if (this.form.destroyStrategy) {
-                destroyStrategy = this.form.destroyStrategy;
-            } else {
-                destroyStrategy = "remove";
-            }
+    methods: {
+        remove(destroyStrategy) {
             switch (destroyStrategy) {
                 case "retain":
                     break;
@@ -59,6 +50,20 @@ export default {
                     console.warn("invalid destroyStrategy:", destroyStrategy);
                     break;
             }
+        }
+    },
+    watch: {
+        condition(v, p) {
+            if (!(p === true && v === false)) {
+                return;
+            }
+            let destroyStrategy;
+            if (this.form.destroyStrategy) {
+                destroyStrategy = this.form.destroyStrategy;
+            } else {
+                destroyStrategy = "remove";
+            }
+            this.remove(destroyStrategy);
         }
     },
     computed: {
