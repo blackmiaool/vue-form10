@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import AnyType from "../types/AnyType";
+import AnyType from "./AnyType";
 
 export default {
     name: "Form10",

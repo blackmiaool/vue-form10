@@ -32,7 +32,7 @@ export function stdFormObj(name, schema, options) {
 }
 export default {
     watch: {
-        model(value, p) {
+        model(value) {
             if (this.form.onChange) {
                 const onChange = this.form.onChange;
                 if (typeof onChange === 'function') {

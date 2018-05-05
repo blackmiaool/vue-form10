@@ -6,13 +6,13 @@
 </template>
 
 <script>
-import ObjectType from "./ObjectType";
-import StringType from "./StringType";
-import NumberType from "./NumberType";
-import BooleanType from "./BooleanType";
-import SelectType from "./SelectType";
-import TimestampType from "./TimestampType";
-import ArrayType from "./ArrayType";
+import ObjectType from "../types/ObjectType";
+import StringType from "../types/StringType";
+import NumberType from "../types/NumberType";
+import BooleanType from "../types/BooleanType";
+import SelectType from "../types/SelectType";
+import TimestampType from "../types/TimestampType";
+import ArrayType from "../types/ArrayType";
 import { stdFormObj } from '../mixins/type';
 
 export default {

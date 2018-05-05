@@ -32,7 +32,7 @@ export default {
     mixins: [Type],
     beforeCreate() {
         // eslint-disable-next-line
-        this.$options.components.AnyType = require("./AnyType").default;
+        this.$options.components.AnyType = require("../components/AnyType").default;
     },
     mounted() {},
     props: [],
