@@ -62,7 +62,10 @@ const schema = {
             title: "array1",
             items: {
                 title: "item",
-                type: "string"
+                type: "string",
+                "x-schema-form": {
+                    htmlClass: 'items'
+                }
             }
         },
         readonly: {
