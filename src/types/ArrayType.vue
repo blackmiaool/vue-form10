@@ -21,7 +21,6 @@ export default {
         this.$options.components.AnyType = require("./AnyType").default;
     },
     mounted() {
-        console.log("array", this.form);
     },
     props: [],
     data() {

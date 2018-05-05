@@ -7,13 +7,18 @@
                     :options="options" :key="key"
                     :name="key" :sf-form="item"
                     :sf-model.sync="model[key]"
+                    @remove="remove(model,key)"
                 />
             </fieldset>
-            <AnyType v-if="!name" v-for="(item,key) in form.schema.properties"
-                :options="options" :key="key"
-                :name="key" :sf-form="item" :sf-model.sync="model[key]"
-                @remove="remove(model,key)"
-            />
+            <template v-else>
+                <AnyType v-for="(item,key) in form.schema.properties"
+                    :options="options" :key="key"
+                    :name="key" :sf-form="item"
+                    :sf-model.sync="model[key]"
+                    @remove="remove(model,key)"
+                />
+            </template>
+
         </div>
 
     </TypeWrapper>

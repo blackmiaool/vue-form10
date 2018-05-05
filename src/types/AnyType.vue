@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import Type from "../mixins/type";
 import ObjectType from "./ObjectType";
 import StringType from "./StringType";
 import NumberType from "./NumberType";
@@ -14,10 +13,11 @@ import BooleanType from "./BooleanType";
 import SelectType from "./SelectType";
 import TimestampType from "./TimestampType";
 import ArrayType from "./ArrayType";
+import { stdFormObj } from '../mixins/type';
 
 export default {
     name: "AnyType",
-    mixins: [Type],
+    mixins: [],
     inject: ["rootModel"],
     watch: {
         condition(v, p) {
@@ -62,6 +62,24 @@ export default {
         }
     },
     computed: {
+        form() {
+            const form = stdFormObj(this.name, this.sfForm);
+            if (form.schema.format) {
+                form.type = form.schema.format;
+            }
+            if (this.sfForm['x-schema-form']) {
+                Object.assign(form, this.sfForm['x-schema-form']);
+            }
+            return form;
+        },
+        model: {
+            set(value) {
+                this.$emit('update:sfModel', value);
+            },
+            get() {
+                return this.sfModel;
+            }
+        },
         componentId() {
             const form = this.form;
             if (!this.sfForm || !Object.keys(this.sfForm).length) {
@@ -106,7 +124,7 @@ export default {
         }
     },
     mounted() {},
-    props: [],
+    props: ['sf-model', 'sf-form', "options", "name"],
     data() {
         return {
             compForm: {}

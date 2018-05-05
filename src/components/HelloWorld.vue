@@ -78,13 +78,16 @@ const schema = {
             title: "测试boolean",
             "x-schema-form": {
                 // readonly: true,
-                destroyStrategy: 'empty',
+                destroyStrategy: "empty",
                 condition: "model.number>10"
             }
         },
         number: {
             type: "number",
-            title: "测试number"
+            title: "测试number",
+            "x-schema-form": {
+                onChange: (modelValue) => console.log('number change', modelValue)
+            }
         },
         enum: {
             type: "string",
@@ -133,6 +136,11 @@ export default {
     name: "HelloWorld",
     computed: {
         showForm10: () => !window.angular
+    },
+    methods: {
+        a(num) {
+            console.log('num change', num);
+        }
     },
     mounted() {
         if (window.angular) {

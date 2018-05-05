@@ -4,7 +4,7 @@
             <AnyType
                 :sf-model.sync="model"
                 :sf-form="form"
-                :options="this.sfOptions"
+                :options="this.options"
             ></AnyType>
         </el-form>
     </div>
@@ -15,9 +15,14 @@ import AnyType from "../types/AnyType";
 
 export default {
     name: "Form10",
+
     mounted() {
         const schema = this.sfSchema;
-        console.log("schema", schema, this.sfOptions);
+        // console.log("schema", schema, this.sfOptions, this.$parent);
+        // const context = this.$parent;
+        // for (const i in context) {
+        //     console.log(i, context[i]);
+        // }
         if (schema.type === "object") {
             this.compForm = schema;
         }
@@ -26,6 +31,15 @@ export default {
         return { options: this.sfOptions, rootModel: this.model };
     },
     computed: {
+        options() {
+            const options = {
+                $rootParent: this.$parent,
+            };
+            if (this.sfOptions) {
+                Object.assign(options, this.sfOptions);
+            }
+            return options;
+        },
         model: {
             set(value) {
                 this.$emit("update:sf-model", value);
@@ -35,8 +49,6 @@ export default {
             }
         },
         form() {
-            console.log(this.sfSchema);
-
             return this.compForm;
         }
     },

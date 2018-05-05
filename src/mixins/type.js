@@ -1,7 +1,14 @@
 import TypeWrapper from "../components/TypeWrapper";
 
 // from json-schema-form-core
-function stdFormObj(name, schema, options) {
+
+function execWith(expression, context) {
+    const keys = Object.keys(context);
+    // eslint-disable-next-line
+    const func = new Function(...keys, expression);
+    func(...keys.map(key => context[key]));
+}
+export function stdFormObj(name, schema, options) {
     options = options || {};
 
     // The Object.assign used to be a angular.copy. Should work though.
@@ -23,11 +30,25 @@ function stdFormObj(name, schema, options) {
     f.schema = schema;
     return f;
 }
-
 export default {
+    watch: {
+        model(value, p) {
+            if (this.form.onChange) {
+                const onChange = this.form.onChange;
+                if (typeof onChange === 'function') {
+                    onChange(value, this.form);
+                } else if (typeof onChange === 'string') {
+                    execWith(onChange, Object.assign(this.options.$rootParent, { modelValue: this.modelValue, form: this.form }));
+                }
+            }
+        }
+    },
     computed: {
         type() {
             return this.form.type || this.form.schema.type;
+        },
+        modelValue() {
+            return this.model;
         },
         model: {
             set(value) {

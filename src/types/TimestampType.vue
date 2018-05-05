@@ -18,7 +18,6 @@ export default {
     computed: {
         time: {
             set(value) {
-                console.log(value);
                 if (!value) {
                     return;
                 }
