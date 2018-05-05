@@ -15,7 +15,7 @@
 * [x]  placeholder: "Input..."  
 * [ ]  (won't support) ngModelOptions: { ... }  
 * [x]  readonly: true                                 
-* [ ]  htmlClass: "street foobar"  
+* [x]  htmlClass: "street foobar"  
 * [ ]  fieldHtmlClass: "street"  
 * [ ]  (won't support) labelHtmlClass: "street"  
 * [ ]  copyValueTo: ["address.street"]  
