@@ -1,5 +1,5 @@
 <template>
-    <TypeWrapper :form="form">
+    <TypeWrapper :form="form" ref="typeWrapper">
         <ol class="list-group" slot="input">
             <draggable element="li" :list="model" :options="{animation: 150}"   class="list-group-item">
                 <AnyType :options="options" :name="key" :sf-form="form.schema.items"

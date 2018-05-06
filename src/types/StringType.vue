@@ -1,5 +1,5 @@
 <template>
-    <TypeWrapper :form="form">
+    <TypeWrapper :form="form"  ref="typeWrapper">
         <el-input :type="type==='textarea'?'textarea':'text'" v-model="model"
             slot="input" :placeholder="form.placeholder"
             :disabled="form.readonly">

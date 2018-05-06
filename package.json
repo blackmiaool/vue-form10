@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "ajv": "^6.4.0",
     "element-ui": "^2.3.5",
     "json-schema-form-core": "^1.0.0-alpha.2",
     "lodash": "^4.17.10",

@@ -1,5 +1,5 @@
 <template>
-    <TypeWrapper :form="form">
+    <TypeWrapper :form="form"  ref="typeWrapper">
         <div slot="input" style="width:100%;">
             <el-input-number v-model="model" :disabled="form.readonly">
             </el-input-number>

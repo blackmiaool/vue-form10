@@ -1,4 +1,5 @@
 import { set } from 'lodash';
+import Ajv from "ajv";
 import TypeWrapper from "../components/TypeWrapper";
 
 
@@ -48,6 +49,22 @@ export default {
                     set(this.rootModel, path, value);
                 });
             }
+
+            const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
+            if (this.type === 'object') {
+                return;
+            }
+
+            const validate = ajv.compile(this.form.schema
+            );
+            const valid = validate(value);
+            if (!valid) {
+                this.$invalid = true;
+                this.$refs.typeWrapper.errorMessage = ajv.errorsText(validate.errors);
+            } else {
+                this.$invalid = false;
+                this.$refs.typeWrapper.errorMessage = '';
+            }
         }
     },
     computed: {
@@ -75,6 +92,12 @@ export default {
             }
             return form;
         },
+    },
+    data() {
+        return {
+            $errorMessage: 'a',
+            $invalid: false
+        };
     },
     props: ['sf-model', 'sf-form', "options", "name"],
     components: { TypeWrapper }

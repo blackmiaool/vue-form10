@@ -1,5 +1,5 @@
 <template>
-    <TypeWrapper :form="form" :hide-title="true">
+    <TypeWrapper :form="form" :hide-title="true"  ref="typeWrapper">
         <div slot="input">
             <fieldset v-if="name">
                 <legend>{{form.title}}</legend>

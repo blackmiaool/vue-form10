@@ -1,6 +1,6 @@
 <template>
     <el-form-item :label="(hideTitle||form.notitle)?'':form.title"
-        style="margin-bottom:10px;" :class="[form.htmlClass]">
+        style="margin-bottom:15px;" :class="[form.htmlClass]" :error="errorMessage">
         <div style="clear:both;">
             <slot name="input">
             </slot>
@@ -18,7 +18,9 @@ export default {
     mounted() {},
     props: { form: {}, options: {}, "hide-title": { type: Boolean } },
     data() {
-        return {};
+        return {
+            errorMessage: ''
+        };
     }
 };
 </script>

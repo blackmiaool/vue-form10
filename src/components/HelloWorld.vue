@@ -53,6 +53,7 @@ const schema = {
         string: {
             type: "string",
             title: "字符串",
+            maxLength: 3,
             "x-schema-form": {
                 placeholder: "string哦"
             }
@@ -88,6 +89,7 @@ const schema = {
         number: {
             type: "number",
             title: "测试number",
+            maximum: 3,
             "x-schema-form": {
                 onChange: (modelValue) => console.log('number change', modelValue),
                 copyValueTo: ['obj.b']
