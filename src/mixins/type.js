@@ -61,6 +61,11 @@ export default {
             if (!valid) {
                 this.$invalid = true;
                 this.$refs.typeWrapper.errorMessage = ajv.errorsText(validate.errors);
+                const keyword = validate.errors[0].keyword;
+                const validationMessage = this.form.validationMessage;
+                if (this.form.validationMessage && this.form.validationMessage[keyword]) {
+                    this.$refs.typeWrapper.errorMessage = validationMessage[keyword];
+                }
             } else {
                 this.$invalid = false;
                 this.$refs.typeWrapper.errorMessage = '';

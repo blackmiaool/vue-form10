@@ -53,9 +53,14 @@ const schema = {
         string: {
             type: "string",
             title: "字符串",
-            maxLength: 3,
+            maxLength: 5,
+            minLength: 2,
             "x-schema-form": {
-                placeholder: "string哦"
+                placeholder: "string哦",
+                validationMessage: {
+                    maxLength: '太长了',
+                    minLength: '太短了'
+                }
             }
         },
         array: {
