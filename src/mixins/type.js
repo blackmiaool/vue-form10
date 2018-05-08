@@ -92,12 +92,13 @@ export default {
                     } else {
                         errorMessage = validationMessage;
                     }
-
-                    this.$refs.typeWrapper.errorMessage = this.interpolate(errorMessage, context);
+                    this.$refs.typeWrapper.$refs.formItem.validateState = 'error';
+                    this.$refs.typeWrapper.$refs.formItem.validateMessage = this.interpolate(errorMessage, context);
                 }
             } else {
+                this.$refs.typeWrapper.$refs.formItem.validateState = 'success';
                 this.$invalid = false;
-                this.$refs.typeWrapper.errorMessage = '';
+                this.$refs.typeWrapper.$refs.formItem.validateMessage = '';
             }
         }
     },
