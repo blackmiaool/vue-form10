@@ -1,4 +1,4 @@
-import { set } from 'lodash';
+import { set, get } from 'lodash';
 import Ajv from "ajv";
 import TypeWrapper from "../components/TypeWrapper";
 
@@ -34,6 +34,17 @@ export function stdFormObj(name, schema, options) {
 }
 export default {
     inject: ["rootModel"],
+    methods: {
+        interpolate(str, context) {
+            if (typeof str === 'function') {
+                return str(context);
+            }
+            // or it must be string
+            return str.replace(/{{([\s\S]*?)}}/g, (full, key) => {
+                return `${get(context, key)}`;
+            });
+        }
+    },
     watch: {
         model(value) {
             if (this.form.onChange) {
@@ -63,8 +74,26 @@ export default {
                 this.$refs.typeWrapper.errorMessage = ajv.errorsText(validate.errors);
                 const keyword = validate.errors[0].keyword;
                 const validationMessage = this.form.validationMessage;
-                if (this.form.validationMessage && this.form.validationMessage[keyword]) {
-                    this.$refs.typeWrapper.errorMessage = validationMessage[keyword];
+
+
+                let errorMessage = '';
+                if (validationMessage) {
+                    const context = {
+                        error: validate.errors,
+                        title: this.form.schema.title,
+                        value: this.model,
+                        valueValue: this.model,
+                        form: this.form,
+                        schema: this.form.schema
+                    };
+
+                    if (typeof validationMessage === 'object' && validationMessage[keyword]) {
+                        errorMessage = validationMessage[keyword];
+                    } else {
+                        errorMessage = validationMessage;
+                    }
+
+                    this.$refs.typeWrapper.errorMessage = this.interpolate(errorMessage, context);
                 }
             } else {
                 this.$invalid = false;
