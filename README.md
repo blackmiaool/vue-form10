@@ -7,7 +7,7 @@
 * [x]  title: "Street"  
 * [x]  notitle: false  
 * [x]  description: "Street name"  
-* [ ]  validationMessage: "Oh noes, please write a proper address"  
+* [x]  validationMessage: "Oh noes, please write a proper address"  
 * [x]  onChange: "valueChanged(form.key,modelValue)"  
 * [ ]  feedback: false  
 * [ ]  disableSuccessState: false  
