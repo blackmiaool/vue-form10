@@ -58,7 +58,7 @@ const schema = {
             "x-schema-form": {
                 placeholder: "string哦",
                 validationMessage: {
-                    maxLength: '{{title}}"{{value}}"太长了',
+                    maxLength: '{{title}}"{{value}}"太长了,最长{{schema.maxLength}}个字',
                     minLength: '太短了'
                 }
             }
