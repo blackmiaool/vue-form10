@@ -9,7 +9,7 @@
 * [x]  description: "Street name"  
 * [x]  validationMessage: "Oh noes, please write a proper address"  
 * [x]  onChange: "valueChanged(form.key,modelValue)"  
-* [ ]  feedback: false  
+* [ ]  (won't support) feedback: false(try to set :status-icon="true" on el-form)
 * [ ]  disableSuccessState: false  
 * [ ]  disableErrorState: false  
 * [x]  placeholder: "Input..."  

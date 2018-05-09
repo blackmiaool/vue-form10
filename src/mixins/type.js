@@ -40,65 +40,77 @@ export default {
                 return str(context);
             }
             // or it must be string
+            if (!str) {
+                return '';
+            }
+            console.log(str);
             return str.replace(/{{([\s\S]*?)}}/g, (full, key) => {
                 return `${get(context, key)}`;
             });
         }
     },
     watch: {
-        model(value) {
-            if (this.form.onChange) {
-                const onChange = this.form.onChange;
-                if (typeof onChange === 'function') {
-                    onChange(value, this.form);
-                } else if (typeof onChange === 'string') {
-                    execWith(onChange, Object.assign(this.options.$rootParent, { modelValue: this.modelValue, form: this.form }));
-                }
-            }
-            if (this.form.copyValueTo) {
-                this.form.copyValueTo.forEach((path) => {
-                    set(this.rootModel, path, value);
-                });
-            }
-
-            const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
-            if (this.type === 'object') {
-                return;
-            }
-
-            const validate = ajv.compile(this.form.schema
-            );
-            const valid = validate(value);
-            if (!valid) {
-                this.$invalid = true;
-                this.$refs.typeWrapper.errorMessage = ajv.errorsText(validate.errors);
-                const keyword = validate.errors[0].keyword;
-                const validationMessage = this.form.validationMessage;
-
-
-                let errorMessage = '';
-                if (validationMessage) {
-                    const context = {
-                        error: validate.errors,
-                        title: this.form.schema.title,
-                        value: this.model,
-                        valueValue: this.model,
-                        form: this.form,
-                        schema: this.form.schema
-                    };
-
-                    if (typeof validationMessage === 'object' && validationMessage[keyword]) {
-                        errorMessage = validationMessage[keyword];
-                    } else {
-                        errorMessage = validationMessage;
+        model: {
+            immediate: true,
+            handler(value) {
+                if (this.form.onChange) {
+                    const onChange = this.form.onChange;
+                    if (typeof onChange === 'function') {
+                        onChange(value, this.form);
+                    } else if (typeof onChange === 'string') {
+                        execWith(onChange, Object.assign(this.options.$rootParent, { modelValue: this.modelValue, form: this.form }));
                     }
-                    this.$refs.typeWrapper.$refs.formItem.validateState = 'error';
-                    this.$refs.typeWrapper.$refs.formItem.validateMessage = this.interpolate(errorMessage, context);
                 }
-            } else {
-                this.$refs.typeWrapper.$refs.formItem.validateState = 'success';
-                this.$invalid = false;
-                this.$refs.typeWrapper.$refs.formItem.validateMessage = '';
+                if (this.form.copyValueTo) {
+                    this.form.copyValueTo.forEach((path) => {
+                        set(this.rootModel, path, value);
+                    });
+                }
+
+                const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
+                if (this.type === 'object') {
+                    return;
+                }
+
+                const validate = ajv.compile(this.form.schema
+                );
+                const valid = validate(value);
+                this.$nextTick(() => {
+                    if (!valid) {
+                        this.$invalid = true;
+                        this.$refs.typeWrapper.$refs.formItem.validateMessage = ajv.errorsText(validate.errors);
+                        const keyword = validate.errors[0].keyword;
+                        const validationMessage = this.form.validationMessage;
+
+
+                        let errorMessage = '';
+                        if (validationMessage) {
+                            console.log(validationMessage);
+                            const context = {
+                                error: validate.errors,
+                                title: this.form.schema.title,
+                                value: this.model,
+                                valueValue: this.model,
+                                form: this.form,
+                                schema: this.form.schema
+                            };
+
+                            if (typeof validationMessage === 'object' && validationMessage[keyword]) {
+                                errorMessage = validationMessage[keyword];
+                            } else if (typeof validationMessage === 'function') {
+                                errorMessage = validationMessage;
+                            }
+                            if (errorMessage) {
+                                this.$refs.typeWrapper.$refs.formItem.validateState = 'error';
+                                this.$refs.typeWrapper.$refs.formItem.validateMessage = this.interpolate(errorMessage, context);
+                            }
+                        }
+                    } else {
+                        this.$refs.typeWrapper.$refs.formItem.validateState = 'success';
+                        this.$invalid = false;
+                        this.$refs.typeWrapper.$refs.formItem.validateMessage = '';
+                    }
+                });
             }
         }
     },

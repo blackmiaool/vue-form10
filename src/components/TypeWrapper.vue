@@ -1,6 +1,6 @@
 <template>
     <el-form-item :label="(hideTitle||form.notitle)?'':form.title"
-        style="margin-bottom:15px;" :class="[form.htmlClass]" :error="errorMessage" ref="formItem">
+        style="margin-bottom:15px;" :class="[form.htmlClass]" :error="errorMessage" ref="formItem" >
         <div style="clear:both;">
             <slot name="input">
             </slot>
