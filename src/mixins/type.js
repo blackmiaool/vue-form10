@@ -105,6 +105,8 @@ export default {
                                 this.$refs.typeWrapper.$refs.formItem.validateMessage = this.interpolate(errorMessage, context);
                             }
                         }
+                    } else if (value === null || value === undefined) {
+                        this.$refs.typeWrapper.$refs.formItem.clearValidate();
                     } else {
                         this.$refs.typeWrapper.$refs.formItem.validateState = 'success';
                         this.$invalid = false;
