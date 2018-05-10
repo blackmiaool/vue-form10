@@ -43,7 +43,6 @@ export default {
             if (!str) {
                 return '';
             }
-            console.log(str);
             return str.replace(/{{([\s\S]*?)}}/g, (full, key) => {
                 return `${get(context, key)}`;
             });
