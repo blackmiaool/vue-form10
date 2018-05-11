@@ -1,16 +1,21 @@
 <template>
     <TypeWrapper :form="form" ref="typeWrapper">
-        <draggable class="list-group" slot="input"
-            element="ol" :list="model" :options="{animation: 150,handle:'.sort-handle'}">
-            <li v-for="(item,key) in model" :key="key"
-                class="list-group-item">
-                <AnyType :options="options" :name="key" :sf-form="form.schema.items"
-                    :sf-model.sync="model[key]"
-                />
-                <i class="el-icon-sort sort-handle"></i>
-                <i class="el-icon-delete delete-btn" @click="deleteItem(key)"></i>
-            </li>
-        </draggable>
+        <div slot="input" class="array-wrap">
+            <draggable class="list-group" element="ol"
+                :list="model" :options="{animation: 150,handle:'.sort-handle'}">
+                <li v-for="(item,key) in model" :key="key"
+                    class="list-group-item">
+                    <AnyType :options="options" :name="key" :sf-form="form.schema.items"
+                        :sf-model.sync="model[key]"
+                    />
+                    <i class="el-icon-sort sort-handle" title="drag to sort"></i>
+                    <i class="el-icon-delete delete-btn" @click="deleteItem(key)"
+                        title="delete"></i>
+                </li>
+            </draggable>
+            <el-button type="default" class="add-btn"><i class="el-icon-plus"></i> Add</el-button>
+        </div>
+
     </TypeWrapper>
 </template>
 
@@ -45,6 +50,13 @@ export default {
 
 
 <style scoped lang="less">
+.array-wrap{
+    overflow: auto;
+    .add-btn{
+        float: right;
+        margin-top:10px;
+    }
+}
 .list-group {
     box-sizing: border-box;
     overflow: auto;
@@ -66,12 +78,12 @@ export default {
             color: #555;
             cursor: pointer;
         }
-        >.sort-handle{
+        > .sort-handle {
             position: absolute;
             top: 4px;
             right: 18px;
             color: #555;
-            cursor: pointer;
+            cursor: move;
         }
     }
 }
