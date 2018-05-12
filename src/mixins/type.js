@@ -67,20 +67,27 @@ export default {
                 }
 
                 const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
-                if (this.type === 'object') {
+                if (this.type === 'object' || this.type === 'array') {
                     return;
                 }
 
                 const validate = ajv.compile(this.form.schema
                 );
-                const valid = validate(value);
+
+                let valid;
+                if (value === undefined || value === null) {
+                    valid = true;
+                } else {
+                    valid = validate(value);
+                }
+
                 this.$nextTick(() => {
+                    let validateState;
+                    let validateMessage;
                     if (!valid) {
-                        if (this.form.disableErrorState) {
-                            return;
-                        }
+                        validateState = 'error';
                         this.$invalid = true;
-                        this.$refs.typeWrapper.$refs.formItem.validateMessage = ajv.errorsText(validate.errors);
+                        validateMessage = ajv.errorsText(validate.errors);
                         const keyword = validate.errors[0].keyword;
                         const validationMessage = this.form.validationMessage;
 
@@ -103,20 +110,33 @@ export default {
                                 errorMessage = validationMessage;
                             }
                             if (errorMessage) {
-                                this.$refs.typeWrapper.$refs.formItem.validateState = 'error';
-                                this.$refs.typeWrapper.$refs.formItem.validateMessage = this.interpolate(errorMessage, context);
+                                validateMessage = this.interpolate(errorMessage, context);
                             }
                         }
                     } else if (value === null || value === undefined) {
-                        this.$refs.typeWrapper.$refs.formItem.clearValidate();
+                        validateState = null;
                     } else {
-                        if (this.form.disableSuccessState) {
-                            return;
-                        }
-                        this.$refs.typeWrapper.$refs.formItem.validateState = 'success';
+                        validateState = 'success';
                         this.$invalid = false;
-                        this.$refs.typeWrapper.$refs.formItem.validateMessage = '';
+                        validateMessage = '';
                     }
+                    if (this.form.disableErrorState && validateState === 'error') {
+                        validateState = null;
+                    }
+                    if (this.form.disableSuccessState && validateState === 'success') {
+                        validateState = null;
+                    }
+                    if (validateState === 'error') {
+                        this.$refs.typeWrapper.$refs.formItem.validateMessage = validateMessage;
+                        this.$refs.typeWrapper.$refs.formItem.validateState = 'error';
+                    } else if (validateState === 'success') {
+                        this.$refs.typeWrapper.$refs.formItem.validateState = '';
+                        this.$refs.typeWrapper.$refs.formItem.validateState = 'success';
+                    } else {
+                        this.$refs.typeWrapper.$refs.formItem.validateMessage = '';
+                        this.$refs.typeWrapper.$refs.formItem.validateState = '';
+                    }
+                    this.$validationState = validateState;
                 });
             }
         }
@@ -149,6 +169,7 @@ export default {
     },
     data() {
         return {
+            $validateState: null,
             $errorMessage: 'a',
             $invalid: false
         };
