@@ -54,14 +54,16 @@ const schema = {
             type: "string",
             title: "字符串",
             maxLength: 5,
+            default: "333",
             // minLength: 2,
             "x-schema-form": {
                 disableSuccessState: true,
                 disableErrorState: true,
                 placeholder: "string哦",
                 validationMessage: {
-                    maxLength: '{{title}}"{{value}}"太长了,最长{{schema.maxLength}}个字',
-                    minLength: '太短了'
+                    maxLength:
+                        '{{title}}"{{value}}"太长了,最长{{schema.maxLength}}个字',
+                    minLength: "太短了"
                 }
             }
         },
@@ -71,8 +73,28 @@ const schema = {
             items: {
                 title: "item",
                 type: "string",
+                default: "b",
                 "x-schema-form": {
-                    htmlClass: 'items'
+                    htmlClass: "items"
+                }
+            }
+        },
+        array2: {
+            type: "array",
+            title: "array1",
+            items: {
+                type: "object",
+                properties: {
+                    a: {
+                        title: "itema",
+                        type: "string",
+                        default: "1"
+                    },
+                    b: {
+                        title: "itemb",
+                        type: "string",
+                        default: "2"
+                    }
                 }
             }
         },
@@ -98,8 +120,9 @@ const schema = {
             title: "测试number",
             maximum: 3,
             "x-schema-form": {
-                onChange: (modelValue) => console.log('number change', modelValue),
-                copyValueTo: ['obj.b']
+                onChange: modelValue =>
+                    console.log("number change", modelValue),
+                copyValueTo: ["obj.b"]
             }
         },
         enum: {
@@ -118,7 +141,7 @@ const schema = {
         },
         time: {
             type: "number",
-            title: "测试时间戳",
+            title: "测试时间戳"
             // format: "timestamp"
         },
         money: {
@@ -152,7 +175,7 @@ export default {
     },
     methods: {
         a(num) {
-            console.log('num change', num);
+            console.log("num change", num);
         }
     },
     mounted() {

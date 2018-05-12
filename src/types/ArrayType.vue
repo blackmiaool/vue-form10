@@ -32,11 +32,6 @@ export default {
         // eslint-disable-next-line
         this.$options.components.AnyType = require("../components/AnyType").default;
     },
-    mounted() {
-        setTimeout(() => {
-            this.model.splice(0, 0, ...this.model.splice(1, 1));
-        }, 1000);
-    },
     props: [],
     data() {
         return {};
@@ -44,7 +39,12 @@ export default {
     methods: {
         addItem() {
             const defaultData = getDefaultFromSchema(this.form.items);
-            this.model.push(defaultData);
+            let model = this.model;
+            if (!model) {
+                model = [];
+            }
+            model.push(defaultData);
+            this.model = model;
         },
         deleteItem(key) {
             this.model.splice(key, 1);

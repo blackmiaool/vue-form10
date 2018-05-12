@@ -167,6 +167,11 @@ export default {
             return form;
         },
     },
+    mounted() {
+        if (this.sfForm.default && this.model === undefined) {
+            this.model = this.sfForm.default;
+        }
+    },
     data() {
         return {
             $validateState: null,
