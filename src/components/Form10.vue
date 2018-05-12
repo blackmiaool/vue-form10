@@ -1,13 +1,8 @@
 <template>
-    <div class="vue-form10">
-        <el-form>
-            <AnyType
-                :sf-model.sync="model"
-                :sf-form="form"
-                :options="this.options"
-            ></AnyType>
-        </el-form>
-    </div>
+    <el-form class="vue-form10">
+        <AnyType :key="uid" :sf-model.sync="model"
+            :sf-form="form" :options="this.options"></AnyType>
+    </el-form>
 </template>
 
 <script>
@@ -18,11 +13,7 @@ export default {
 
     mounted() {
         const schema = this.sfSchema;
-        // console.log("schema", schema, this.sfOptions, this.$parent);
-        // const context = this.$parent;
-        // for (const i in context) {
-        //     console.log(i, context[i]);
-        // }
+
         if (schema.type === "object") {
             this.compForm = schema;
         }
@@ -33,7 +24,7 @@ export default {
     computed: {
         options() {
             const options = {
-                $rootParent: this.$parent,
+                $rootParent: this.$parent
             };
             if (this.sfOptions) {
                 Object.assign(options, this.sfOptions);
@@ -52,9 +43,18 @@ export default {
             return this.compForm;
         }
     },
+    watch: {
+        form: {
+            deep: true,
+            handler() {
+                this.uid++;
+            }
+        }
+    },
     props: ["sf-schema", "sf-model", "sf-form", "sf-options"],
     data() {
         return {
+            uid: 0,
             componentId: "div",
             compForm: {}
         };
