@@ -10,8 +10,8 @@
 * [x]  validationMessage: "Oh noes, please write a proper address"  
 * [x]  onChange: "valueChanged(form.key,modelValue)"  
 * [ ]  (won't support) feedback: false(try to set :status-icon="true" on el-form)
-* [ ]  disableSuccessState: false  
-* [ ]  disableErrorState: false  
+* [x]  disableSuccessState: false  
+* [x]  disableErrorState: false  
 * [x]  placeholder: "Input..."  
 * [ ]  (won't support) ngModelOptions: { ... }  
 * [x]  readonly: true                                 
