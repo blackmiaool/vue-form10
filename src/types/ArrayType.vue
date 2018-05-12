@@ -21,8 +21,9 @@
 
 <script>
 import draggable from "vuedraggable";
-import Type from "../mixins/type";
 import { getDefaultFromSchema } from "@/util";
+import Type from "@/mixins/type";
+
 
 export default {
     name: "ArrayType",
