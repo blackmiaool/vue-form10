@@ -8,12 +8,12 @@
                     <AnyType :options="options" :name="key" :sf-form="form.schema.items"
                         :sf-model.sync="model[key]"
                     />
-                    <i class="el-icon-sort sort-handle" title="drag to sort"></i>
+                    <i class="el-icon-sort sort-handle" :title="'drag to sort (index:'+key+')'"></i>
                     <i class="el-icon-delete delete-btn" @click="deleteItem(key)"
                         title="delete"></i>
                 </li>
             </draggable>
-            <el-button type="default" class="add-btn"><i class="el-icon-plus"></i> Add</el-button>
+            <el-button type="default" class="add-btn" @click="addItem"><i class="el-icon-plus"></i> Add</el-button>
         </div>
 
     </TypeWrapper>
@@ -22,6 +22,7 @@
 <script>
 import draggable from "vuedraggable";
 import Type from "../mixins/type";
+import { getDefaultFromSchema } from "@/util";
 
 export default {
     name: "ArrayType",
@@ -40,6 +41,10 @@ export default {
         return {};
     },
     methods: {
+        addItem() {
+            const defaultData = getDefaultFromSchema(this.form.items);
+            this.model.push(defaultData);
+        },
         deleteItem(key) {
             this.model.splice(key, 1);
         }

@@ -76,6 +76,9 @@ export default {
                 const valid = validate(value);
                 this.$nextTick(() => {
                     if (!valid) {
+                        if (this.form.disableErrorState) {
+                            return;
+                        }
                         this.$invalid = true;
                         this.$refs.typeWrapper.$refs.formItem.validateMessage = ajv.errorsText(validate.errors);
                         const keyword = validate.errors[0].keyword;
@@ -107,6 +110,9 @@ export default {
                     } else if (value === null || value === undefined) {
                         this.$refs.typeWrapper.$refs.formItem.clearValidate();
                     } else {
+                        if (this.form.disableSuccessState) {
+                            return;
+                        }
                         this.$refs.typeWrapper.$refs.formItem.validateState = 'success';
                         this.$invalid = false;
                         this.$refs.typeWrapper.$refs.formItem.validateMessage = '';
