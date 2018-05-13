@@ -1,19 +1,23 @@
 <template>
     <TypeWrapper :form="form" ref="typeWrapper">
         <div slot="input" class="array-wrap">
-            <draggable class="list-group" element="ol"
-                :list="model" :options="{animation: 150,handle:'.sort-handle'}">
-                <li v-for="(item,key) in model" :key="key"
+            <draggable v-if="model&&model.length" class="list-group"
+                element="ol" :list="model" :options="{animation: 150,handle:'.sort-handle'}">
+                <li v-for="(item,$index) in model" :key="$index"
                     class="list-group-item">
-                    <AnyType :options="options" :name="key" :sf-form="form.schema.items"
-                        :sf-model.sync="model[key]"
+                    <AnyType :options="options" :sf-form="form.schema.items"
+                        :sf-model.sync="model[$index]"
+                        parent="array"
+                        :is-last="$index===model.length-1"
                     />
-                    <i class="el-icon-sort sort-handle" :title="'drag to sort (index:'+key+')'"></i>
-                    <i class="el-icon-delete delete-btn" @click="deleteItem(key)"
+                    <i class="el-icon-sort sort-handle" :title="'drag to sort (index:'+$index+')'"></i>
+                    <i class="el-icon-delete delete-btn" @click="deleteItem($index)"
                         title="delete"></i>
                 </li>
             </draggable>
-            <el-button type="default" class="add-btn" @click="addItem"><i class="el-icon-plus"></i> Add</el-button>
+            <el-button type="default" class="add-btn"
+                @click="addItem">
+                <i class="el-icon-plus"></i> Add</el-button>
         </div>
 
     </TypeWrapper>
@@ -23,7 +27,6 @@
 import draggable from "vuedraggable";
 import { getDefaultFromSchema } from "@/util";
 import Type from "@/mixins/type";
-
 
 export default {
     name: "ArrayType",
@@ -38,7 +41,7 @@ export default {
     },
     methods: {
         addItem() {
-            const defaultData = getDefaultFromSchema(this.form.items);
+            const defaultData = getDefaultFromSchema(this.form.schema.items);
             let model = this.model;
             if (!model) {
                 model = [];
@@ -56,11 +59,11 @@ export default {
 
 
 <style scoped lang="less">
-.array-wrap{
+.array-wrap {
     overflow: auto;
-    .add-btn{
+    .add-btn {
         float: right;
-        margin-top:10px;
+        margin-top: 10px;
     }
 }
 .list-group {
@@ -75,8 +78,17 @@ export default {
     border: 1px solid #dcdfe6;
     border-radius: 4px;
     padding: 10px;
+    padding-bottom:15px;
     .list-group-item {
         position: relative;
+        border-bottom: 1px solid #dcdfe6;
+        margin-top: 5px;
+        &:first-child{
+            margin-top: 0;
+        }
+        &:last-child{
+            border-bottom:none;
+        }
         > .delete-btn {
             position: absolute;
             top: 4px;

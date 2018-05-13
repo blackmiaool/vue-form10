@@ -179,7 +179,7 @@ export default {
             $invalid: false
         };
     },
-    props: ['sf-model', 'sf-form', "options", "name"],
+    props: ['sf-model', 'sf-form', "options", "name", 'parent', 'is-last'],
     components: { TypeWrapper }
 };
 

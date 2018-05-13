@@ -20,6 +20,7 @@ export function getDefaultFromSchema(schema, root) {
         if (Object.keys(ret).length) {
             return ret;
         }
+        return {};
     }
     if (root) {
         return undefined;

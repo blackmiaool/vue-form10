@@ -1,6 +1,7 @@
 <template>
     <el-form class="vue-form10">
         <AnyType :key="uid" :sf-model.sync="model"
+            parent="root"
             :sf-form="form" :options="this.options"></AnyType>
     </el-form>
 </template>

@@ -1,6 +1,8 @@
 <template>
     <el-form-item :label="(hideTitle||form.notitle)?'':form.title"
-        style="margin-bottom:15px;" :class="[form.htmlClass]" :error="errorMessage" ref="formItem" >
+        :style="{marginBottom:marginBottom}"
+        :class="[form.htmlClass]" :error="errorMessage"
+        ref="formItem">
         <div style="clear:both;">
             <slot name="input">
             </slot>
@@ -17,9 +19,21 @@ export default {
     mixins: [],
     mounted() {},
     props: { form: {}, options: {}, "hide-title": { type: Boolean } },
+    computed: {
+        marginBottom() {
+            console.log(this.$parent.isLast);
+            if (this.$parent.isLast) {
+                return 0;
+            }
+            if (this.$parent.parent === "object" || this.$parent.parent === "array") {
+                return "15px";
+            }
+            return "0";
+        }
+    },
     data() {
         return {
-            errorMessage: ''
+            errorMessage: ""
         };
     }
 };

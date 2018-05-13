@@ -1,7 +1,9 @@
 <template>
     <component v-if="condition" :is="componentId"
         :sf-form="sfForm" :sf-model.sync="model"
-        :options="options" :name="name"></component>
+        :parent="parent"
+        :options="options" :name="name"
+        :is-last="isLast"></component>
 
 </template>
 
@@ -129,7 +131,7 @@ export default {
         }
     },
     mounted() {},
-    props: ['sf-model', 'sf-form', "options", "name"],
+    props: ['sf-model', 'sf-form', "options", "name", "parent", 'is-last'],
     data() {
         return {
             compForm: {}
