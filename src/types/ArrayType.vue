@@ -39,6 +39,13 @@ export default {
     data() {
         return {};
     },
+    mounted() {
+        if (!this.model || !this.model.length) {
+            if (this.form.startEmpty === false) {
+                this.addItem();
+            }
+        }
+    },
     methods: {
         addItem() {
             const defaultData = getDefaultFromSchema(this.form.schema.items);

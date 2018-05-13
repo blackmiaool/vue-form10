@@ -82,6 +82,9 @@ const schema = {
         array2: {
             type: "array",
             title: "array1",
+            "x-schema-form": {
+                startEmpty: false
+            },
             items: {
                 type: "object",
                 properties: {
@@ -164,7 +167,6 @@ const schema = {
     }
 };
 const model = {
-    obj: {},
     array: ["a", "b"]
 };
 const form = ["*"];
@@ -210,7 +212,6 @@ export default {
     },
     data() {
         return {
-            msg: "Welcome to Your Vue.js App",
             schema,
             model: JSON.parse(JSON.stringify(model)),
             form: null,
