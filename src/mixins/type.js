@@ -94,7 +94,6 @@ export default {
 
                         let errorMessage = '';
                         if (validationMessage) {
-                            console.log(validationMessage);
                             const context = {
                                 error: validate.errors,
                                 title: this.form.schema.title,

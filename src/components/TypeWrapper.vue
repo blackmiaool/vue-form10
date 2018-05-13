@@ -21,7 +21,6 @@ export default {
     props: { form: {}, options: {}, "hide-title": { type: Boolean } },
     computed: {
         marginBottom() {
-            console.log(this.$parent.isLast);
             if (this.$parent.isLast) {
                 return 0;
             }
