@@ -1,13 +1,13 @@
 <template>
     <component v-if="condition" :is="componentId"
         :sf-form="sfForm" :sf-model.sync="model"
-        :parent="parent"
-        :options="options" :name="name"
-        :is-last="isLast"></component>
+        :parent="parent" :path="path" :options="options"
+        :name="name" :is-last="isLast"></component>
 
 </template>
 
 <script>
+import { mapState } from "vuex";
 import ObjectType from "../types/ObjectType";
 import StringType from "../types/StringType";
 import NumberType from "../types/NumberType";
@@ -15,12 +15,11 @@ import BooleanType from "../types/BooleanType";
 import SelectType from "../types/SelectType";
 import TimestampType from "../types/TimestampType";
 import ArrayType from "../types/ArrayType";
-import { stdFormObj } from '../mixins/type';
+import { stdFormObj } from "../mixins/type";
 
 export default {
     name: "AnyType",
     mixins: [],
-    inject: ["rootModel"],
     methods: {
         remove(destroyStrategy) {
             switch (destroyStrategy) {
@@ -69,19 +68,22 @@ export default {
         }
     },
     computed: {
+        ...mapState({
+            rootModel: state => state.model
+        }),
         form() {
             const form = stdFormObj(this.name, this.sfForm);
             if (form.schema.format) {
                 form.type = form.schema.format;
             }
-            if (this.sfForm['x-schema-form']) {
-                Object.assign(form, this.sfForm['x-schema-form']);
+            if (this.sfForm["x-schema-form"]) {
+                Object.assign(form, this.sfForm["x-schema-form"]);
             }
             return form;
         },
         model: {
             set(value) {
-                this.$emit('update:sfModel', value);
+                this.$emit("update:sfModel", value);
             },
             get() {
                 return this.sfModel;
@@ -128,10 +130,27 @@ export default {
                 ret = true;
             }
             return ret;
+        },
+        path() {
+            let ret;
+            if (this.parent === "root") {
+                ret = this.parentPath.concat([]);
+            } else {
+                ret = this.parentPath.concat([this.name]);
+            }
+            return ret;
         }
     },
     mounted() {},
-    props: ['sf-model', 'sf-form', "options", "name", "parent", 'is-last'],
+    props: [
+        "sf-model",
+        "sf-form",
+        "options",
+        "name",
+        "parent",
+        "is-last",
+        "parent-path"
+    ],
     data() {
         return {
             compForm: {}

@@ -1,22 +1,21 @@
 <template>
     <TypeWrapper :form="form" :hide-title="true"
         ref="typeWrapper">
-        <div slot="input">
-            <fieldset v-if="name!==undefined&&name!==null">
+        <div slot="input" v-if="model">
+            <fieldset v-if="name!==undefined&&name!==null&&parent!=='array'">
                 <legend>{{form.title}}</legend>
-                <AnyType v-for="(key,$index) in keys"
-                    :options="options" :key="key"
-                    :name="key" :sf-form="form.schema.properties[key]"
-                    :sf-model.sync="model[key]"
+                <AnyType v-for="(key,$index) in keys" :options="options"
+                :parent-path="path"
+                    :key="key" :name="key" :sf-form="form.schema.properties[key]"
                     @remove="remove(model,key)"
                     :is-last="$index===keys.length-1"
                     parent="object" />
             </fieldset>
             <template v-else>
-                <AnyType v-for="(key,$index) in keys"
-                    :options="options" :key="key"
-                    :name="key" :sf-form="form.schema.properties[key]"
-                    :sf-model.sync="model[key]"
+                <AnyType v-for="(key,$index) in keys" :parent-path="path"
+                :options="options"
+                    :key="key" :name="key" :sf-form="form.schema.properties[key]"
+
                     @remove="remove(model,key)"
                     :is-last="$index===keys.length-1"
                     parent="object" />
@@ -39,8 +38,31 @@ export default {
     },
     props: [],
     methods: {
+        onUpdate() {
+            // key, value
+            // console.log('onupdate', value, key, this.model);
+            // if (this.model.hasOwnProperty(key)) {
+            //     // this.$set(this.model, key, value);
+            //     this.model[key] = value;
+            //     this.model = this.model;
+            // } else {
+            //     // this.model = Object.assign({}, this.model, { key: value });
+            //     this.$set(this.model, key, value);
+            //     this.model = this.model;
+            // }
+
+            // this.$set(this.model, key, value);
+        // this.model = this.model;
+            //
+        },
         remove(model, key) {
             delete model[key];
+        }
+    },
+    mounted() {
+        if (!this.model) {
+            // this.$set(this, 'model', {});
+            this.model = {};
         }
     },
     computed: {
@@ -49,7 +71,7 @@ export default {
                 return Object.keys(this.form.schema.properties);
             }
             return [];
-        }
+        },
     },
     data() {
         return {};

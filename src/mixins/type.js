@@ -1,5 +1,6 @@
-import { set, get } from 'lodash';
+import { set, get, toPath } from 'lodash';
 import Ajv from "ajv";
+import { mapState } from 'vuex';
 import TypeWrapper from "../components/TypeWrapper";
 
 
@@ -33,7 +34,6 @@ export function stdFormObj(name, schema, options) {
     return f;
 }
 export default {
-    inject: ["rootModel"],
     methods: {
         interpolate(str, context) {
             if (typeof str === 'function') {
@@ -62,7 +62,8 @@ export default {
                 }
                 if (this.form.copyValueTo) {
                     this.form.copyValueTo.forEach((path) => {
-                        set(this.rootModel, path, value);
+                        this.$vuexSet(['model', ...toPath(path)].slice(), value);
+                        // set(this.rootModel, path, value);
                     });
                 }
 
@@ -141,6 +142,9 @@ export default {
         }
     },
     computed: {
+        ...mapState({
+            rootModel: state => state.model
+        }),
         type() {
             return this.form.type || this.form.schema.type;
         },
@@ -149,10 +153,10 @@ export default {
         },
         model: {
             set(value) {
-                this.$emit('update:sfModel', value);
+                this.$vuexSet(this.path.slice(), value);
             },
             get() {
-                return this.sfModel;
+                return get(this.$store.state, this.path);
             }
         },
         form() {
@@ -178,7 +182,7 @@ export default {
             $invalid: false
         };
     },
-    props: ['sf-model', 'sf-form', "options", "name", 'parent', 'is-last'],
+    props: ['sf-form', "options", "name", 'parent', 'is-last', 'path'],
     components: { TypeWrapper }
 };
 

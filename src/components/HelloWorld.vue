@@ -47,6 +47,7 @@ if (angular) {
             }
         ]);
 }
+
 const schema = {
     type: "object",
     properties: {
@@ -166,6 +167,24 @@ const schema = {
         }
     }
 };
+
+// schema = {
+//     type: "object",
+//     properties: {
+//         obj: {
+//             type: "object",
+//             title: "obj",
+//             properties: {
+//                 a: {
+//                     type: "string"
+//                 },
+//                 b: {
+//                     type: "number"
+//                 }
+//             }
+//         }
+//     }
+// };
 const model = {
     array: ["a", "b"]
 };

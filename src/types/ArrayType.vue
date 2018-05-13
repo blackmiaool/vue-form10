@@ -6,8 +6,10 @@
                 <li v-for="(item,$index) in model" :key="$index"
                     class="list-group-item">
                     <AnyType :options="options" :sf-form="form.schema.items"
-                        :sf-model.sync="model[$index]"
+                    :parent-path="path"
+
                         parent="array"
+                        :name="$index"
                         :is-last="$index===model.length-1"
                     />
                     <i class="el-icon-sort sort-handle" :title="'drag to sort (index:'+$index+')'"></i>
