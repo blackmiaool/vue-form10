@@ -59,7 +59,7 @@ const schema = {
             // minLength: 2,
             "x-schema-form": {
                 disableSuccessState: true,
-                disableErrorState: true,
+                // disableErrorState: true,
                 placeholder: "string哦",
                 validationMessage: {
                     maxLength:
@@ -145,7 +145,7 @@ const schema = {
         },
         time: {
             type: "number",
-            title: "测试时间戳"
+            title: "测试时间戳",
             // format: "timestamp"
         },
         money: {

@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import Ajv from "ajv";
 import { mapState } from "vuex";
 import AnyType from "./AnyType";
 import store from "../store";
@@ -21,6 +22,8 @@ export default {
         if (schema.type === "object") {
             this.compForm = schema;
         }
+        const ajv = new Ajv();
+        this.options.ajv = ajv;
     },
     provide() {
         return { options: this.sfOptions };

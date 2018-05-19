@@ -1,5 +1,4 @@
 import { get, toPath } from 'lodash';
-import Ajv from "ajv";
 import { mapState } from 'vuex';
 import TypeWrapper from "../components/TypeWrapper";
 
@@ -67,12 +66,12 @@ export default {
                     });
                 }
 
-                const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
+
                 if (this.type === 'object' || this.type === 'array') {
                     return;
                 }
 
-                const validate = ajv.compile(this.form.schema
+                const validate = this.options.ajv.compile(this.form.schema
                 );
 
                 let valid;
@@ -81,17 +80,15 @@ export default {
                 } else {
                     valid = validate(value);
                 }
-
                 this.$nextTick(() => {
                     let validateState;
                     let validateMessage;
                     if (!valid) {
                         validateState = 'error';
                         this.$invalid = true;
-                        validateMessage = ajv.errorsText(validate.errors);
+                        validateMessage = this.options.ajv.errorsText(validate.errors);
                         const keyword = validate.errors[0].keyword;
                         const validationMessage = this.form.validationMessage;
-
 
                         let errorMessage = '';
                         if (validationMessage) {
@@ -139,7 +136,6 @@ export default {
                             typeWrapper.$refs.formItem.validateState = '';
                         }
                     }
-
                     this.$validationState = validateState;
                 });
             }
