@@ -35,24 +35,16 @@ export default {
             }
             return options;
         },
-        // model: {
-        //     set(value) {
-        //         this.$emit("update:sf-model", value);
-        //     },
-        //     get() {
-        //         return this.sfModel;
-        //     }
-        // },
         form() {
             return this.compForm;
         },
-        ...mapState(['model'])
+        ...mapState(['model']),
     },
     watch: {
         model: {
             deep: true,
             handler(model) {
-                console.log('emit', model);
+                // console.log(JSON.stringify(model, false, 4));
                 this.$emit('input', model);
             }
         },
@@ -61,9 +53,16 @@ export default {
             handler() {
                 this.uid++;
             }
+        },
+        value: {
+            immediate: true,
+            handler(value) {
+                // console.log('sf', model);
+                this.$store.commit('setModel', { value });
+            }
         }
     },
-    props: ["sf-schema", "sf-model", "sf-form", "sf-options"],
+    props: ["sf-schema", "value", "sf-form", "sf-options"],
     data() {
         return {
             rootPath: ['model'],

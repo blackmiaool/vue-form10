@@ -13,7 +13,7 @@
             />
         </div>
         <div class="right" v-if="showForm10">
-            <Form10 :sf-schema="schema" :sf-model.sync="model"
+            <Form10 :sf-schema="schema" v-model="model"
                 :sf-form="form" :sf-options="options"
             />
         </div>
@@ -97,7 +97,7 @@ const schema = {
                     b: {
                         title: "itemb",
                         type: "string",
-                        default: "2"
+                        // default: "2"
                     }
                 }
             }
@@ -218,6 +218,9 @@ export default {
             );
             scope.options = {
                 showArrayTools: false
+            };
+            console.log = function() {
+
             };
         }
     },

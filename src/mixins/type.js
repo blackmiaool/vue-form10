@@ -1,4 +1,4 @@
-import { set, get, toPath } from 'lodash';
+import { get, toPath } from 'lodash';
 import Ajv from "ajv";
 import { mapState } from 'vuex';
 import TypeWrapper from "../components/TypeWrapper";
@@ -126,16 +126,20 @@ export default {
                     if (this.form.disableSuccessState && validateState === 'success') {
                         validateState = null;
                     }
-                    if (validateState === 'error') {
-                        this.$refs.typeWrapper.$refs.formItem.validateMessage = validateMessage;
-                        this.$refs.typeWrapper.$refs.formItem.validateState = 'error';
-                    } else if (validateState === 'success') {
-                        this.$refs.typeWrapper.$refs.formItem.validateState = '';
-                        this.$refs.typeWrapper.$refs.formItem.validateState = 'success';
-                    } else {
-                        this.$refs.typeWrapper.$refs.formItem.validateMessage = '';
-                        this.$refs.typeWrapper.$refs.formItem.validateState = '';
+                    const typeWrapper = this.$refs.typeWrapper;
+                    if (typeWrapper) {
+                        if (validateState === 'error') {
+                            typeWrapper.$refs.formItem.validateMessage = validateMessage;
+                            typeWrapper.$refs.formItem.validateState = 'error';
+                        } else if (validateState === 'success') {
+                            typeWrapper.$refs.formItem.validateState = '';
+                            typeWrapper.$refs.formItem.validateState = 'success';
+                        } else {
+                            typeWrapper.$refs.formItem.validateMessage = '';
+                            typeWrapper.$refs.formItem.validateState = '';
+                        }
                     }
+
                     this.$validationState = validateState;
                 });
             }

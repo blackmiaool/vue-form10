@@ -10,7 +10,11 @@ export default new Vuex.Store({
     },
     mutations: {
         setModel(state, { path, value }) {
-            VueDeepSet.vuexSet(path, value);
+            if (path) {
+                VueDeepSet.vuexSet(path, value);
+            } else {
+                state.model = value;
+            }
         },
         VUEX_DEEP_SET: VueDeepSet.VUEX_DEEP_SET,
     }
