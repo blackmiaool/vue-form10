@@ -1,5 +1,4 @@
-export const a = 2;
-const emptyValue = {};
+export const emptyValue = {};
 
 export function getDefaultFromSchema(schema, root) {
     if (!schema) {

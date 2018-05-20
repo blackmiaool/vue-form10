@@ -8,13 +8,12 @@
 
 <script>
 import { mapState } from "vuex";
-import ObjectType from "../types/ObjectType";
-import StringType from "../types/StringType";
-import NumberType from "../types/NumberType";
-import BooleanType from "../types/BooleanType";
-import SelectType from "../types/SelectType";
-import TimestampType from "../types/TimestampType";
-import ArrayType from "../types/ArrayType";
+import ObjectType from "../plugins/ObjectType";
+import StringType from "../plugins/StringType";
+import NumberType from "../plugins/NumberType";
+import BooleanType from "../plugins/BooleanType";
+import SelectType from "../plugins/SelectType";
+import ArrayType from "../plugins/ArrayType";
 import { stdFormObj } from "../mixins/type";
 
 export default {
@@ -94,6 +93,12 @@ export default {
             if (!this.sfForm || !Object.keys(this.sfForm).length) {
                 return null;
             }
+            if (form.type) {
+                const result = this.options.formats.find(({ name }) => name === form.type);
+                if (result) {
+                    return `format-${result.name}`;
+                }
+            }
             const type = form.type || form.schema.type;
 
             if (type === "object") {
@@ -111,12 +116,10 @@ export default {
                 return "ArrayType";
             } else if (type === "boolean") {
                 return "BooleanType";
-            } else if (type === "timestamp") {
-                return "TimestampType";
             } else if (type === "textarea") {
                 return "StringType";
             }
-            console.error(`can't decide the type of `, this.sfForm, type, this);
+            console.error(`unknown format `, this.sfForm, type, this);
 
             return "label";
         },
@@ -142,7 +145,11 @@ export default {
             return ret;
         }
     },
-    mounted() {},
+    beforeMount() {
+        this.options.formats.forEach(({ name, component }) => {
+             this.$options.components[`format-${name}`] = component;
+        });
+    },
     props: [
         "sf-model",
         "sf-form",
@@ -163,7 +170,6 @@ export default {
         BooleanType,
         NumberType,
         SelectType,
-        TimestampType,
         ArrayType
     }
 };

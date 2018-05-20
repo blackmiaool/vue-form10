@@ -23,6 +23,9 @@
 
 <script>
 import Form10 from "./Form10";
+import TimestampFormat from "../plugins/TimestampFormat";
+
+Form10.use(TimestampFormat);
 
 const angular = window.angular;
 if (angular) {

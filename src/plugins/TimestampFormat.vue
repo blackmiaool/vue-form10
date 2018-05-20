@@ -12,14 +12,12 @@
 
 <script>
 import { DatePicker } from 'element-ui';
-import Type from "../mixins/type";
 
 export default {
     name: "TimestampType",
-    beforeCreate() {
-        this.$parent.options.ajv.addFormat('timestamp', /^\d{13}$/);
+    form10: {
+        format: { name: 'timestamp', format: /^\d{13}$/ },
     },
-    mixins: [Type],
     components: {
         'el-date-picker': DatePicker
     }
