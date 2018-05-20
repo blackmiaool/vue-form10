@@ -8,10 +8,16 @@
 </template>
 
 <script>
+import { InputNumber } from 'element-ui';
+
+
 import Type from "../mixins/type";
 
 export default {
     name: "NumberType",
-    mixins: [Type]
+    mixins: [Type],
+    components: {
+        'el-input-number': InputNumber
+    }
 };
 </script>

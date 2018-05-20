@@ -2,8 +2,8 @@
     <TypeWrapper :form="form"  ref="typeWrapper">
         <div slot="input">
             <el-date-picker :disabled="form.readonly"
-                v-model="time" type="datetime"
-                :placeholder="form.placeholder">
+                v-model="model" type="datetime"
+                :placeholder="form.placeholder" value-format="timestamp">
             </el-date-picker>
         </div>
 
@@ -11,23 +11,17 @@
 </template>
 
 <script>
+import { DatePicker } from 'element-ui';
 import Type from "../mixins/type";
 
 export default {
     name: "TimestampType",
-    computed: {
-        time: {
-            set(value) {
-                if (!value) {
-                    return;
-                }
-                this.model = value.getTime();
-            },
-            get() {
-                return new Date(this.model);
-            }
-        }
+    beforeCreate() {
+        this.$parent.options.ajv.addFormat('timestamp', /^\d{13}$/);
     },
-    mixins: [Type]
+    mixins: [Type],
+    components: {
+        'el-date-picker': DatePicker
+    }
 };
 </script>

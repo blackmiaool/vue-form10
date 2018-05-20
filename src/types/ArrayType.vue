@@ -27,6 +27,7 @@
 
 <script>
 import draggable from "vuedraggable";
+import { Button } from 'element-ui';
 import { getDefaultFromSchema } from "@/util";
 import Type from "@/mixins/type";
 
@@ -62,7 +63,7 @@ export default {
             this.model.splice(key, 1);
         }
     },
-    components: { draggable }
+    components: { draggable, 'el-button': Button }
 };
 </script>
 

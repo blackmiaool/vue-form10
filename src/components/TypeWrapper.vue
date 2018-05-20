@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { FormItem } from 'element-ui';
+
 export default {
     name: "TypeWrapper",
     mixins: [],
@@ -34,6 +36,9 @@ export default {
         return {
             errorMessage: ""
         };
+    },
+    components: {
+        'el-form-item': FormItem
     }
 };
 </script>

@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { Select, Option } from 'element-ui';
 import Type from "../mixins/type";
 
 export default {
@@ -43,6 +44,10 @@ export default {
     props: [],
     data() {
         return {};
+    },
+    components: {
+        'el-select': Select,
+        'el-option': Option
     }
 };
 </script>

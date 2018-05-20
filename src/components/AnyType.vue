@@ -95,6 +95,7 @@ export default {
                 return null;
             }
             const type = form.type || form.schema.type;
+
             if (type === "object") {
                 return "ObjectType";
             } else if (type === "string") {

@@ -146,7 +146,7 @@ const schema = {
         time: {
             type: "number",
             title: "测试时间戳",
-            // format: "timestamp"
+            format: "timestamp"
         },
         money: {
             type: "number",

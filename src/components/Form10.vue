@@ -9,6 +9,7 @@
 <script>
 import Ajv from "ajv";
 import { mapState } from "vuex";
+import { Form } from 'element-ui';
 import AnyType from "./AnyType";
 import store from "../store";
 
@@ -74,7 +75,8 @@ export default {
             compForm: {}
         };
     },
-    components: { AnyType }
+    components: { AnyType,
+    'el-form': Form }
 };
 </script>
 
