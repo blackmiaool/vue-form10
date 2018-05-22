@@ -70,8 +70,11 @@ export default {
                 if (this.type === 'object' || this.type === 'array') {
                     return;
                 }
-
-                const validate = this.options.ajv.compile(this.form.schema
+                const schema = JSON.parse(JSON.stringify(this.form.schema));
+                if (this.form.type) {
+                    schema.format = this.form.type;
+                }
+                const validate = this.options.ajv.compile(schema
                 );
 
                 let valid;

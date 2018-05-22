@@ -24,8 +24,10 @@
 <script>
 import Form10 from "./Form10";
 import TimestampFormat from "../plugins/TimestampFormat";
+import SelectFormat from "../plugins/SelectFormat";
 
 Form10.use(TimestampFormat);
+Form10.use(SelectFormat);
 
 const angular = window.angular;
 if (angular) {
@@ -141,7 +143,7 @@ const schema = {
                 titleMap: [
                     { value: "Andersson", name: "Andersson" },
                     { value: "Johansson", name: "Johansson" },
-                    { value: "other", name: "Something else..." }
+                    { value: "1112223334445", name: "The right one" }
                 ],
                 placeholder: "enum哦"
             }

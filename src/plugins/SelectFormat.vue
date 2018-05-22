@@ -12,10 +12,12 @@
 
 <script>
 import { Select, Option } from 'element-ui';
-import Type from "../mixins/type";
 
 export default {
     name: "EnumType",
+    form10: {
+        format: { name: 'select', format: "" },
+    },
     computed: {
         titleMap() {
             let arr = [];
@@ -37,13 +39,6 @@ export default {
             }
             return arr;
         }
-    },
-    mounted() {
-    },
-    mixins: [Type],
-    props: [],
-    data() {
-        return {};
     },
     components: {
         'el-select': Select,

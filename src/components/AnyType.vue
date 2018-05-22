@@ -12,7 +12,6 @@ import ObjectType from "../plugins/ObjectType";
 import StringType from "../plugins/StringType";
 import NumberType from "../plugins/NumberType";
 import BooleanType from "../plugins/BooleanType";
-import SelectType from "../plugins/SelectType";
 import ArrayType from "../plugins/ArrayType";
 import { stdFormObj } from "../mixins/type";
 
@@ -105,11 +104,9 @@ export default {
                 return "ObjectType";
             } else if (type === "string") {
                 if (form.schema.enum) {
-                    return "SelectType";
+                    return "SelectFormat";
                 }
                 return "StringType";
-            } else if (type === "select") {
-                return "SelectType";
             } else if (type === "number") {
                 return "NumberType";
             } else if (type === "array") {
@@ -169,7 +166,6 @@ export default {
         StringType,
         BooleanType,
         NumberType,
-        SelectType,
         ArrayType
     }
 };
