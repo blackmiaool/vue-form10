@@ -8,7 +8,9 @@
 </template>
 
 <script>
+import { Input } from 'element-ui';
 import Type from "../mixins/type";
+
 
 export default {
     name: "StringType",
@@ -20,6 +22,9 @@ export default {
     props: [],
     data() {
         return {};
+    },
+    components: {
+        'el-input': Input
     }
 };
 </script>

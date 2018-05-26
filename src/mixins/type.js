@@ -1,5 +1,5 @@
-import { set, get } from 'lodash';
-import Ajv from "ajv";
+import { get, toPath } from 'lodash';
+import { mapState } from 'vuex';
 import TypeWrapper from "../components/TypeWrapper";
 
 
@@ -33,7 +33,6 @@ export function stdFormObj(name, schema, options) {
     return f;
 }
 export default {
-    inject: ["rootModel"],
     methods: {
         interpolate(str, context) {
             if (typeof str === 'function') {
@@ -62,29 +61,40 @@ export default {
                 }
                 if (this.form.copyValueTo) {
                     this.form.copyValueTo.forEach((path) => {
-                        set(this.rootModel, path, value);
+                        this.$vuexSet(['model', ...toPath(path)].slice(), value);
+                        // set(this.rootModel, path, value);
                     });
                 }
 
-                const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
-                if (this.type === 'object') {
+
+                if (this.type === 'object' || this.type === 'array') {
                     return;
                 }
-
-                const validate = ajv.compile(this.form.schema
+                const schema = JSON.parse(JSON.stringify(this.form.schema));
+                if (this.form.type) {
+                    schema.format = this.form.type;
+                }
+                const validate = this.options.ajv.compile(schema
                 );
-                const valid = validate(value);
+
+                let valid;
+                if (value === undefined || value === null) {
+                    valid = true;
+                } else {
+                    valid = validate(value);
+                }
                 this.$nextTick(() => {
+                    let validateState;
+                    let validateMessage;
                     if (!valid) {
+                        validateState = 'error';
                         this.$invalid = true;
-                        this.$refs.typeWrapper.$refs.formItem.validateMessage = ajv.errorsText(validate.errors);
+                        validateMessage = this.options.ajv.errorsText(validate.errors);
                         const keyword = validate.errors[0].keyword;
                         const validationMessage = this.form.validationMessage;
 
-
                         let errorMessage = '';
                         if (validationMessage) {
-                            console.log(validationMessage);
                             const context = {
                                 error: validate.errors,
                                 title: this.form.schema.title,
@@ -100,22 +110,44 @@ export default {
                                 errorMessage = validationMessage;
                             }
                             if (errorMessage) {
-                                this.$refs.typeWrapper.$refs.formItem.validateState = 'error';
-                                this.$refs.typeWrapper.$refs.formItem.validateMessage = this.interpolate(errorMessage, context);
+                                validateMessage = this.interpolate(errorMessage, context);
                             }
                         }
                     } else if (value === null || value === undefined) {
-                        this.$refs.typeWrapper.$refs.formItem.clearValidate();
+                        validateState = null;
                     } else {
-                        this.$refs.typeWrapper.$refs.formItem.validateState = 'success';
+                        validateState = 'success';
                         this.$invalid = false;
-                        this.$refs.typeWrapper.$refs.formItem.validateMessage = '';
+                        validateMessage = '';
                     }
+                    if (this.form.disableErrorState && validateState === 'error') {
+                        validateState = null;
+                    }
+                    if (this.form.disableSuccessState && validateState === 'success') {
+                        validateState = null;
+                    }
+                    const typeWrapper = this.$refs.typeWrapper;
+                    if (typeWrapper) {
+                        if (validateState === 'error') {
+                            typeWrapper.$refs.formItem.validateMessage = validateMessage;
+                            typeWrapper.$refs.formItem.validateState = 'error';
+                        } else if (validateState === 'success') {
+                            typeWrapper.$refs.formItem.validateState = '';
+                            typeWrapper.$refs.formItem.validateState = 'success';
+                        } else {
+                            typeWrapper.$refs.formItem.validateMessage = '';
+                            typeWrapper.$refs.formItem.validateState = '';
+                        }
+                    }
+                    this.$validationState = validateState;
                 });
             }
         }
     },
     computed: {
+        ...mapState({
+            rootModel: state => state.model
+        }),
         type() {
             return this.form.type || this.form.schema.type;
         },
@@ -124,10 +156,10 @@ export default {
         },
         model: {
             set(value) {
-                this.$emit('update:sfModel', value);
+                this.$vuexSet(this.path.slice(), value);
             },
             get() {
-                return this.sfModel;
+                return get(this.$store.state, this.path);
             }
         },
         form() {
@@ -141,13 +173,19 @@ export default {
             return form;
         },
     },
+    mounted() {
+        if (this.sfForm.default && this.model === undefined) {
+            this.model = this.sfForm.default;
+        }
+    },
     data() {
         return {
+            $validateState: null,
             $errorMessage: 'a',
             $invalid: false
         };
     },
-    props: ['sf-model', 'sf-form', "options", "name"],
+    props: ['sf-form', "options", "name", 'parent', 'is-last', 'path'],
     components: { TypeWrapper }
 };
 
