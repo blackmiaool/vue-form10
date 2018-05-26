@@ -61,6 +61,7 @@ module.exports = {
     "no-await-in-loop": 0,
     "consistent-return": 0,
     "func-names": 0,
-    "space-before-function-paren":0
+    "space-before-function-paren":0,
+    "linebreak-style":0
   }
 }
