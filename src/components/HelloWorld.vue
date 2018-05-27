@@ -25,9 +25,20 @@
 import Form10 from "./Form10";
 import TimestampFormat from "../plugins/TimestampFormat";
 import SelectFormat from "../plugins/SelectFormat";
+import ArrayType from "../plugins/ArrayType";
+import BooleanType from "../plugins/BooleanType";
+import NumberType from "../plugins/NumberType";
+import ObjectType from "../plugins/ObjectType";
+import StringType from "../plugins/StringType";
+
 
 Form10.use(TimestampFormat);
 Form10.use(SelectFormat);
+Form10.use(ArrayType);
+Form10.use(BooleanType);
+Form10.use(NumberType);
+Form10.use(ObjectType);
+Form10.use(StringType);
 
 const angular = window.angular;
 if (angular) {

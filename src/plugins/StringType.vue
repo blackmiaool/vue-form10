@@ -9,19 +9,11 @@
 
 <script>
 import { Input } from 'element-ui';
-import Type from "../mixins/type";
-
 
 export default {
     name: "StringType",
-    computed: {
-
-    },
-    mounted() {},
-    mixins: [Type],
-    props: [],
-    data() {
-        return {};
+    form10: {
+        type: 'string',
     },
     components: {
         'el-input': Input

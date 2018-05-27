@@ -8,11 +8,6 @@
 
 <script>
 import { mapState } from "vuex";
-import ObjectType from "../plugins/ObjectType";
-import StringType from "../plugins/StringType";
-import NumberType from "../plugins/NumberType";
-import BooleanType from "../plugins/BooleanType";
-import ArrayType from "../plugins/ArrayType";
 import { stdFormObj } from "../mixins/type";
 
 export default {
@@ -93,32 +88,15 @@ export default {
                 return null;
             }
             if (form.type) {
-                const result = this.options.formats.find(({ name }) => name === form.type);
+                const result = this.options.formats.find(
+                    ({ name }) => name === form.type
+                );
                 if (result) {
                     return `format-${result.name}`;
                 }
+                console.error(`unknown format `, this.sfForm, form.type, this);
             }
-            const type = form.type || form.schema.type;
-
-            if (type === "object") {
-                return "ObjectType";
-            } else if (type === "string") {
-                if (form.schema.enum) {
-                    return "SelectFormat";
-                }
-                return "StringType";
-            } else if (type === "number") {
-                return "NumberType";
-            } else if (type === "array") {
-                return "ArrayType";
-            } else if (type === "boolean") {
-                return "BooleanType";
-            } else if (type === "textarea") {
-                return "StringType";
-            }
-            console.error(`unknown format `, this.sfForm, type, this);
-
-            return "label";
+            return `type-${form.schema.type}`;
         },
         condition() {
             let ret;
@@ -143,9 +121,7 @@ export default {
         }
     },
     beforeMount() {
-        this.options.formats.forEach(({ name, component }) => {
-             this.$options.components[`format-${name}`] = component;
-        });
+        Object.assign(this.$options.components, this.options.compMap);
     },
     props: [
         "sf-model",
@@ -161,13 +137,6 @@ export default {
             compForm: {}
         };
     },
-    components: {
-        ObjectType,
-        StringType,
-        BooleanType,
-        NumberType,
-        ArrayType
-    }
 };
 </script>
 

@@ -27,41 +27,22 @@
 </template>
 
 <script>
-import Type from "../mixins/type";
-
 export default {
     name: "ObjectType",
-    mixins: [Type],
+    form10: {
+        type: 'object',
+    },
     beforeCreate() {
         // eslint-disable-next-line
         this.$options.components.AnyType = require("../components/AnyType").default;
     },
-    props: [],
     methods: {
-        onUpdate() {
-            // key, value
-            // console.log('onupdate', value, key, this.model);
-            // if (this.model.hasOwnProperty(key)) {
-            //     // this.$set(this.model, key, value);
-            //     this.model[key] = value;
-            //     this.model = this.model;
-            // } else {
-            //     // this.model = Object.assign({}, this.model, { key: value });
-            //     this.$set(this.model, key, value);
-            //     this.model = this.model;
-            // }
-
-            // this.$set(this.model, key, value);
-        // this.model = this.model;
-            //
-        },
         remove(model, key) {
             delete model[key];
         }
     },
     mounted() {
         if (!this.model) {
-            // this.$set(this, 'model', {});
             this.model = {};
         }
     },
@@ -73,10 +54,6 @@ export default {
             return [];
         },
     },
-    data() {
-        return {};
-    },
-    components: {}
 };
 </script>
 

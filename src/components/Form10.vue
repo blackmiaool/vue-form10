@@ -14,6 +14,8 @@ import store from "../store";
 import { makeFormat } from "../plugin";
 
 const formats = [];
+const types = [];
+
 export default {
     name: "Form10",
     store,
@@ -22,9 +24,20 @@ export default {
             plugin = makeFormat(plugin);
             const pluginConfig = plugin.form10 || {};
             if (pluginConfig.format) {
-                formats.push(Object.assign({
+                formats.push(
+                    Object.assign(
+                        {
+                            component: plugin
+                        },
+                        pluginConfig.format
+                    )
+                );
+            }
+            if (pluginConfig.type) {
+                types.push({
+                    type: pluginConfig.type,
                     component: plugin
-                }, pluginConfig.format));
+                });
             }
         }
     },
@@ -77,6 +90,18 @@ export default {
             }
         }
     },
+    methods: {
+        getAnyTypeCompMap() {
+            const ret = {};
+            formats.forEach(({ name, component }) => {
+                ret[`format-${name}`] = component;
+            });
+            types.forEach(({ type, component }) => {
+                ret[`type-${type}`] = component;
+            });
+            return ret;
+        }
+    },
     props: ["sf-schema", "value", "sf-form", "sf-options"],
     data() {
         return {
@@ -85,7 +110,9 @@ export default {
             componentId: "div",
             compForm: {},
             options: {
+                compMap: this.getAnyTypeCompMap(),
                 formats,
+                types,
                 $rootParent: this.$parent
             }
         };

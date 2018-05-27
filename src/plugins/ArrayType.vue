@@ -29,11 +29,12 @@
 import draggable from "vuedraggable";
 import { Button } from 'element-ui';
 import { getDefaultFromSchema } from "@/util";
-import Type from "@/mixins/type";
 
 export default {
     name: "ArrayType",
-    mixins: [Type],
+    form10: {
+        type: 'array',
+    },
     beforeCreate() {
         // eslint-disable-next-line
         this.$options.components.AnyType = require("../components/AnyType").default;
