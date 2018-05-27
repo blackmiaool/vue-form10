@@ -1,7 +1,7 @@
 <template>
     <el-form class="vue-form10">
         <AnyType :parent-path="rootPath" :key="uid"
-            parent="root" :sf-form="form" :options="this.options"></AnyType>
+            parent="root" :sf-form="sfSchema||{}" :options="this.options"></AnyType>
     </el-form>
 </template>
 
@@ -41,12 +41,7 @@ export default {
             }
         }
     },
-    mounted() {
-        const schema = this.sfSchema;
-
-        if (schema.type === "object") {
-            this.compForm = schema;
-        }
+    beforeMount() {
         const ajv = new Ajv();
         formats.forEach(({ name, format }) => {
             ajv.addFormat(name, format);
@@ -57,9 +52,6 @@ export default {
         return { options: this.sfOptions };
     },
     computed: {
-        form() {
-            return this.compForm;
-        },
         ...mapState(["model"])
     },
     watch: {
@@ -72,8 +64,14 @@ export default {
         model: {
             deep: true,
             handler(model) {
-                // console.log(JSON.stringify(model, false, 4));
                 this.$emit("input", model);
+            }
+        },
+        sfSchema: {
+            deep: true,
+            handler() {
+                console.log('handler');
+                this.uid++;
             }
         },
         form: {

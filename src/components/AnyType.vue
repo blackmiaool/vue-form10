@@ -87,10 +87,24 @@ export default {
             if (!this.sfForm || !Object.keys(this.sfForm).length) {
                 return null;
             }
+            let result;
+            result = this.options.formats.find(({ shouldUse }) => {
+                if (shouldUse && shouldUse(this.form, this.form.schema)) {
+                    return true;
+                }
+                return false;
+            });
+            if (result) {
+                return `format-${result.name}`;
+            }
             if (form.type) {
-                const result = this.options.formats.find(
-                    ({ name }) => name === form.type
-                );
+                result = this.options.formats.find(({ name, shouldUse }) => {
+                    console.log(name, shouldUse);
+                    if (shouldUse && shouldUse(this.form, this.form.schema)) {
+                        return true;
+                    }
+                    return name === form.type;
+                });
                 if (result) {
                     return `format-${result.name}`;
                 }
@@ -136,7 +150,7 @@ export default {
         return {
             compForm: {}
         };
-    },
+    }
 };
 </script>
 

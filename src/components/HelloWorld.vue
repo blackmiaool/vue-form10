@@ -1,16 +1,10 @@
 <template>
     <div class="hello">
-        <div class="left" v-if="!showForm10">
-            <div class="form-wrap" ref="formWrap">
-                <div ng-controller="FormController">
-                    <form name="myForm" sf-schema="schema" sf-model="model"
-                        sf-form="form" sf-options="options"></form>
-                </div>
-            </div>
-        </div>
         <div class="left" v-if="showForm10" :style="{padding:showForm10?'10px':''}">
-            <iframe src="/index2.html" style="width:100%;border:none;height:100%;"
-            />
+            <codemirror v-model="code" :options="cmOptions"
+                style="height:50vh;"></codemirror>
+            <pre class="err-msg" v-if="errMsg">{{errMsg}}</pre>
+            <pre>{{JSON.stringify(model,false,4)}}</pre>
         </div>
         <div class="right" v-if="showForm10">
             <Form10 :sf-schema="schema" v-model="model"
@@ -22,6 +16,11 @@
 </template>
 
 <script>
+import Vue from "vue";
+import JSON5 from "json5";
+import VueCodemirror from "vue-codemirror";
+// eslint-disable-next-line
+import "codemirror/mode/javascript/javascript.js";
 import Form10 from "./Form10";
 import TimestampFormat from "../plugins/TimestampFormat";
 import SelectFormat from "../plugins/SelectFormat";
@@ -31,7 +30,15 @@ import NumberType from "../plugins/NumberType";
 import ObjectType from "../plugins/ObjectType";
 import StringType from "../plugins/StringType";
 
+// eslint-disable-next-line
+import "codemirror/lib/codemirror.css";
 
+Vue.use(
+    VueCodemirror /* {
+  options: { theme: 'base16-dark', ... },
+  events: ['scroll', ...]
+} */
+);
 Form10.use(TimestampFormat);
 Form10.use(SelectFormat);
 Form10.use(ArrayType);
@@ -40,30 +47,8 @@ Form10.use(NumberType);
 Form10.use(ObjectType);
 Form10.use(StringType);
 
-const angular = window.angular;
-if (angular) {
-    angular
-        .module("main", ["schemaForm"].concat(window.schemaFormTypesArr))
-        .config([
-            "$sceProvider",
-            $sceProvider => {
-                $sceProvider.enabled(false);
-            }
-        ])
-        .controller("FormController", [
-            "$scope",
-            function() {
-                // sp.model = {};
-                // sp.copy = function () {
-                //     localStorage.setItem(
-                //         "stable-model-save",
-                //         JSON.stringify(sp.model)
-                //     );
-                // };
-            }
-        ]);
-}
-
+const storageKey = "vue-form10-json";
+const code = localStorage.getItem(storageKey) || "";
 const schema = {
     type: "object",
     properties: {
@@ -112,7 +97,7 @@ const schema = {
                     },
                     b: {
                         title: "itemb",
-                        type: "string",
+                        type: "string"
                         // default: "2"
                     }
                 }
@@ -138,19 +123,19 @@ const schema = {
         number: {
             type: "number",
             title: "测试number",
-            maximum: 3,
-            "x-schema-form": {
-                onChange: modelValue =>
-                    console.log("number change", modelValue),
-                copyValueTo: ["obj.b"]
-            }
+            maximum: 3
+            // "x-schema-form": {
+            //     onChange: modelValue =>
+            //         console.log("number change", modelValue),
+            //     copyValueTo: ["obj.b"]
+            // }
         },
         enum: {
             type: "string",
             title: "测试enum",
             // enum: ["a", "b", "c"],
             "x-schema-form": {
-                type: "select",
+                // type: "select",
                 titleMap: [
                     { value: "Andersson", name: "Andersson" },
                     { value: "Johansson", name: "Johansson" },
@@ -184,27 +169,9 @@ const schema = {
     }
 };
 
-// schema = {
-//     type: "object",
-//     properties: {
-//         obj: {
-//             type: "object",
-//             title: "obj",
-//             properties: {
-//                 a: {
-//                     type: "string"
-//                 },
-//                 b: {
-//                     type: "number"
-//                 }
-//             }
-//         }
-//     }
-// };
 const model = {
     array: ["a", "b"]
 };
-const form = ["*"];
 export default {
     name: "HelloWorld",
     computed: {
@@ -213,43 +180,55 @@ export default {
     methods: {
         a(num) {
             console.log("num change", num);
+        },
+        timeoutSetSchema(s) {
+            clearTimeout(this.setSchemaTimeout);
+            this.setSchemaTimeout = setTimeout(() => {
+                this.schema = s;
+            }, 500);
         }
     },
-    mounted() {
-        if (window.angular) {
-            angular.bootstrap(this.$refs.formWrap, ["main"]);
-            const scope = angular.element(this.$refs.formWrap).scope();
-            scope.schema = JSON.parse(JSON.stringify(schema));
-            scope.form = form;
-            scope.model = JSON.parse(JSON.stringify(model));
-            scope.$digest();
-            scope.$watch(
-                "model",
-                value => {
-                    if (value) {
-                        // this.floor.setData(value);
-                    }
-                },
-                true
-            );
-            scope.options = {
-                showArrayTools: false
-            };
-            console.log = function() {
-
-            };
-        }
+    beforeDestroy() {
+        clearTimeout(this.setSchemaTimeout);
     },
     watch: {
         model: {
             handler(val) {
-                console.log(JSON.stringify(val, false, 4));
+                console.log(JSON5.stringify(val, false, 4));
             },
             deep: true
+        },
+        code: {
+            immediate: true,
+            handler(codeText) {
+                let obj;
+                try {
+                    obj = JSON5.parse(codeText);
+                    localStorage.setItem(storageKey, codeText);
+
+                    this.timeoutSetSchema(obj);
+                    this.errMsg = '';
+                } catch (e) {
+                    console.log(e.message);
+                    obj = null;
+                    this.errMsg = e.message;
+                }
+            }
         }
     },
     data() {
         return {
+            setSchemaTimeout: 0,
+            errMsg: "",
+            code,
+            cmOptions: {
+                // codemirror options
+                lineWrapping: true,
+                tabSize: 4,
+                mode: "text/javascript",
+                lineNumbers: true,
+                line: true
+            },
             schema,
             model: JSON.parse(JSON.stringify(model)),
             form: null,
@@ -262,15 +241,19 @@ export default {
 
 <style scoped lang="less">
 .hello {
-    height: 2000px;
     display: flex;
     .left {
         flex: 1;
-        // padding:10px;
         box-sizing: border-box;
     }
     .right {
         flex: 1;
     }
+}
+.err-msg{
+    background-color:red;
+    padding:5px 2px;
+    color:white;
+    font-size:16px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <TypeWrapper :form="form"  ref="typeWrapper">
+    <TypeWrapper :form="form" ref="typeWrapper">
         <el-select v-model="model" :placeholder="form.placeholder"
             slot="input" clearable :disabled="form.readonly">
             <el-option v-for="(item,index) in titleMap"
@@ -11,12 +11,18 @@
 </template>
 
 <script>
-import { Select, Option } from 'element-ui';
+import { Select, Option } from "element-ui";
 
 export default {
     name: "EnumType",
     form10: {
-        format: { name: 'select', format: "" },
+        format: {
+            name: "select",
+            format: "",
+            shouldUse(form, schema) {
+                return form.titleMap || schema.enum;
+            }
+        }
     },
     computed: {
         titleMap() {
@@ -41,8 +47,8 @@ export default {
         }
     },
     components: {
-        'el-select': Select,
-        'el-option': Option
+        "el-select": Select,
+        "el-option": Option
     }
 };
 </script>
