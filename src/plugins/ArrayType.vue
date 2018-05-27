@@ -5,7 +5,7 @@
                 element="ol" :list="model" :options="{animation: 150,handle:'.sort-handle'}">
                 <li v-for="(item,$index) in model" :key="$index"
                     class="list-group-item">
-                    <AnyType :options="options" :sf-form="form.schema.items"
+                    <AnyType :options="options" :sf-schema="form.schema.items"
                     :parent-path="path"
 
                         parent="array"

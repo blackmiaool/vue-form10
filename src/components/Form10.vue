@@ -1,7 +1,7 @@
 <template>
     <el-form class="vue-form10">
         <AnyType :parent-path="rootPath" :key="uid"
-            parent="root" :sf-form="sfSchema||{}" :options="this.options"></AnyType>
+            parent="root" :sf-schema="sfSchema||{}" :options="this.options"></AnyType>
     </el-form>
 </template>
 

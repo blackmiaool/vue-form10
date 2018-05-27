@@ -1,6 +1,6 @@
 <template>
     <component v-if="condition" :is="componentId"
-        :sf-form="sfForm" :sf-model.sync="model"
+        :sf-schema="sfSchema" :sf-model.sync="model"
         :parent="parent" :path="path" :options="options"
         :name="name" :is-last="isLast"></component>
 
@@ -65,12 +65,12 @@ export default {
             rootModel: state => state.model
         }),
         form() {
-            const form = stdFormObj(this.name, this.sfForm);
+            const form = stdFormObj(this.name, this.sfSchema);
             if (form.schema.format) {
                 form.type = form.schema.format;
             }
-            if (this.sfForm["x-schema-form"]) {
-                Object.assign(form, this.sfForm["x-schema-form"]);
+            if (this.sfSchema["x-schema-form"]) {
+                Object.assign(form, this.sfSchema["x-schema-form"]);
             }
             return form;
         },
@@ -84,7 +84,7 @@ export default {
         },
         componentId() {
             const form = this.form;
-            if (!this.sfForm || !Object.keys(this.sfForm).length) {
+            if (!this.sfSchema || !Object.keys(this.sfSchema).length) {
                 return null;
             }
             let result;
@@ -99,7 +99,6 @@ export default {
             }
             if (form.type) {
                 result = this.options.formats.find(({ name, shouldUse }) => {
-                    console.log(name, shouldUse);
                     if (shouldUse && shouldUse(this.form, this.form.schema)) {
                         return true;
                     }
@@ -108,7 +107,7 @@ export default {
                 if (result) {
                     return `format-${result.name}`;
                 }
-                console.error(`unknown format `, this.sfForm, form.type, this);
+                console.error(`unknown format `, this.sfSchema, form.type, this);
             }
             return `type-${form.schema.type}`;
         },
@@ -139,7 +138,7 @@ export default {
     },
     props: [
         "sf-model",
-        "sf-form",
+        "sf-schema",
         "options",
         "name",
         "parent",
@@ -148,7 +147,6 @@ export default {
     ],
     data() {
         return {
-            compForm: {}
         };
     }
 };

@@ -6,7 +6,7 @@
                 <legend>{{form.title}}</legend>
                 <AnyType v-for="(key,$index) in keys" :options="options"
                 :parent-path="path"
-                    :key="key" :name="key" :sf-form="form.schema.properties[key]"
+                    :key="key" :name="key" :sf-schema="form.schema.properties[key]"
                     @remove="remove(model,key)"
                     :is-last="$index===keys.length-1"
                     parent="object" />
@@ -14,7 +14,7 @@
             <template v-else>
                 <AnyType v-for="(key,$index) in keys" :parent-path="path"
                 :options="options"
-                    :key="key" :name="key" :sf-form="form.schema.properties[key]"
+                    :key="key" :name="key" :sf-schema="form.schema.properties[key]"
 
                     @remove="remove(model,key)"
                     :is-last="$index===keys.length-1"

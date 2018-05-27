@@ -163,19 +163,19 @@ export default {
             }
         },
         form() {
-            const form = stdFormObj(this.name, this.sfForm);
+            const form = stdFormObj(this.name, this.sfSchema);
             if (form.schema.format) {
                 form.type = form.schema.format;
             }
-            if (this.sfForm['x-schema-form']) {
-                Object.assign(form, this.sfForm['x-schema-form']);
+            if (this.sfSchema['x-schema-form']) {
+                Object.assign(form, this.sfSchema['x-schema-form']);
             }
             return form;
         },
     },
     mounted() {
-        if (this.sfForm.default && this.model === undefined) {
-            this.model = this.sfForm.default;
+        if (this.sfSchema.default && this.model === undefined) {
+            this.model = this.sfSchema.default;
         }
     },
     data() {
@@ -185,7 +185,7 @@ export default {
             $invalid: false
         };
     },
-    props: ['sf-form', "options", "name", 'parent', 'is-last', 'path'],
+    props: ['sf-schema', "options", "name", 'parent', 'is-last', 'path'],
     components: { TypeWrapper }
 };
 
