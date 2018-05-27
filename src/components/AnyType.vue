@@ -107,17 +107,30 @@ export default {
                 if (result) {
                     return `format-${result.name}`;
                 }
-                console.error(`unknown format `, this.sfSchema, form.type, this);
+                console.error(
+                    `unknown format `,
+                    this.sfSchema,
+                    form.type,
+                    this
+                );
+            }
+            if (!form.schema.type) {
+                console.log(form);
             }
             return `type-${form.schema.type}`;
         },
         condition() {
             let ret;
             if (this.form.condition) {
-                // eslint-disable-next-line
-                ret = new Function("model", `return ${this.form.condition};`)(
-                    this.rootModel
-                );
+                try {
+                    // eslint-disable-next-line
+                    ret = new Function(
+                        "model",
+                        `return ${this.form.condition};`
+                    )(this.rootModel);
+                } catch (e) {
+                    ret = false;
+                }
             } else {
                 ret = true;
             }
@@ -146,8 +159,7 @@ export default {
         "parent-path"
     ],
     data() {
-        return {
-        };
+        return {};
     }
 };
 </script>

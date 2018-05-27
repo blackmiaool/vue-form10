@@ -1,22 +1,22 @@
 <template>
-    <TypeWrapper :form="form"  ref="typeWrapper">
-        <el-input :type="type==='textarea'?'textarea':'text'" v-model="model"
-            slot="input" :placeholder="form.placeholder"
+    <TypeWrapper :form="form" ref="typeWrapper">
+        <el-input :type="type==='textarea'?'textarea':'text'"
+            v-model="model" slot="input" :placeholder="form.placeholder"
             :disabled="form.readonly">
         </el-input>
     </TypeWrapper>
 </template>
 
 <script>
-import { Input } from 'element-ui';
+import { Input } from "element-ui";
 
 export default {
     name: "StringType",
     form10: {
-        type: 'string',
+        type: "string"
     },
     components: {
-        'el-input': Input
+        "el-input": Input
     }
 };
 </script>

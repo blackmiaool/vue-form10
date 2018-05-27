@@ -1,7 +1,7 @@
 <template>
     <TypeWrapper :form="form" :hide-title="true"
         ref="typeWrapper">
-        <div slot="input" v-if="model">
+        <div slot="input">
             <fieldset v-if="name!==undefined&&name!==null&&parent!=='array'">
                 <legend>{{form.title}}</legend>
                 <AnyType v-for="(key,$index) in keys" :options="options"
@@ -41,8 +41,8 @@ export default {
             delete model[key];
         }
     },
-    mounted() {
-        if (!this.model) {
+    beforeMount() {
+        if (!this.model || typeof this.model !== 'object') {
             this.model = {};
         }
     },
