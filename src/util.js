@@ -1,5 +1,8 @@
 export const emptyValue = {};
 
+export function getSchemaFromPath(schema, path) {
+    console.log(schema, path);
+}
 export function getDefaultFromSchema(schema, root) {
     if (!schema) {
         return schema;
