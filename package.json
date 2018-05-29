@@ -9,7 +9,7 @@
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "publish":"git checkout gh-pages && git rebase master && npm run build && git add -A && git commit -m 'build' && git push origin gh-pages && git checkout master"
+    "publish":"git checkout gh-pages && git rebase master && npm run build && git add -A && git commit -m 'build' && git push -f origin gh-pages && git checkout master"
   },
   "dependencies": {
     "ajv": "^6.4.0",

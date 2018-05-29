@@ -186,7 +186,7 @@ const code = localStorage.getItem(storageKey) || "";
 
 const model = null;
 export default {
-    name: "HelloWorld",
+    name: "Home",
     computed: {
         showForm10: () => !window.angular
     },
