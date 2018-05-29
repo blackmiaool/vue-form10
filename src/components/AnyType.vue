@@ -1,19 +1,27 @@
 <template>
-    <component v-if="condition" :is="componentId"
+    <div class="wrap" :class="{selected:isEqual(selected,path)}" @click.stop="onClick">
+        <component v-if="condition" :is="componentId"
         :sf-schema="sfSchema" :sf-model.sync="model"
         :parent="parent" :path="path" :options="options"
         :name="name" :is-last="isLast"></component>
-
+    </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import { isEqual } from "lodash";
 import { stdFormObj } from "../mixins/type";
 
 export default {
     name: "AnyType",
-    mixins: [],
     methods: {
+        isEqual,
+        onClick() {
+            if (this.options.mode === 'editor' && !isEqual(this.selected, this.path)) {
+                this.$store.commit('setSelected', this.path);
+                this.options.$root.$emit('select', this.path);
+            }
+        },
         remove(destroyStrategy) {
             switch (destroyStrategy) {
                 case "retain":
@@ -62,8 +70,9 @@ export default {
     },
     computed: {
         ...mapState({
-            rootModel: state => state.model
+            rootModel: state => state.model,
         }),
+        ...mapState(['selected']),
         form() {
             const form = stdFormObj(this.name, this.sfSchema);
             if (form.schema.format) {
@@ -166,5 +175,9 @@ export default {
 
 
 <style scoped>
-
+    .wrap.selected{
+        position: relative;
+        /* background-color: rgba(0,0,255,0.1); */
+        outline: 1px dashed darkred;
+    }
 </style>

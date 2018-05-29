@@ -56,9 +56,12 @@ export default {
     },
     watch: {
         sfOptions: {
+            immediate: true,
             deep: true,
             handler(value) {
-                Object.assign(this.options, value);
+                Object.keys(value).forEach((key) => {
+                    this.$set(this.options, key, value[key]);
+                });
             }
         },
         model: {
@@ -70,7 +73,6 @@ export default {
         sfSchema: {
             deep: true,
             handler() {
-                console.log('handler');
                 this.uid++;
             }
         },
@@ -111,7 +113,8 @@ export default {
                 compMap: this.getAnyTypeCompMap(),
                 formats,
                 types,
-                $rootParent: this.$parent
+                $rootParent: this.$parent,
+                $root: this,
             }
         };
     },

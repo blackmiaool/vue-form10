@@ -16,7 +16,7 @@
         </div>
         <div class="right" v-if="showForm10">
             <Form10 :sf-schema="schema" v-model="model"
-                :sf-form="form" :sf-options="options"
+                :sf-form="form" :sf-options="options" @select="onSelect"
             />
         </div>
 
@@ -191,6 +191,9 @@ export default {
         showForm10: () => !window.angular
     },
     methods: {
+        onSelect(path) {
+            console.log('onselect', path);
+        },
         a(num) {
             console.log("num change", num);
         },
@@ -270,7 +273,9 @@ export default {
             schema: null,
             model: JSON.parse(JSON.stringify(model)),
             form: null,
-            options: {}
+            options: {
+                mode: 'editor'
+            }
         };
     },
     components: { Form10 }
