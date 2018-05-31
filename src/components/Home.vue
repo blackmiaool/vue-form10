@@ -7,6 +7,8 @@
                     :label="example.name" :value="example.name">
                 </el-option>
             </el-select>
+            <Editor :schema="schema" :path="selectingPath" style="margin-bottom:30px;"
+            />
             <codemirror v-model="code" :options="cmOptions"
                 style="height:50vh;"></codemirror>
             <pre class="err-msg" v-if="errMsg">{{errMsg}}</pre>
@@ -16,8 +18,8 @@
         </div>
         <div class="right" v-if="showForm10">
             <Form10 :sf-schema="schema" v-model="model"
-                :sf-form="form" :sf-options="options" @select="onSelect"
-            />
+                :sf-form="form" :sf-options="options"
+                @select="onSelect" />
         </div>
 
     </div>
@@ -32,6 +34,7 @@ import _ from "lodash";
 // eslint-disable-next-line
 import "codemirror/mode/javascript/javascript.js";
 import Form10 from "./Form10";
+import Editor from "./Editor";
 import TimestampFormat from "../plugins/TimestampFormat";
 import SelectFormat from "../plugins/SelectFormat";
 import ArrayType from "../plugins/ArrayType";
@@ -192,7 +195,8 @@ export default {
     },
     methods: {
         onSelect(path) {
-            console.log('onselect', path);
+            this.selectingPath = path;
+            console.log("onselect", path);
         },
         a(num) {
             console.log("num change", num);
@@ -257,6 +261,7 @@ export default {
     },
     data() {
         return {
+            selectingPath: null,
             selectingExample: null,
             examples: [],
             setSchemaTimeout: 0,
@@ -274,11 +279,11 @@ export default {
             model: JSON.parse(JSON.stringify(model)),
             form: null,
             options: {
-                mode: 'editor'
+                mode: "editor"
             }
         };
     },
-    components: { Form10 }
+    components: { Form10, Editor }
 };
 </script>
 

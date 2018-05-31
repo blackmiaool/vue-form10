@@ -124,7 +124,7 @@ export default {
                 );
             }
             if (!form.schema.type) {
-                console.log(form);
+                console.error('schema needs type', form);
             }
             return `type-${form.schema.type}`;
         },
