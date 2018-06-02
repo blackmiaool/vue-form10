@@ -1,12 +1,14 @@
 <template>
     <el-form class="vue-form10">
         <AnyType :parent-path="rootPath" :key="uid"
-            parent="root" :sf-schema="sfSchema||{}" :options="this.options"></AnyType>
+            parent="root" :sf-schema="sfSchema||{}"
+            :options="this.options"></AnyType>
     </el-form>
 </template>
 
 <script>
 import Ajv from "ajv";
+
 import { mapState } from "vuex";
 import { Form } from "element-ui";
 import AnyType from "./AnyType";
@@ -16,9 +18,13 @@ import { makeFormat } from "../plugin";
 const formats = [];
 const types = [];
 
+
 export default {
     name: "Form10",
-    store,
+    // store: store(),
+    beforeCreate() {
+        this.$store = store();
+    },
     use(plugin) {
         if (plugin.render) {
             plugin = makeFormat(plugin);
@@ -42,7 +48,7 @@ export default {
         }
     },
     beforeMount() {
-        const ajv = new Ajv();
+        const ajv = new Ajv({ allErrors: true });
         formats.forEach(({ name, format }) => {
             ajv.addFormat(name, format);
         });
@@ -59,7 +65,7 @@ export default {
             immediate: true,
             deep: true,
             handler(value) {
-                Object.keys(value).forEach((key) => {
+                Object.keys(value).forEach(key => {
                     this.$set(this.options, key, value[key]);
                 });
             }
@@ -114,7 +120,7 @@ export default {
                 formats,
                 types,
                 $rootParent: this.$parent,
-                $root: this,
+                $root: this
             }
         };
     },

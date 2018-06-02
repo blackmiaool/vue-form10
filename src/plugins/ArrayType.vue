@@ -54,7 +54,7 @@ export default {
         addItem() {
             const defaultData = getDefaultFromSchema(this.form.schema.items);
             let model = this.model;
-            if (!model) {
+            if (!Array.isArray(model)) {
                 model = [];
             }
             model.push(defaultData);

@@ -16,6 +16,11 @@ export function stdFormObj(name, schema, options) {
     // The Object.assign used to be a angular.copy. Should work though.
     const f = options.global && options.global.formDefaults ?
         Object.assign({}, options.global.formDefaults) : {};
+
+    if (!schema) {
+        return f;
+    }
+
     if (options.global && options.global.supressPropertyTitles === true) {
         f.title = schema.title;
     } else {
@@ -83,20 +88,22 @@ export default {
                 } else {
                     valid = validate(value);
                 }
+                const errors = validate.errors;
                 this.$nextTick(() => {
                     let validateState;
                     let validateMessage;
                     if (!valid) {
                         validateState = 'error';
                         this.$invalid = true;
-                        validateMessage = this.options.ajv.errorsText(validate.errors);
-                        const keyword = validate.errors[0].keyword;
+
+                        validateMessage = this.options.ajv.errorsText(errors);
+                        const keyword = errors[0].keyword;
                         const validationMessage = this.form.validationMessage;
 
                         let errorMessage = '';
                         if (validationMessage) {
                             const context = {
-                                error: validate.errors,
+                                error: errors,
                                 title: this.form.schema.title,
                                 value: this.model,
                                 valueValue: this.model,

@@ -7,8 +7,8 @@
                     :label="example.name" :value="example.name">
                 </el-option>
             </el-select>
-            <Editor :schema="schema" :path="selectingPath" style="margin-bottom:30px;"
-            />
+            <Editor v-model="schema" :path="selectingPath"
+                style="margin-bottom:30px;" />
             <codemirror v-model="code" :options="cmOptions"
                 style="height:50vh;"></codemirror>
             <pre class="err-msg" v-if="errMsg">{{errMsg}}</pre>
@@ -31,6 +31,7 @@ import JSON5 from "json5";
 import VueCodemirror from "vue-codemirror";
 import { Select, Option, Button } from "element-ui";
 import _ from "lodash";
+import VueI18n from "vue-i18n";
 // eslint-disable-next-line
 import "codemirror/mode/javascript/javascript.js";
 import Form10 from "./Form10";
@@ -57,137 +58,24 @@ Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
 Vue.component(Button.name, Button);
 
-Form10.use(TimestampFormat);
-Form10.use(SelectFormat);
-Form10.use(ArrayType);
-Form10.use(BooleanType);
-Form10.use(NumberType);
-Form10.use(ObjectType);
-Form10.use(StringType);
+[Form10, Editor].forEach(host => {
+    host.use(TimestampFormat);
+    host.use(SelectFormat);
+    host.use(ArrayType);
+    host.use(BooleanType);
+    host.use(NumberType);
+    host.use(ObjectType);
+    host.use(StringType);
+});
+
 
 const storageKey = "vue-form10-json";
 const code = localStorage.getItem(storageKey) || "";
-// const schema = {
-//     type: "object",
-//     properties: {
-//         string: {
-//             type: "string",
-//             title: "字符串",
-//             maxLength: 5,
-//             default: "333",
-//             // minLength: 2,
-//             "x-schema-form": {
-//                 disableSuccessState: true,
-//                 // disableErrorState: true,
-//                 placeholder: "string哦",
-//                 validationMessage: {
-//                     maxLength:
-//                         '{{title}}"{{value}}"太长了,最长{{schema.maxLength}}个字',
-//                     minLength: "太短了"
-//                 }
-//             }
-//         },
-//         array: {
-//             type: "array",
-//             title: "array1",
-//             items: {
-//                 title: "item",
-//                 type: "string",
-//                 default: "b",
-//                 "x-schema-form": {
-//                     htmlClass: "items"
-//                 }
-//             }
-//         },
-//         array2: {
-//             type: "array",
-//             title: "array1",
-//             "x-schema-form": {
-//                 startEmpty: false
-//             },
-//             items: {
-//                 type: "object",
-//                 properties: {
-//                     a: {
-//                         title: "itema",
-//                         type: "string",
-//                         default: "1"
-//                     },
-//                     b: {
-//                         title: "itemb",
-//                         type: "string"
-//                         // default: "2"
-//                     }
-//                 }
-//             }
-//         },
-//         readonly: {
-//             type: "string",
-//             title: "字符串",
-//             description: "readonly",
-//             "x-schema-form": {
-//                 readonly: true
-//             }
-//         },
-//         boolean: {
-//             type: "boolean",
-//             title: "测试boolean",
-//             "x-schema-form": {
-//                 // readonly: true,
-//                 destroyStrategy: "empty",
-//                 condition: "model.number>10"
-//             }
-//         },
-//         number: {
-//             type: "number",
-//             title: "测试number",
-//             maximum: 3
-//             // "x-schema-form": {
-//             //     onChange: modelValue =>
-//             //         console.log("number change", modelValue),
-//             //     copyValueTo: ["obj.b"]
-//             // }
-//         },
-//         enum: {
-//             type: "string",
-//             title: "测试enum",
-//             // enum: ["a", "b", "c"],
-//             "x-schema-form": {
-//                 // type: "select",
-//                 titleMap: [
-//                     { value: "Andersson", name: "Andersson" },
-//                     { value: "Johansson", name: "Johansson" },
-//                     { value: "1112223334445", name: "The right one" }
-//                 ],
-//                 placeholder: "enum哦"
-//             }
-//         },
-//         time: {
-//             type: "number",
-//             title: "测试时间戳",
-//             format: "timestamp"
-//         },
-//         money: {
-//             type: "number",
-//             title: "测试money"
-//             // format: "money"
-//         },
-//         obj: {
-//             type: "object",
-//             title: "obj",
-//             properties: {
-//                 a: {
-//                     type: "string"
-//                 },
-//                 b: {
-//                     type: "number"
-//                 }
-//             }
-//         }
-//     }
-// };
 
 const model = null;
+
+
+Vue.use(VueI18n);
 export default {
     name: "Home",
     computed: {
@@ -236,7 +124,11 @@ export default {
         },
         code: {
             immediate: true,
-            handler(codeText) {
+            handler(codeText, c1) {
+                if (c1) {
+                    return;
+                }
+                console.log(1, codeText, c1);
                 let obj;
                 try {
                     obj = JSON5.parse(codeText);
@@ -248,6 +140,13 @@ export default {
                     obj = null;
                     this.errMsg = e.message;
                 }
+            }
+        },
+        schema: {
+            deep: true,
+            handler(schema) {
+                this.code = JSON5.stringify(schema, false, 4);
+                this.model = null;
             }
         },
         selectingExample(val) {
