@@ -2,23 +2,69 @@
     <div v-if="editorSchema && path">
         <Form10 :sf-schema="editorSchema" v-model="model"
             :sf-form="form" :sf-options="options"
-        />
+            :key="path.toString()" />
     </div>
 </template>
 
 <script>
 import { get } from "lodash";
+import i18n from "../i18n";
 import Form10 from "./Form10";
 
+function getSchemaFromPath(schema, path) {
+    if (!path.length) {
+        return JSON.parse(JSON.stringify(schema));
+    }
+    if (schema.properties) {
+        return getSchemaFromPath(schema.properties[path[0]], path.slice(1));
+    } else if (schema.items) {
+        return getSchemaFromPath(schema.items, path.slice(1));
+    }
+}
+function getSchemaWithPathSet(schema, path, model) {
+    if (!path.length) {
+        return model;
+    }
+    if (schema.properties) {
+        schema.properties[path[0]] = getSchemaWithPathSet(
+            schema.properties[path[0]],
+            path.slice(1),
+            model
+        );
+    } else if (schema.items) {
+        schema.items = getSchemaWithPathSet(schema.items, path.slice(1), model);
+    }
+    return schema;
+}
+const plugins = [];
+const formats = [];
 export default {
     name: "Editor",
-    methods: {
-        get
+    use(plugin) {
+        plugins.push(plugin);
+        const pluginConfig = plugin.form10 || {};
+        if (pluginConfig.format) {
+            formats.push(
+                Object.assign(
+                    {
+                        component: plugin
+                    },
+                    pluginConfig.format
+                )
+            );
+        }
     },
-    data() {
-        return {
-            model: null,
-            editorSchema: {
+    methods: {
+        get,
+        updateEditorSchema() {
+            if (!this.editingSchema) {
+                return null;
+            }
+            if (JSON.stringify(this.value) === this.preValue) {
+                return this.preSchema;
+            }
+            this.preValue = this.value;
+            this.preSchema = {
                 type: "object",
                 properties: {
                     title: {
@@ -47,29 +93,96 @@ export default {
                             ]
                         }
                     },
+                    format: {
+                        type: "string",
+                        title: "格式",
+                        "x-schema-form": {
+                            titleMap: this.formats.map(format => format.name).map(name => ({ value: name, name: this.$t(name) })),
+                        }
+                    },
                     description: {
                         type: "string",
-                        title: "描述",
+                        title: "描述"
                     },
+                    "x-schema-form": {
+                        type: "object",
+                        title: "样式",
+                        properties: {
+                            placeholder: {
+                                title: this.$t("placeholder"),
+                                type: this.editingSchema.type,
+                                "x-schema-form": {
+                                    condition:
+                                        '(model&&(model.type==="string"))'
+                                }
+                            },
+                            startEmpty: {
+                                title: "是否一开始一项都没有",
+                                type: "boolean",
+                                "x-schema-form": {
+                                    condition: '(model&&(model.type==="array"))'
+                                }
+                            }
+                        }
+                    }
                 }
-            },
+            };
+            this.editorSchema = this.preSchema;
+        }
+    },
+    data() {
+        return {
+            model: null,
             form: ["*"],
-            options: {}
+            options: {},
+            preValue: "",
+            preSchema: null,
+            editorSchema: null,
+            formats
         };
     },
+    computed: {
+        editingSchema() {
+            if (!this.path) {
+                return null;
+            }
+            return getSchemaFromPath(this.value, this.path.slice(1));
+        }
+    },
     watch: {
+        value: {
+            immediate: true,
+            handler(value) {
+                this.model = value;
+            }
+        },
+        model: {
+            handler(model) {
+                if (!this.path) {
+                    return;
+                }
+                const schema = getSchemaWithPathSet(
+                    this.value,
+                    this.path.slice(1),
+                    model
+                );
+                this.$emit("input", schema);
+                this.updateEditorSchema();
+            }
+        },
+
         path: {
             immediate: true,
             handler(path) {
-                console.log("path", path);
                 if (path) {
-                    console.log(this.schema, get(this.schema, path.slice(1)));
-                    this.model = get(this.schema.properties, path.slice(1));
+                    this.model = this.editingSchema;
                 }
+                this.updateEditorSchema();
             }
         }
     },
-    props: ["schema", "path"],
+    i18n,
+    props: ["value", "path"],
     components: {
         Form10
     }

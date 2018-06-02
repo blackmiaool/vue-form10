@@ -9,7 +9,7 @@
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "publish":"git checkout gh-pages && git rebase master && npm run build && git add -A && git commit -m 'build' && git push -f origin gh-pages && git checkout master"
+    "publish": "git checkout gh-pages && git rebase master && npm run build && git add -A && git commit -m 'build' && git push -f origin gh-pages && git checkout master"
   },
   "dependencies": {
     "ajv": "^6.4.0",
@@ -20,6 +20,7 @@
     "vue": "^2.5.2",
     "vue-codemirror": "^4.0.5",
     "vue-deepset": "^0.6.3",
+    "vue-i18n": "^7.8.0",
     "vuedraggable": "^2.16.0",
     "vuex": "^3.0.1"
   },

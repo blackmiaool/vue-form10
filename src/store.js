@@ -4,7 +4,7 @@ import * as VueDeepSet from 'vue-deepset';
 
 Vue.use(VueDeepSet);
 Vue.use(Vuex);
-export default new Vuex.Store({
+export default () => new Vuex.Store({
     state: {
         model: null,
         selected: null,

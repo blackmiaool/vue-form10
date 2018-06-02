@@ -13,6 +13,9 @@ export function getDefaultFromSchema(schema, root) {
 
     if (schema.type === 'object') {
         const ret = {};
+        if (!schema.properties) {
+            return {};
+        }
         Object.keys(schema.properties).forEach((key) => {
             const value = getDefaultFromSchema(schema.properties[key]);
             if (value !== emptyValue) {
