@@ -1,7 +1,7 @@
 <template>
     <TypeWrapper :form="form" ref="typeWrapper">
         <el-select v-model="model" :placeholder="form.placeholder"
-            slot="input" clearable :disabled="form.readonly">
+            slot="input" :disabled="form.readonly">
             <el-option v-for="(item,index) in titleMap"
                 :key="index" :label="item.name"
                 :value="item.value">

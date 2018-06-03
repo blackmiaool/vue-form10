@@ -1,6 +1,7 @@
 export default {
     // `i18n` option
     locale: 'zh',
+    silentTranslationWarn: true,
     messages: {
         zh: {
             placeholder: '占位内容',

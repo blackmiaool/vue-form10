@@ -15,44 +15,11 @@ import AnyType from "./AnyType";
 import store from "../store";
 import { makeFormat } from "../plugin";
 
-const formats = [];
-const types = [];
-
-
 export default {
     name: "Form10",
     // store: store(),
     beforeCreate() {
         this.$store = store();
-    },
-    use(plugin) {
-        if (plugin.render) {
-            plugin = makeFormat(plugin);
-            const pluginConfig = plugin.form10 || {};
-            if (pluginConfig.format) {
-                formats.push(
-                    Object.assign(
-                        {
-                            component: plugin
-                        },
-                        pluginConfig.format
-                    )
-                );
-            }
-            if (pluginConfig.type) {
-                types.push({
-                    type: pluginConfig.type,
-                    component: plugin
-                });
-            }
-        }
-    },
-    beforeMount() {
-        const ajv = new Ajv({ allErrors: true });
-        formats.forEach(({ name, format }) => {
-            ajv.addFormat(name, format);
-        });
-        this.options.ajv = ajv;
     },
     provide() {
         return { options: this.sfOptions };
@@ -99,16 +66,48 @@ export default {
     methods: {
         getAnyTypeCompMap() {
             const ret = {};
-            formats.forEach(({ name, component }) => {
+            this.options.formats.forEach(({ name, component }) => {
                 ret[`format-${name}`] = component;
             });
-            types.forEach(({ type, component }) => {
+            this.options.types.forEach(({ type, component }) => {
                 ret[`type-${type}`] = component;
             });
             return ret;
+        },
+        use(plugin) {
+            if (plugin.render) {
+                plugin = makeFormat(plugin);
+                const pluginConfig = plugin.form10 || {};
+                if (pluginConfig.format) {
+                    this.options.formats.push(
+                        Object.assign(
+                            {
+                                component: plugin
+                            },
+                            pluginConfig.format
+                        )
+                    );
+                    this.options.ajv.addFormat(pluginConfig.format.name, pluginConfig.format.format);
+                }
+                if (pluginConfig.type) {
+                    this.options.types.push({
+                        type: pluginConfig.type,
+                        component: plugin
+                    });
+                }
+            }
         }
     },
-    props: ["sf-schema", "value", "sf-form", "sf-options"],
+    props: ["sf-schema", "value", "sf-form", "sf-options", "plugins"],
+    beforeMount() {
+        const ajv = new Ajv({ allErrors: true });
+        this.options.ajv = ajv;
+        if (!this.plugins) {
+            return;
+        }
+        this.plugins.forEach(plugin => { this.use(plugin); });
+        this.$set(this.options, 'compMap', this.getAnyTypeCompMap());
+    },
     data() {
         return {
             rootPath: ["model"],
@@ -116,9 +115,8 @@ export default {
             componentId: "div",
             compForm: {},
             options: {
-                compMap: this.getAnyTypeCompMap(),
-                formats,
-                types,
+                formats: [],
+                types: [],
                 $rootParent: this.$parent,
                 $root: this
             }

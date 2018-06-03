@@ -2,13 +2,14 @@
     <div v-if="editorSchema && path">
         <Form10 :sf-schema="editorSchema" v-model="model"
             :sf-form="form" :sf-options="options"
-            :key="path.toString()" />
+            :key="path.toString()" :plugins="plugins"
+        />
     </div>
 </template>
 
 <script>
 import { get } from "lodash";
-import i18n from "../i18n";
+
 import Form10 from "./Form10";
 
 function getSchemaFromPath(schema, path) {
@@ -60,11 +61,11 @@ export default {
             if (!this.editingSchema) {
                 return null;
             }
-            if (JSON.stringify(this.value) === this.preValue) {
+            if (JSON.stringify(this.value) === JSON.stringify(this.preValue)) {
                 return this.preSchema;
             }
             this.preValue = this.value;
-            this.preSchema = {
+            this.editorSchema = {
                 type: "object",
                 properties: {
                     title: {
@@ -76,28 +77,27 @@ export default {
                         title: "类型",
                         "x-schema-form": {
                             titleMap: [
-                                { value: "object", name: "对象" },
-                                { value: "array", name: "数组" },
-                                {
-                                    value: "string",
-                                    name: "字符串"
-                                },
-                                {
-                                    value: "boolean",
-                                    name: "布尔值"
-                                },
-                                {
-                                    value: "number",
-                                    name: "数字"
-                                }
-                            ]
+                                "object",
+                                "array",
+                                "string",
+                                "boolean",
+                                "number"
+                            ].map(type => ({
+                                value: type,
+                                name: this.$t(type)
+                            }))
                         }
                     },
                     format: {
                         type: "string",
                         title: "格式",
                         "x-schema-form": {
-                            titleMap: this.formats.map(format => format.name).map(name => ({ value: name, name: this.$t(name) })),
+                            titleMap: this.formats
+                                .map(format => format.name)
+                                .map(name => ({
+                                    value: name,
+                                    name: this.$t(name)
+                                }))
                         }
                     },
                     description: {
@@ -127,7 +127,7 @@ export default {
                     }
                 }
             };
-            this.editorSchema = this.preSchema;
+            this.preSchema = this.editorSchema;
         }
     },
     data() {
@@ -181,8 +181,7 @@ export default {
             }
         }
     },
-    i18n,
-    props: ["value", "path"],
+    props: ["value", "path", "plugins"],
     components: {
         Form10
     }

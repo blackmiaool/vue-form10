@@ -13,7 +13,13 @@ import { Input } from "element-ui";
 export default {
     name: "StringType",
     form10: {
-        type: "string"
+        type: "string",
+        form: {
+            placeholder: {
+                title: 'placeholder',
+                type: 'string',
+            }
+        }
     },
     components: {
         "el-input": Input

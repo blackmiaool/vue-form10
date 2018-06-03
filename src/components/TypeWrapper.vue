@@ -1,5 +1,5 @@
 <template>
-    <el-form-item :label="(hideTitle||form.notitle)?'':form.title"
+    <el-form-item :label="(hideTitle||form.notitle)?'':$t(form.title)"
         :style="{marginBottom:marginBottom}"
         :class="[form.htmlClass]" :error="errorMessage"
         ref="formItem">
