@@ -8,7 +8,7 @@
                 </el-option>
             </el-select>
             <Editor v-model="schema" :path="selectingPath"
-                style="margin-bottom:30px;" />
+                style="margin-bottom:30px;" :plugins="plugins"/>
             <codemirror v-model="code" :options="cmOptions"
                 style="height:50vh;"></codemirror>
             <pre class="err-msg" v-if="errMsg">{{errMsg}}</pre>
@@ -19,7 +19,7 @@
         <div class="right" v-if="showForm10">
             <Form10 :sf-schema="schema" v-model="model"
                 :sf-form="form" :sf-options="options"
-                @select="onSelect" />
+                @select="onSelect" :plugins="plugins"/>
         </div>
 
     </div>
@@ -43,6 +43,7 @@ import BooleanType from "../plugins/BooleanType";
 import NumberType from "../plugins/NumberType";
 import ObjectType from "../plugins/ObjectType";
 import StringType from "../plugins/StringType";
+import i18n from "../i18n";
 
 // eslint-disable-next-line
 import "codemirror/lib/codemirror.css";
@@ -58,17 +59,6 @@ Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
 Vue.component(Button.name, Button);
 
-[Form10, Editor].forEach(host => {
-    host.use(TimestampFormat);
-    host.use(SelectFormat);
-    host.use(ArrayType);
-    host.use(BooleanType);
-    host.use(NumberType);
-    host.use(ObjectType);
-    host.use(StringType);
-});
-
-
 const storageKey = "vue-form10-json";
 const code = localStorage.getItem(storageKey) || "";
 
@@ -78,6 +68,7 @@ const model = null;
 Vue.use(VueI18n);
 export default {
     name: "Home",
+    i18n,
     computed: {
         showForm10: () => !window.angular
     },
@@ -128,7 +119,7 @@ export default {
                 if (c1) {
                     return;
                 }
-                console.log(1, codeText, c1);
+
                 let obj;
                 try {
                     obj = JSON5.parse(codeText);
@@ -160,6 +151,7 @@ export default {
     },
     data() {
         return {
+            plugins: [TimestampFormat, SelectFormat, ArrayType, BooleanType, NumberType, ObjectType, StringType],
             selectingPath: null,
             selectingExample: null,
             examples: [],
