@@ -37,34 +37,42 @@ function getSchemaWithPathSet(schema, path, model) {
     }
     return schema;
 }
-const plugins = [];
-const formats = [];
 export default {
     name: "Editor",
-    use(plugin) {
-        plugins.push(plugin);
-        const pluginConfig = plugin.form10 || {};
-        if (pluginConfig.format) {
-            formats.push(
-                Object.assign(
-                    {
-                        component: plugin
-                    },
-                    pluginConfig.format
-                )
-            );
-        }
-    },
     methods: {
         get,
         updateEditorSchema() {
             if (!this.editingSchema) {
                 return null;
             }
-            if (JSON.stringify(this.value) === JSON.stringify(this.preValue)) {
+
+            const format =
+                this.editingSchema.type ||
+                this.editingSchema["x-schema-form"].type;
+
+            let targetPlugin;
+            if (format) {
+                targetPlugin = this.plugins.find(plugin => {
+                    const shouldUse = get(plugin, "form10.format.shouldUse");
+                    if (shouldUse && shouldUse(this.editingSchema['x-schema-form'] || {}, this.editingSchema)) {
+                        return true;
+                    }
+                    return get(plugin, "form10.format.name") === format;
+                });
+            }
+            if (!targetPlugin) {
+                targetPlugin = this.plugins.find(plugin => {
+                    return get(plugin, "form10.type") === this.editingSchema.type;
+                });
+            }
+
+
+            if (JSON.stringify(this.value) === JSON.stringify(this.preValue) && this.targetPlugin === targetPlugin) {
                 return this.preSchema;
             }
+            this.targetPlugin = targetPlugin;
             this.preValue = this.value;
+
             this.editorSchema = {
                 type: "object",
                 properties: {
@@ -93,7 +101,7 @@ export default {
                         title: "格式",
                         "x-schema-form": {
                             titleMap: this.formats
-                                .map(format => format.name)
+                                .map(formatThis => formatThis.name)
                                 .map(name => ({
                                     value: name,
                                     name: this.$t(name)
@@ -138,7 +146,7 @@ export default {
             preValue: "",
             preSchema: null,
             editorSchema: null,
-            formats
+            targetPlugin: null
         };
     },
     computed: {
@@ -147,6 +155,13 @@ export default {
                 return null;
             }
             return getSchemaFromPath(this.value, this.path.slice(1));
+        },
+        formats() {
+            return this.plugins.filter((plugin) => {
+                return plugin.form10.format;
+            }).map((format) => {
+                return format.form10.format;
+            });
         }
     },
     watch: {
