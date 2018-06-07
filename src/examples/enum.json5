@@ -1,0 +1,23 @@
+{
+    type:'object',
+    properties: {
+        enum1: {
+            type: "string",
+            title: "测试enum",
+            enum:['A','B','C'],        
+            placeholder: "enum哦"        
+        },
+        enum2: {
+            type: "string",
+            title: "测试enum",
+            "x-schema-form": {
+                titleMap: [
+                    { value: "value1", name: "name1" },
+                    { value: "value2", name: "name2" },
+                    { value: "another value", name: "the last name" }
+                ],
+                placeholder: "enum哦"
+            }
+        },
+    }   
+}

@@ -1,0 +1,26 @@
+{
+    type:'object',
+    properties: {
+        array: {
+            type: "array",
+            title: "array1",
+            "x-schema-form": {
+                startEmpty: false
+            },
+            items: {
+                type: "object",
+                properties: {
+                    a: {
+                        title: "item a",
+                        type: "string",
+                        default: "1"
+                    },
+                    b: {
+                        title: "item b",
+                        type: "string"                    
+                    }
+                }
+            } 
+        }
+    }
+}

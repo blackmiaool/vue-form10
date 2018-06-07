@@ -1,0 +1,17 @@
+{
+    type:'object',
+    properties:{
+        obj: {
+            type: "object",
+            title: "obj",
+            properties: {
+                a: {
+                    type: "string"
+                },
+                b: {
+                    type: "number"
+                }
+            }
+        }
+    }     
+}

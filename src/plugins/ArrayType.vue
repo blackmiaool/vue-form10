@@ -5,7 +5,7 @@
                 element="ol" :list="model" :options="{animation: 150,handle:'.sort-handle'}">
                 <li v-for="(item,$index) in model" :key="$index"
                     class="list-group-item">
-                    <AnyType :options="options" :sf-form="form.schema.items"
+                    <AnyType :options="options" :sf-schema="form.schema.items"
                     :parent-path="path"
 
                         parent="array"
@@ -29,11 +29,12 @@
 import draggable from "vuedraggable";
 import { Button } from 'element-ui';
 import { getDefaultFromSchema } from "@/util";
-import Type from "@/mixins/type";
 
 export default {
     name: "ArrayType",
-    mixins: [Type],
+    form10: {
+        type: 'array',
+    },
     beforeCreate() {
         // eslint-disable-next-line
         this.$options.components.AnyType = require("../components/AnyType").default;

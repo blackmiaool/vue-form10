@@ -43,7 +43,11 @@ export default {
 };
 </script>
 
-
+<style>
+.CodeMirror{
+    height: 100%;
+}
+</style>
 <style scoped>
 .form10-description {
     line-height: 20px;

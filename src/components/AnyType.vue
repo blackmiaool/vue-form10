@@ -1,6 +1,6 @@
 <template>
     <component v-if="condition" :is="componentId"
-        :sf-form="sfForm" :sf-model.sync="model"
+        :sf-schema="sfSchema" :sf-model.sync="model"
         :parent="parent" :path="path" :options="options"
         :name="name" :is-last="isLast"></component>
 
@@ -8,11 +8,6 @@
 
 <script>
 import { mapState } from "vuex";
-import ObjectType from "../plugins/ObjectType";
-import StringType from "../plugins/StringType";
-import NumberType from "../plugins/NumberType";
-import BooleanType from "../plugins/BooleanType";
-import ArrayType from "../plugins/ArrayType";
 import { stdFormObj } from "../mixins/type";
 
 export default {
@@ -70,12 +65,12 @@ export default {
             rootModel: state => state.model
         }),
         form() {
-            const form = stdFormObj(this.name, this.sfForm);
+            const form = stdFormObj(this.name, this.sfSchema);
             if (form.schema.format) {
                 form.type = form.schema.format;
             }
-            if (this.sfForm["x-schema-form"]) {
-                Object.assign(form, this.sfForm["x-schema-form"]);
+            if (this.sfSchema["x-schema-form"]) {
+                Object.assign(form, this.sfSchema["x-schema-form"]);
             }
             return form;
         },
@@ -89,44 +84,53 @@ export default {
         },
         componentId() {
             const form = this.form;
-            if (!this.sfForm || !Object.keys(this.sfForm).length) {
+            if (!this.sfSchema || !Object.keys(this.sfSchema).length) {
                 return null;
             }
+            let result;
+            result = this.options.formats.find(({ shouldUse }) => {
+                if (shouldUse && shouldUse(this.form, this.form.schema)) {
+                    return true;
+                }
+                return false;
+            });
+            if (result) {
+                return `format-${result.name}`;
+            }
             if (form.type) {
-                const result = this.options.formats.find(({ name }) => name === form.type);
+                result = this.options.formats.find(({ name, shouldUse }) => {
+                    if (shouldUse && shouldUse(this.form, this.form.schema)) {
+                        return true;
+                    }
+                    return name === form.type;
+                });
                 if (result) {
                     return `format-${result.name}`;
                 }
+                console.error(
+                    `unknown format `,
+                    this.sfSchema,
+                    form.type,
+                    this
+                );
             }
-            const type = form.type || form.schema.type;
-
-            if (type === "object") {
-                return "ObjectType";
-            } else if (type === "string") {
-                if (form.schema.enum) {
-                    return "SelectFormat";
-                }
-                return "StringType";
-            } else if (type === "number") {
-                return "NumberType";
-            } else if (type === "array") {
-                return "ArrayType";
-            } else if (type === "boolean") {
-                return "BooleanType";
-            } else if (type === "textarea") {
-                return "StringType";
+            if (!form.schema.type) {
+                console.log(form);
             }
-            console.error(`unknown format `, this.sfForm, type, this);
-
-            return "label";
+            return `type-${form.schema.type}`;
         },
         condition() {
             let ret;
             if (this.form.condition) {
-                // eslint-disable-next-line
-                ret = new Function("model", `return ${this.form.condition};`)(
-                    this.rootModel
-                );
+                try {
+                    // eslint-disable-next-line
+                    ret = new Function(
+                        "model",
+                        `return ${this.form.condition};`
+                    )(this.rootModel);
+                } catch (e) {
+                    ret = false;
+                }
             } else {
                 ret = true;
             }
@@ -143,13 +147,11 @@ export default {
         }
     },
     beforeMount() {
-        this.options.formats.forEach(({ name, component }) => {
-             this.$options.components[`format-${name}`] = component;
-        });
+        Object.assign(this.$options.components, this.options.compMap);
     },
     props: [
         "sf-model",
-        "sf-form",
+        "sf-schema",
         "options",
         "name",
         "parent",
@@ -157,16 +159,7 @@ export default {
         "parent-path"
     ],
     data() {
-        return {
-            compForm: {}
-        };
-    },
-    components: {
-        ObjectType,
-        StringType,
-        BooleanType,
-        NumberType,
-        ArrayType
+        return {};
     }
 };
 </script>

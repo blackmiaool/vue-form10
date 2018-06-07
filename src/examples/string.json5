@@ -1,0 +1,6 @@
+{
+    type: "string",
+    title: "字符串",
+    maxLength: 5,
+    default: "333",
+}

@@ -10,12 +10,11 @@
 <script>
 import { InputNumber } from 'element-ui';
 
-
-import Type from "../mixins/type";
-
 export default {
     name: "NumberType",
-    mixins: [Type],
+    form10: {
+        type: 'number',
+    },
     components: {
         'el-input-number': InputNumber
     }

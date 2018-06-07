@@ -8,11 +8,11 @@
 </template>
 
 <script>
-import Type from "../mixins/type";
-
 export default {
     name: "BooleanType",
-    mixins: [Type],
+    form10: {
+        type: 'boolean',
+    },
 };
 </script>
 
