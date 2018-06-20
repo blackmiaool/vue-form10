@@ -1,4 +1,5 @@
-import { get, toPath } from 'lodash';
+import get from 'lodash/get';
+import toPath from "lodash/toPath";
 import { mapState } from 'vuex';
 import TypeWrapper from "../components/TypeWrapper";
 

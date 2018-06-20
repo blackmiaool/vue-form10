@@ -30,7 +30,7 @@ import Vue from "vue";
 import JSON5 from "json5";
 import VueCodemirror from "vue-codemirror";
 import { Select, Option, Button } from "element-ui";
-import _ from "lodash";
+import find from "lodash/find";
 import VueI18n from "vue-i18n";
 // eslint-disable-next-line
 import "codemirror/mode/javascript/javascript.js";
@@ -143,7 +143,7 @@ export default {
         selectingExample(val) {
             this.model = null;
             this.code = JSON5.stringify(
-                _.find(this.examples, { name: val }).value,
+                find(this.examples, { name: val }).value,
                 false,
                 4
             );

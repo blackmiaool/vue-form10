@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { get } from "lodash";
+import get from "lodash/get";
 
 import Form10 from "./Form10";
 
