@@ -9,7 +9,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { isEqual } from "lodash";
+import isEqual from "lodash/isEqual";
 import { stdFormObj } from "../mixins/type";
 
 export default {
