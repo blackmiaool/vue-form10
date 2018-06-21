@@ -25,16 +25,21 @@ module.exports = {
     },
     // externals: function (context, request, callback) {
     //     if(request.match(/element-ui/)){
-            
+
     //     }
-        
+
     //     if (/^yourregex$/.test(request)) {
     //         return callback(null, 'commonjs ' + request);
     //     }
     //     callback();
     // },
     externals: {
-        vue: 'vue',
+        vue: {
+            commonjs: 'lodash',
+        },
+        'element-ui':{
+            commonjs: 'element-ui',
+        }
         // 'element-ui': 'element-ui'
     },
     module: {

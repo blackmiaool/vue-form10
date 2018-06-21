@@ -6909,7 +6909,7 @@ function required(rule, value, source, errors, options, type) {
 /* 103 */
 /***/ (function(module, exports) {
 
-module.exports = vue;
+module.exports = undefined;
 
 /***/ }),
 /* 104 */
