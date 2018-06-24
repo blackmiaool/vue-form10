@@ -15,6 +15,7 @@ module.exports = {
     output: {
         path: config.build.assetsRoot,
         filename: 'form.js',
+        libraryTarget: 'commonjs',
     },
     resolve: {
         extensions: ['.js', '.vue', '.json'],
@@ -33,10 +34,7 @@ module.exports = {
     //     }
     //     callback();
     // },
-    externals: {
-        vue: 'vue',
-        // 'element-ui': 'element-ui'
-    },
+    externals:['vue',/^element-ui\//],
     module: {
         rules: [{
             test: /\.vue$/,
