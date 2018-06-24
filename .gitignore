@@ -12,4 +12,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-./webpack-stats.json
+webpack-stats.json

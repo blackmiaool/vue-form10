@@ -34,7 +34,7 @@ module.exports = {
     //     }
     //     callback();
     // },
-    externals:['vue',/^element-ui\//],
+    externals:['vue',/^element-ui\//,'vuex'],
     module: {
         rules: [{
             test: /\.vue$/,

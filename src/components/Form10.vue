@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Ajv from "ajv";
+import tv4 from "tv4";
 
 import { mapState } from "vuex";
 import { Form } from "element-ui";
@@ -79,15 +79,25 @@ export default {
                 plugin = makeFormat(plugin);
                 const pluginConfig = plugin.form10 || {};
                 if (pluginConfig.format) {
+                    const formatConfig = pluginConfig.format;
                     this.options.formats.push(
                         Object.assign(
                             {
                                 component: plugin
                             },
-                            pluginConfig.format
+                            formatConfig
                         )
                     );
-                    this.options.ajv.addFormat(pluginConfig.format.name, pluginConfig.format.format);
+                    if (formatConfig.format instanceof RegExp) {
+                        this.options.tv4.addFormat(formatConfig.name, (data) => {
+                            if (!formatConfig.format.test(data)) {
+                                return 'invalid format';
+                            }
+                            return null;
+                        });
+                    } else {
+                        this.options.tv4.addFormat(formatConfig.name, formatConfig.format);
+                    }
                 }
                 if (pluginConfig.type) {
                     this.options.types.push({
@@ -100,8 +110,7 @@ export default {
     },
     props: ["sf-schema", "value", "sf-form", "sf-options", "plugins"],
     beforeMount() {
-        const ajv = new Ajv({ allErrors: true });
-        this.options.ajv = ajv;
+        this.options.tv4 = tv4;
         if (!this.plugins) {
             return;
         }
