@@ -2250,9 +2250,12 @@ function stdFormObj(name, schema, options) {
     watch: {
         model: {
             immediate: true,
-            handler: function handler(value) {
+            handler: function handler(value, prev) {
                 var _this = this;
 
+                if (value === prev) {
+                    return;
+                }
                 if (this.form.onChange) {
                     var onChange = this.form.onChange;
                     if (typeof onChange === 'function') {
@@ -2275,22 +2278,23 @@ function stdFormObj(name, schema, options) {
                 if (this.form.type) {
                     schema.format = this.form.type;
                 }
-                var validateResult = this.options.tv4.validate(value, schema);
 
                 var valid = void 0;
-                if (value === undefined || value === null) {
+                var isEmpty = value === undefined || value === null;
+                if (isEmpty) {
                     valid = true;
                 } else {
-                    valid = validateResult;
+                    var tv4ValidateResult = this.options.tv4.validate(value, schema);
+                    valid = tv4ValidateResult;
                 }
-                var error = this.options.tv4.error;
+
                 this.$nextTick(function () {
                     var validateState = void 0;
                     var validateMessage = void 0;
                     if (!valid) {
                         validateState = 'error';
-                        _this.$invalid = true;
 
+                        var error = _this.options.tv4.error;
                         validateMessage = error.message;
                         var keyword = error.schemaPath.slice(1);
                         var validationMessage = _this.form.validationMessage;
@@ -2314,11 +2318,10 @@ function stdFormObj(name, schema, options) {
                                 validateMessage = _this.interpolate(errorMessage, context);
                             }
                         }
-                    } else if (value === null || value === undefined) {
+                    } else if (isEmpty) {
                         validateState = null;
                     } else {
                         validateState = 'success';
-                        _this.$invalid = false;
                         validateMessage = '';
                     }
                     if (_this.form.disableErrorState && validateState === 'error') {
@@ -2333,7 +2336,7 @@ function stdFormObj(name, schema, options) {
                             typeWrapper.$refs.formItem.validateMessage = validateMessage;
                             typeWrapper.$refs.formItem.validateState = 'error';
                         } else if (validateState === 'success') {
-                            typeWrapper.$refs.formItem.validateState = '';
+                            typeWrapper.$refs.formItem.validateMessage = '';
                             typeWrapper.$refs.formItem.validateState = 'success';
                         } else {
                             typeWrapper.$refs.formItem.validateMessage = '';
@@ -2384,8 +2387,7 @@ function stdFormObj(name, schema, options) {
     data: function data() {
         return {
             $validateState: null,
-            $errorMessage: 'a',
-            $invalid: false
+            $errorMessage: 'a'
         };
     },
 
@@ -2715,9 +2717,7 @@ module.exports = toKey;
         }
     },
     data: function data() {
-        return {
-            errorMessage: ""
-        };
+        return {};
     },
 
     components: {
@@ -10165,8 +10165,7 @@ var render = function() {
       class: [_vm.form.htmlClass],
       style: { marginBottom: _vm.marginBottom },
       attrs: {
-        label: _vm.hideTitle || _vm.form.notitle ? "" : _vm.$t(_vm.form.title),
-        error: _vm.errorMessage
+        label: _vm.hideTitle || _vm.form.notitle ? "" : _vm.$t(_vm.form.title)
       }
     },
     [
