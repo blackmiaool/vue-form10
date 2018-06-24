@@ -8,12 +8,17 @@
 
 <script>
 import tv4 from "tv4";
-
+import VueI18n from "vue-i18n";
+import Vue from 'vue';
 import { mapState } from "vuex";
 import { Form } from "element-ui";
 import AnyType from "./AnyType";
 import store from "../store";
 import { makeFormat } from "../plugin";
+
+
+Vue.use(VueI18n);
+
 
 export default {
     name: "Form10",

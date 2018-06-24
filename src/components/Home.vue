@@ -8,7 +8,8 @@
                 </el-option>
             </el-select>
             <Editor v-model="schema" :path="selectingPath"
-                style="margin-bottom:30px;" :plugins="plugins"/>
+                style="margin-bottom:30px;" :plugins="plugins"
+            />
             <codemirror v-model="code" :options="cmOptions"
                 style="height:50vh;"></codemirror>
             <pre class="err-msg" v-if="errMsg">{{errMsg}}</pre>
@@ -19,7 +20,8 @@
         <div class="right" v-if="showForm10">
             <Form10 :sf-schema="schema" v-model="model"
                 :sf-form="form" :sf-options="options"
-                @select="onSelect" :plugins="plugins"/>
+                @select="onSelect" :plugins="plugins"
+            />
         </div>
 
     </div>
@@ -64,7 +66,6 @@ const code = localStorage.getItem(storageKey) || "";
 
 const model = null;
 
-
 Vue.use(VueI18n);
 export default {
     name: "Home",
@@ -76,9 +77,6 @@ export default {
         onSelect(path) {
             this.selectingPath = path;
             console.log("onselect", path);
-        },
-        a(num) {
-            console.log("num change", num);
         },
         timeoutSetSchema(s) {
             clearTimeout(this.setSchemaTimeout);
@@ -115,13 +113,20 @@ export default {
         },
         code: {
             immediate: true,
-            handler(codeText, c1) {
-                if (c1) {
+            handler(codeText, preCode) {
+                if (preCode) {
                     return;
                 }
-
                 let obj;
+
                 try {
+                    // if (
+                    //     preCode && JSON5.stringify(JSON5.parse(`${codeText}`)) ===
+                    //     JSON5.stringify(JSON5.parse(`${preCode}`))
+                    // ) {
+                    //     return;
+                    // }
+
                     obj = JSON5.parse(codeText);
                     this.timeoutSetSchema(obj);
                     if (this.errMsg) {
@@ -151,7 +156,15 @@ export default {
     },
     data() {
         return {
-            plugins: [TimestampFormat, SelectFormat, ArrayType, BooleanType, NumberType, ObjectType, StringType],
+            plugins: [
+                TimestampFormat,
+                SelectFormat,
+                ArrayType,
+                BooleanType,
+                NumberType,
+                ObjectType,
+                StringType
+            ],
             selectingPath: null,
             selectingExample: null,
             examples: [],

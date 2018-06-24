@@ -80,15 +80,16 @@ export default {
                 if (this.form.type) {
                     schema.format = this.form.type;
                 }
-                const validateResult = this.options.tv4.validate(value, schema);
+
 
                 let valid;
                 if (value === undefined || value === null) {
                     valid = true;
                 } else {
+                    const validateResult = this.options.tv4.validate(value, schema);
                     valid = validateResult;
                 }
-                const error = this.options.tv4.error;
+
                 this.$nextTick(() => {
                     let validateState;
                     let validateMessage;
@@ -96,6 +97,7 @@ export default {
                         validateState = 'error';
                         this.$invalid = true;
 
+                        const error = this.options.tv4.error;
                         validateMessage = error.message;
                         const keyword = error.schemaPath.slice(1);
                         const validationMessage = this.form.validationMessage;

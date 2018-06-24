@@ -12,10 +12,50 @@ import get from "lodash/get";
 
 import Form10 from "./Form10";
 
-function getSchemaFromPath(schema, path) {
-    if (!path.length) {
-        return JSON.parse(JSON.stringify(schema));
+function getCircularKeys(obj, opt = { left: 300 }, prekeys) {
+    if (!obj || typeof obj !== "object") {
+        return true;
     }
+    let keys = Object.keys(obj);
+    function appendKeys(propertiesKeys) {
+        opt.left -= propertiesKeys.length;
+        if (opt.left <= 0 || isNaN(opt.left)) {
+            return true;
+        }
+        return false;
+    }
+    if (appendKeys(keys)) {
+        return keys;
+    }
+    // eslint-disable-next-line
+    for (const key in obj) {
+        try {
+            const propertiesKeys = getCircularKeys(obj[key], opt, keys);
+            keys = [...keys, ...propertiesKeys];
+            if (appendKeys(propertiesKeys)) {
+                return keys;
+            }
+        } catch (e) {
+            console.log(e, JSON.stringify(keys), obj, opt.left, prekeys);
+            return [];
+        }
+    }
+    return keys;
+}
+function getSchemaFromPath(schema, path) {
+    const keys = getCircularKeys(schema);
+    if (keys.length > 190) {
+        console.log(keys);
+    }
+    try {
+        if (!path.length) {
+            return JSON.parse(JSON.stringify(schema));
+        }
+    } catch (e) {
+        console.log(e, schema, Object.keys(schema), path);
+        return {};
+    }
+
     if (schema.properties) {
         return getSchemaFromPath(schema.properties[path[0]], path.slice(1));
     } else if (schema.items) {
@@ -54,7 +94,13 @@ export default {
             if (format) {
                 targetPlugin = this.plugins.find(plugin => {
                     const shouldUse = get(plugin, "form10.format.shouldUse");
-                    if (shouldUse && shouldUse(this.editingSchema['x-schema-form'] || {}, this.editingSchema)) {
+                    if (
+                        shouldUse &&
+                        shouldUse(
+                            this.editingSchema["x-schema-form"] || {},
+                            this.editingSchema
+                        )
+                    ) {
                         return true;
                     }
                     return get(plugin, "form10.format.name") === format;
@@ -62,12 +108,16 @@ export default {
             }
             if (!targetPlugin) {
                 targetPlugin = this.plugins.find(plugin => {
-                    return get(plugin, "form10.type") === this.editingSchema.type;
+                    return (
+                        get(plugin, "form10.type") === this.editingSchema.type
+                    );
                 });
             }
 
-
-            if (JSON.stringify(this.value) === JSON.stringify(this.preValue) && this.targetPlugin === targetPlugin) {
+            if (
+                JSON.stringify(this.value) === JSON.stringify(this.preValue) &&
+                this.targetPlugin === targetPlugin
+            ) {
                 return this.preSchema;
             }
             this.targetPlugin = targetPlugin;
@@ -157,11 +207,13 @@ export default {
             return getSchemaFromPath(this.value, this.path.slice(1));
         },
         formats() {
-            return this.plugins.filter((plugin) => {
-                return plugin.form10.format;
-            }).map((format) => {
-                return format.form10.format;
-            });
+            return this.plugins
+                .filter(plugin => {
+                    return plugin.form10.format;
+                })
+                .map(format => {
+                    return format.form10.format;
+                });
         }
     },
     watch: {
