@@ -15,6 +15,7 @@ module.exports = {
     output: {
         path: config.build.assetsRoot,
         filename: 'form.js',
+        libraryTarget: 'commonjs',
     },
     resolve: {
         extensions: ['.js', '.vue', '.json'],
@@ -25,23 +26,15 @@ module.exports = {
     },
     // externals: function (context, request, callback) {
     //     if(request.match(/element-ui/)){
-
+            
     //     }
-
+        
     //     if (/^yourregex$/.test(request)) {
     //         return callback(null, 'commonjs ' + request);
     //     }
     //     callback();
     // },
-    externals: {
-        vue: {
-            commonjs: 'lodash',
-        },
-        'element-ui':{
-            commonjs: 'element-ui',
-        }
-        // 'element-ui': 'element-ui'
-    },
+    externals:['vue',/^element-ui\//,'vuex'],
     module: {
         rules: [{
             test: /\.vue$/,

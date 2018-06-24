@@ -80,16 +80,15 @@ export default {
                 if (this.form.type) {
                     schema.format = this.form.type;
                 }
-                const validate = this.options.ajv.compile(schema
-                );
+                const validateResult = this.options.tv4.validate(value, schema);
 
                 let valid;
                 if (value === undefined || value === null) {
                     valid = true;
                 } else {
-                    valid = validate(value);
+                    valid = validateResult;
                 }
-                const errors = validate.errors;
+                const error = this.options.tv4.error;
                 this.$nextTick(() => {
                     let validateState;
                     let validateMessage;
@@ -97,14 +96,13 @@ export default {
                         validateState = 'error';
                         this.$invalid = true;
 
-                        validateMessage = this.options.ajv.errorsText(errors);
-                        const keyword = errors[0].keyword;
+                        validateMessage = error.message;
+                        const keyword = error.schemaPath.slice(1);
                         const validationMessage = this.form.validationMessage;
-
                         let errorMessage = '';
                         if (validationMessage) {
                             const context = {
-                                error: errors,
+                                error,
                                 title: this.form.schema.title,
                                 value: this.model,
                                 valueValue: this.model,
