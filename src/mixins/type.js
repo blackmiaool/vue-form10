@@ -141,7 +141,7 @@ export default {
                             typeWrapper.$refs.formItem.validateMessage = validateMessage;
                             typeWrapper.$refs.formItem.validateState = 'error';
                         } else if (validateState === 'success') {
-                            typeWrapper.$refs.formItem.validateState = '';
+                            typeWrapper.$refs.formItem.validateMessage = '';
                             typeWrapper.$refs.formItem.validateState = 'success';
                         } else {
                             typeWrapper.$refs.formItem.validateMessage = '';
