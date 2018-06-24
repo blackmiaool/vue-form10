@@ -1,7 +1,7 @@
 <template>
     <el-form-item :label="(hideTitle||form.notitle)?'':$t(form.title)"
         :style="{marginBottom:marginBottom}"
-        :class="[form.htmlClass]" :error="errorMessage"
+        :class="[form.htmlClass]"
         ref="formItem">
         <div style="clear:both;">
             <slot name="input">
@@ -34,7 +34,6 @@ export default {
     },
     data() {
         return {
-            errorMessage: ""
         };
     },
     components: {

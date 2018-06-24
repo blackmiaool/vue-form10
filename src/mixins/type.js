@@ -56,7 +56,10 @@ export default {
     watch: {
         model: {
             immediate: true,
-            handler(value) {
+            handler(value, prev) {
+                if (value === prev) {
+                    return;
+                }
                 if (this.form.onChange) {
                     const onChange = this.form.onChange;
                     if (typeof onChange === 'function') {
@@ -81,13 +84,13 @@ export default {
                     schema.format = this.form.type;
                 }
 
-
                 let valid;
-                if (value === undefined || value === null) {
+                const isEmpty = value === undefined || value === null;
+                if (isEmpty) {
                     valid = true;
                 } else {
-                    const validateResult = this.options.tv4.validate(value, schema);
-                    valid = validateResult;
+                    const tv4ValidateResult = this.options.tv4.validate(value, schema);
+                    valid = tv4ValidateResult;
                 }
 
                 this.$nextTick(() => {
@@ -95,7 +98,6 @@ export default {
                     let validateMessage;
                     if (!valid) {
                         validateState = 'error';
-                        this.$invalid = true;
 
                         const error = this.options.tv4.error;
                         validateMessage = error.message;
@@ -121,11 +123,10 @@ export default {
                                 validateMessage = this.interpolate(errorMessage, context);
                             }
                         }
-                    } else if (value === null || value === undefined) {
+                    } else if (isEmpty) {
                         validateState = null;
                     } else {
                         validateState = 'success';
-                        this.$invalid = false;
                         validateMessage = '';
                     }
                     if (this.form.disableErrorState && validateState === 'error') {
@@ -190,7 +191,6 @@ export default {
         return {
             $validateState: null,
             $errorMessage: 'a',
-            $invalid: false
         };
     },
     props: ['sf-schema', "options", "name", 'parent', 'is-last', 'path'],
