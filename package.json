@@ -1,9 +1,10 @@
 {
   "name": "vue-form10",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A Vue.js project",
   "author": "blackmiaool <blackmiaool@gmail.com>",
-  "browser": "dist/form.js",
+  "module": "dist/form.js",
+  "module.root": "src",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
