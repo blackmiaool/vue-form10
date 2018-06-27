@@ -1,5 +1,6 @@
 {
     type: "object",
+    required:['string'],
     properties: {
         string: {
             type: "string",

@@ -1,24 +1,23 @@
 <template>
-    <el-form class="vue-form10">
+    <el-form class="vue-form10" v-bind="options.formProps">
         <AnyType :parent-path="rootPath" :key="uid"
             parent="root" :sf-schema="sfSchema||{}"
-            :options="this.options"></AnyType>
+            :options="options"></AnyType>
     </el-form>
 </template>
 
 <script>
 import tv4 from "tv4";
 import VueI18n from "vue-i18n";
-import Vue from 'vue';
+import Vue from "vue";
 import { mapState } from "vuex";
 import { Form } from "element-ui";
+import validate from "../validate";
 import AnyType from "./AnyType";
 import store from "../store";
 import { makeFormat } from "../plugin";
 
-
 Vue.use(VueI18n);
-
 
 export default {
     name: "Form10",
@@ -69,6 +68,39 @@ export default {
         }
     },
     methods: {
+        __validate() {
+
+        },
+        submit() {
+            let value = JSON.parse(JSON.stringify(this.value));
+            function stripEmptyStr(obj) {
+                Object.keys(obj).forEach(key => {
+                    if (typeof obj[key] === "string") {
+                        obj[key] = obj[key].trim();
+                        if (!obj[key]) {
+                            delete obj[key];
+                        }
+                    } else if (obj[key] && typeof obj[key] === "object") {
+                        stripEmptyStr(obj[key]);
+                    }
+                });
+            }
+            if (value && typeof value === 'object') {
+                stripEmptyStr(value);
+            } else if (typeof value === 'string') {
+                value = value.trim();
+                if (!value) {
+                    value = null;
+                }
+            }
+
+
+            const validateResult = validate(value, this.sfSchema);
+            if (validateResult) {
+                return { error: validateResult };
+            }
+            return { value };
+        },
         getAnyTypeCompMap() {
             const ret = {};
             this.options.formats.forEach(({ name, component }) => {
@@ -94,14 +126,17 @@ export default {
                         )
                     );
                     if (formatConfig.format instanceof RegExp) {
-                        this.options.tv4.addFormat(formatConfig.name, (data) => {
+                        this.options.tv4.addFormat(formatConfig.name, data => {
                             if (!formatConfig.format.test(data)) {
-                                return 'invalid format';
+                                return "invalid format";
                             }
                             return null;
                         });
                     } else {
-                        this.options.tv4.addFormat(formatConfig.name, formatConfig.format);
+                        this.options.tv4.addFormat(
+                            formatConfig.name,
+                            formatConfig.format
+                        );
                     }
                 }
                 if (pluginConfig.type) {
@@ -119,8 +154,10 @@ export default {
         if (!this.plugins) {
             return;
         }
-        this.plugins.forEach(plugin => { this.use(plugin); });
-        this.$set(this.options, 'compMap', this.getAnyTypeCompMap());
+        this.plugins.forEach(plugin => {
+            this.use(plugin);
+        });
+        this.$set(this.options, "compMap", this.getAnyTypeCompMap());
     },
     data() {
         return {
@@ -145,5 +182,4 @@ export default {
 
 
 <style scoped>
-
 </style>

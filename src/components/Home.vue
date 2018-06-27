@@ -18,10 +18,11 @@
             <pre>{{JSON.stringify(model,false,4)}}</pre>
         </div>
         <div class="right" v-if="showForm10">
-            <Form10 :sf-schema="schema" v-model="model"
+            <Form10 ref="form10" :sf-schema="schema" v-model="model"
                 :sf-form="form" :sf-options="options"
                 @select="onSelect" :plugins="plugins"
             />
+            <el-button @click="submit">{{$t("Submit")}}</el-button>
         </div>
 
     </div>
@@ -74,6 +75,9 @@ export default {
         showForm10: () => !window.angular
     },
     methods: {
+        submit() {
+            console.log(this.$refs.form10.submit());
+        },
         onSelect(path) {
             this.selectingPath = path;
             console.log("onselect", path);

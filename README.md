@@ -2,6 +2,7 @@
 
 > A Vue.js project
 
+* [ ]  required:["a","b"]
 * [ ]  key: "address.street"  
 * [x]  type: "text"  
 * [x]  title: "Street"  

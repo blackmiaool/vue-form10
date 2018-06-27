@@ -28,7 +28,7 @@
 <script>
 import draggable from "vuedraggable";
 import { Button } from 'element-ui';
-import { getDefaultFromSchema } from "@/util";
+import { getDefaultFromSchema } from "../util";
 
 export default {
     name: "ArrayType",
