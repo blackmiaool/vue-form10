@@ -93,13 +93,12 @@ export default {
                     valid = tv4ValidateResult;
                 }
 
+                const error = this.options.tv4.error;
                 this.$nextTick(() => {
                     let validateState;
                     let validateMessage;
                     if (!valid) {
                         validateState = 'error';
-
-                        const error = this.options.tv4.error;
                         validateMessage = error.message;
                         const keyword = error.schemaPath.slice(1);
                         const validationMessage = this.form.validationMessage;

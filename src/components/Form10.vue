@@ -1,7 +1,7 @@
 <template>
     <el-form class="vue-form10" v-bind="options.formProps">
         <AnyType :parent-path="rootPath" :key="uid"
-            parent="root" :sf-schema="sfSchema||{}"
+            parent="root" :sf-schema="schema"
             :options="options"></AnyType>
     </el-form>
 </template>
@@ -10,6 +10,7 @@
 import tv4 from "tv4";
 import VueI18n from "vue-i18n";
 import Vue from "vue";
+import clone from "clone";
 import { mapState } from "vuex";
 import { Form } from "element-ui";
 import validate from "../validate";
@@ -17,7 +18,9 @@ import AnyType from "./AnyType";
 import store from "../store";
 import { makeFormat } from "../plugin";
 
+
 Vue.use(VueI18n);
+
 
 export default {
     name: "Form10",
@@ -29,7 +32,26 @@ export default {
         return { options: this.sfOptions };
     },
     computed: {
-        ...mapState(["model"])
+        ...mapState(["model"]),
+        schema() {
+            const ret = clone(this.sfSchema || {});
+            function addRequired(item) {
+                if (item.type === 'object' && item.properites) {
+                    if (item.required) {
+                        item.required.forEach((key) => {
+                            item.properites[key].required = true;
+                        });
+                    }
+                    Object.keys(item.properites).forEach((key) => {
+                        addRequired(item.properites[key]);
+                    });
+                } else if (item.type === 'array') {
+                    addRequired(item.items);
+                }
+            }
+            addRequired(ret);
+            return ret;
+        }
     },
     watch: {
         sfOptions: {
@@ -68,9 +90,7 @@ export default {
         }
     },
     methods: {
-        __validate() {
-
-        },
+        __validate() {},
         submit() {
             let value = JSON.parse(JSON.stringify(this.value));
             function stripEmptyStr(obj) {
@@ -85,17 +105,16 @@ export default {
                     }
                 });
             }
-            if (value && typeof value === 'object') {
+            if (value && typeof value === "object") {
                 stripEmptyStr(value);
-            } else if (typeof value === 'string') {
+            } else if (typeof value === "string") {
                 value = value.trim();
                 if (!value) {
                     value = null;
                 }
             }
 
-
-            const validateResult = validate(value, this.sfSchema);
+            const validateResult = validate(value, this.schema);
             if (validateResult) {
                 return { error: validateResult };
             }
