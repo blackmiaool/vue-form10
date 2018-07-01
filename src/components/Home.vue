@@ -152,7 +152,7 @@ export default {
         selectingExample(val) {
             this.model = null;
             this.selectingPath = [];
-            this.schema = find(this.examples, { name: val }).value;
+            this.timeoutSetSchema(find(this.examples, { name: val }).value);
             this.code = JSON5.stringify(
                 find(this.examples, { name: val }).value,
                 false,
