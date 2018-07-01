@@ -63,7 +63,7 @@
             title: "测试boolean",
             "form": {
                 destroyStrategy: "empty",
-                condition: "model.number>10"
+                condition: "model.number>2"
             }
         },
         number: {

@@ -57,8 +57,18 @@ export default {
         }
     },
     watch: {
-        sfOptions: {
+        plugins: {
             immediate: true,
+            deep: true,
+            handler(plugins) {
+                this.options.tv4 = tv4;
+                plugins.forEach(plugin => {
+                    this.use(plugin);
+                });
+                this.$set(this.options, "compMap", this.getAnyTypeCompMap());
+            }
+        },
+        sfOptions: {
             deep: true,
             handler(value) {
                 Object.keys(value).forEach(key => {
@@ -173,13 +183,6 @@ export default {
     props: ["sf-schema", "value", "sf-options", "plugins"],
     beforeMount() {
         this.options.tv4 = tv4;
-        if (!this.plugins) {
-            return;
-        }
-        this.plugins.forEach(plugin => {
-            this.use(plugin);
-        });
-        this.$set(this.options, "compMap", this.getAnyTypeCompMap());
     },
     data() {
         return {
