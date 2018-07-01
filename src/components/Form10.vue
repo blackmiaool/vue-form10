@@ -36,14 +36,17 @@ export default {
         schema() {
             const ret = clone(this.sfSchema || {});
             function addRequired(item) {
-                if (item.type === 'object' && item.properites) {
+                if (!item) {
+                    return;
+                }
+                if (item.type === 'object' && item.properties) {
                     if (item.required) {
                         item.required.forEach((key) => {
-                            item.properites[key].required = true;
+                            item.properties[key].required = true;
                         });
                     }
-                    Object.keys(item.properites).forEach((key) => {
-                        addRequired(item.properites[key]);
+                    Object.keys(item.properties).forEach((key) => {
+                        addRequired(item.properties[key]);
                     });
                 } else if (item.type === 'array') {
                     addRequired(item.items);
@@ -167,7 +170,7 @@ export default {
             }
         }
     },
-    props: ["sf-schema", "value", "sf-form", "sf-options", "plugins"],
+    props: ["sf-schema", "value", "sf-options", "plugins"],
     beforeMount() {
         this.options.tv4 = tv4;
         if (!this.plugins) {

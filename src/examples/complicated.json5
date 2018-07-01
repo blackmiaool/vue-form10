@@ -7,7 +7,7 @@
             title: "字符串",
             maxLength: 5,
             default: "333",
-            "x-schema-form": {
+            "form": {
                 disableSuccessState: true,
                 placeholder: "string哦",
                 validationMessage: {
@@ -24,7 +24,7 @@
                 title: "item",
                 type: "string",
                 default: "b",
-                "x-schema-form": {
+                "form": {
                     htmlClass: "items"
                 }
             }
@@ -32,7 +32,7 @@
         array2: {
             type: "array",
             title: "array1",
-            "x-schema-form": {
+            "form": {
                 startEmpty: false
             },
             items: {
@@ -54,14 +54,14 @@
             type: "string",
             title: "字符串",
             description: "readonly",
-            "x-schema-form": {
+            "form": {
                 readonly: true
             }
         },
         boolean: {
             type: "boolean",
             title: "测试boolean",
-            "x-schema-form": {
+            "form": {
                 destroyStrategy: "empty",
                 condition: "model.number>10"
             }
@@ -74,7 +74,7 @@
         enum: {
             type: "string",
             title: "测试enum",
-            "x-schema-form": {
+            "form": {
                 titleMap: [
                     { value: "Andersson", name: "Andersson" },
                     { value: "Johansson", name: "Johansson" },

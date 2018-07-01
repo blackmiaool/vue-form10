@@ -88,7 +88,7 @@ export default {
 
             const format =
                 this.editingSchema.type ||
-                this.editingSchema["x-schema-form"].type;
+                this.editingSchema.form.type;
 
             let targetPlugin;
             if (format) {
@@ -97,7 +97,7 @@ export default {
                     if (
                         shouldUse &&
                         shouldUse(
-                            this.editingSchema["x-schema-form"] || {},
+                            this.editingSchema.form || {},
                             this.editingSchema
                         )
                     ) {
@@ -133,7 +133,7 @@ export default {
                     type: {
                         type: "string",
                         title: "类型",
-                        "x-schema-form": {
+                        form: {
                             titleMap: [
                                 "object",
                                 "array",
@@ -149,7 +149,7 @@ export default {
                     format: {
                         type: "string",
                         title: "格式",
-                        "x-schema-form": {
+                        form: {
                             titleMap: this.formats
                                 .map(formatThis => formatThis.name)
                                 .map(name => ({
@@ -162,14 +162,14 @@ export default {
                         type: "string",
                         title: "描述"
                     },
-                    "x-schema-form": {
+                    form: {
                         type: "object",
                         title: "样式",
                         properties: {
                             placeholder: {
                                 title: this.$t("placeholder"),
                                 type: this.editingSchema.type,
-                                "x-schema-form": {
+                                form: {
                                     condition:
                                         '(model&&(model.type==="string"))'
                                 }
@@ -177,7 +177,7 @@ export default {
                             startEmpty: {
                                 title: "是否一开始一项都没有",
                                 type: "boolean",
-                                "x-schema-form": {
+                                form: {
                                     condition: '(model&&(model.type==="array"))'
                                 }
                             }

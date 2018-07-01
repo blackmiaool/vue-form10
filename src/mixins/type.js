@@ -175,8 +175,8 @@ export default {
             if (form.schema.format) {
                 form.type = form.schema.format;
             }
-            if (this.sfSchema['x-schema-form']) {
-                Object.assign(form, this.sfSchema['x-schema-form']);
+            if (this.sfSchema.form) {
+                Object.assign(form, this.sfSchema.form);
             }
             return form;
         },

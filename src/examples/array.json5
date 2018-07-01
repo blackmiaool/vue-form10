@@ -4,7 +4,7 @@
         array: {
             type: "array",
             title: "array1",
-            "x-schema-form": {
+            "form": {
                 startEmpty: false
             },
             items: {

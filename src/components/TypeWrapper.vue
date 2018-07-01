@@ -2,7 +2,7 @@
     <el-form-item :label="(hideTitle||form.notitle)?'':$t(form.title)"
         :style="{marginBottom:marginBottom}"
         :class="[form.htmlClass]"
-        :required="form.required"
+        :required="form.schema.required===true"
         ref="formItem">
         <div style="clear:both;">
             <slot name="input">
