@@ -4,21 +4,14 @@
         <div slot="input">
             <fieldset v-if="name!==undefined&&name!==null&&parent!=='array'">
                 <legend>{{form.title}}</legend>
-                <AnyType v-for="(key,$index) in keys" :options="options"
-                :parent-path="path"
-                    :key="key" :name="key" :sf-schema="form.schema.properties[key]"
-                    @remove="remove(model,key)"
-                    :is-last="$index===keys.length-1"
-                    parent="object" />
+                <AnyType v-for="(key,$index) in keys"
+                    :key="key"
+                    v-bind="getChildProps($index,key)"/>
             </fieldset>
             <template v-else>
-                <AnyType v-for="(key,$index) in keys" :parent-path="path"
-                :options="options"
-                    :key="key" :name="key" :sf-schema="form.schema.properties[key]"
-
-                    @remove="remove(model,key)"
-                    :is-last="$index===keys.length-1"
-                    parent="object" />
+                <AnyType v-for="(key,$index) in keys"
+                    :key="key"
+                    v-bind="getChildProps($index,key)"/>
             </template>
 
         </div>
@@ -27,11 +20,14 @@
 </template>
 
 <script>
+import Type from "../mixins/type";
+
 export default {
     name: "ObjectType",
     form10: {
         type: 'object',
     },
+    mixins: [Type],
     beforeCreate() {
         // eslint-disable-next-line
         this.$options.components.AnyType = require("../components/AnyType").default;
@@ -39,6 +35,17 @@ export default {
     methods: {
         remove(model, key) {
             delete model[key];
+        },
+        getChildProps($index, key) {
+            return {
+                sfSchema: this.form.schema.properties[key],
+                name: key,
+                isLast: $index === this.keys.length - 1,
+                parent: "object",
+                options: this.options,
+                parentPath: this.path,
+                'v-on:remove': () => this.remove(this.model, key)
+            };
         }
     },
     beforeMount() {
