@@ -180,6 +180,12 @@ export default {
             }
             return form;
         },
+        typeWrapperProps() {
+            return {
+                form: this.form,
+                margin: this.margin,
+            };
+        }
     },
     mounted() {
         if (this.sfSchema.default && this.model === undefined) {
@@ -192,7 +198,7 @@ export default {
             $errorMessage: 'a',
         };
     },
-    props: ['sf-schema', "options", "name", 'parent', 'is-last', 'path'],
+    props: ['sf-schema', "options", "name", 'parent', 'is-last', 'path', 'margin'],
     components: { TypeWrapper }
 };
 

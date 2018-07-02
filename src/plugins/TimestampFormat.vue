@@ -1,5 +1,5 @@
 <template>
-    <TypeWrapper :form="form"  ref="typeWrapper">
+    <TypeWrapper v-bind="typeWrapperProps" ref="typeWrapper">
         <div slot="input">
             <el-date-picker :disabled="form.readonly"
                 v-model="model" type="datetime"

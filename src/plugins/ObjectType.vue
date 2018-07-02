@@ -1,5 +1,5 @@
 <template>
-    <TypeWrapper :form="form" :hide-title="true"
+    <TypeWrapper v-bind="typeWrapperProps" :hide-title="true"
         ref="typeWrapper">
         <div slot="input">
             <fieldset v-if="name!==undefined&&name!==null&&parent!=='array'">
@@ -32,6 +32,7 @@ export default {
     },
     methods: {
         getChildProps($index, key) {
+            const isLast = $index === this.keys.length - 1;
             return {
                 sfSchema: this.form.schema.properties[key],
                 name: key,
@@ -39,6 +40,7 @@ export default {
                 parent: "object",
                 options: this.options,
                 parentPath: this.path,
+                margin: isLast ? '0px 0px 0px 0px ' : '0px 0px 15px 0px'
             };
         }
     },

@@ -96,12 +96,18 @@
             type: "object",
             title: "obj",
             format:'section',
+            form:{
+                keys:[["a","c"],["b"],]
+            },         
             properties: {
                 a: {
                     type: "string"
                 },
                 b: {
                     type: "number"
+                },
+                c: {
+                    type: "string"
                 }
             }
         }

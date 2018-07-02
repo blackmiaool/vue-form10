@@ -1,5 +1,5 @@
 <template>
-    <TypeWrapper :form="form" ref="typeWrapper">
+    <TypeWrapper v-bind="typeWrapperProps" ref="typeWrapper">
         <el-select v-model="model" :placeholder="form.placeholder"
             slot="input" :disabled="form.readonly">
             <el-option v-for="(item,index) in titleMap"

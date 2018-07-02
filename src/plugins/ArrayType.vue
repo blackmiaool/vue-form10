@@ -1,16 +1,14 @@
 <template>
-    <TypeWrapper :form="form" ref="typeWrapper">
+    <TypeWrapper v-bind="typeWrapperProps" ref="typeWrapper">
         <div slot="input" class="array-wrap">
             <draggable v-if="model&&model.length" class="list-group"
                 element="ol" :list="model" :options="{animation: 150,handle:'.sort-handle'}">
                 <li v-for="(item,$index) in model" :key="$index"
                     class="list-group-item">
                     <AnyType :options="options" :sf-schema="form.schema.items"
-                    :parent-path="path"
-
-                        parent="array"
-                        :name="$index"
-                        :is-last="$index===model.length-1"
+                        :parent-path="path" parent="array"
+                        :name="$index" :is-last="$index===model.length-1"
+                         v-bind="getChildProps($index)"
                     />
                     <i class="el-icon-sort sort-handle" :title="'drag to sort (index:'+$index+')'"></i>
                     <i class="el-icon-delete delete-btn" @click="deleteItem($index)"
@@ -27,13 +25,13 @@
 
 <script>
 import draggable from "vuedraggable";
-import { Button } from 'element-ui';
+import { Button } from "element-ui";
 import { getDefaultFromSchema } from "../util";
 
 export default {
     name: "ArrayType",
     form10: {
-        type: 'array',
+        type: "array"
     },
     beforeCreate() {
         // eslint-disable-next-line
@@ -62,9 +60,14 @@ export default {
         },
         deleteItem(key) {
             this.model.splice(key, 1);
+        },
+        getChildProps($index) {
+            return {
+                margin: $index === this.model.length - 1 ? '0px' : '0px 0px 15px 0px '
+            };
         }
     },
-    components: { draggable, 'el-button': Button }
+    components: { draggable, "el-button": Button }
 };
 </script>
 
@@ -89,16 +92,16 @@ export default {
     border: 1px solid #dcdfe6;
     border-radius: 4px;
     padding: 10px;
-    padding-bottom:15px;
+    padding-bottom: 15px;
     .list-group-item {
         position: relative;
         border-bottom: 1px solid #dcdfe6;
         margin-top: 5px;
-        &:first-child{
+        &:first-child {
             margin-top: 0;
         }
-        &:last-child{
-            border-bottom:none;
+        &:last-child {
+            border-bottom: none;
         }
         > .delete-btn {
             position: absolute;

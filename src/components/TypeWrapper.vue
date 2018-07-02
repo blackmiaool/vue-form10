@@ -1,6 +1,6 @@
 <template>
     <el-form-item :label="(hideTitle||form.notitle)?'':$t(form.title)"
-        :style="{marginBottom:marginBottom}"
+        :style="{margin}"
         :class="[form.htmlClass]"
         :required="form.schema.required===true"
         ref="formItem">
@@ -21,17 +21,9 @@ export default {
     name: "TypeWrapper",
     mixins: [],
     mounted() {},
-    props: { form: {}, options: {}, "hide-title": { type: Boolean } },
+    props: { form: {}, options: {}, "hide-title": { type: Boolean }, margin: {} },
     computed: {
-        marginBottom() {
-            if (this.$parent.isLast) {
-                return 0;
-            }
-            if (this.$parent.parent === "object" || this.$parent.parent === "array") {
-                return "15px";
-            }
-            return "0";
-        }
+
     },
     data() {
         return {

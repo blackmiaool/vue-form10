@@ -3,7 +3,7 @@
         <component v-if="condition" :is="componentId"
         :sf-schema="sfSchema" :sf-model.sync="model"
         :parent="parent" :path="path" :options="options"
-        :name="name" :is-last="isLast"></component>
+        :name="name" :margin="margin"></component>
     </div>
 </template>
 
@@ -160,7 +160,8 @@ export default {
         "name",
         "parent",
         "is-last",
-        "parent-path"
+        "parent-path",
+        "margin"
     ],
     data() {
         return {};
