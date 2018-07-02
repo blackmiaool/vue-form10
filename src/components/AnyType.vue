@@ -46,7 +46,7 @@ export default {
                 // eslint-disable-next-line
                 case "remove":
                     this.model = undefined;
-                    this.$emit("remove");
+                    this.$store.commit('remove', this.path);
                     break;
                 default:
                     console.warn("invalid destroyStrategy:", destroyStrategy);
@@ -59,12 +59,7 @@ export default {
             if (!(p === true && v === false)) {
                 return;
             }
-            let destroyStrategy;
-            if (this.form.destroyStrategy) {
-                destroyStrategy = this.form.destroyStrategy;
-            } else {
-                destroyStrategy = "remove";
-            }
+            const destroyStrategy = this.form.destroyStrategy || "remove";
             this.remove(destroyStrategy);
         }
     },

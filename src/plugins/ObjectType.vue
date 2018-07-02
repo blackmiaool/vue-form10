@@ -20,22 +20,17 @@
 </template>
 
 <script>
-import Type from "../mixins/type";
 
 export default {
     name: "ObjectType",
     form10: {
         type: 'object',
     },
-    mixins: [Type],
     beforeCreate() {
         // eslint-disable-next-line
         this.$options.components.AnyType = require("../components/AnyType").default;
     },
     methods: {
-        remove(model, key) {
-            delete model[key];
-        },
         getChildProps($index, key) {
             return {
                 sfSchema: this.form.schema.properties[key],
@@ -44,7 +39,6 @@ export default {
                 parent: "object",
                 options: this.options,
                 parentPath: this.path,
-                'v-on:remove': () => this.remove(this.model, key)
             };
         }
     },
@@ -55,6 +49,9 @@ export default {
     },
     computed: {
         keys() {
+            if (this.form.keys) {
+                return this.form.keys;
+            }
             if (this.form.schema.properties) {
                 return Object.keys(this.form.schema.properties);
             }

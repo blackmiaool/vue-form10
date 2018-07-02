@@ -17,6 +17,16 @@ export default () => new Vuex.Store({
                 state.model = value;
             }
         },
+        remove(state, path) {
+            let obj = state;
+            path.forEach((section, i) => {
+                if (i !== path.length - 1) {
+                    obj = obj[section];
+                } else {
+                    Vue.delete(obj, section);
+                }
+            });
+        },
         setSelected(state, path) {
             state.selected = path;
         },

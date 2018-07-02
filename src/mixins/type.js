@@ -76,7 +76,7 @@ export default {
                 }
 
 
-                if (this.type === 'object' || this.type === 'array') {
+                if (this.type === 'object' || this.type === 'array' || this.form.schema.type === 'object' || this.form.schema.type === 'array') {
                     return;
                 }
                 const schema = JSON.parse(JSON.stringify(this.form.schema));

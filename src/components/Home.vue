@@ -44,6 +44,7 @@ import SelectFormat from "../plugins/SelectFormat";
 import ArrayType from "../plugins/ArrayType";
 import BooleanType from "../plugins/BooleanType";
 import NumberType from "../plugins/NumberType";
+import SectionFormat from "../plugins/SectionFormat";
 import ObjectType from "../plugins/ObjectType";
 import StringType from "../plugins/StringType";
 import i18n from "../i18n";
@@ -169,7 +170,8 @@ export default {
                 BooleanType,
                 NumberType,
                 ObjectType,
-                StringType
+                StringType,
+                SectionFormat
             ],
             selectingPath: null,
             selectingExample: null,
