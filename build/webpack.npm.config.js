@@ -15,7 +15,7 @@ module.exports = {
     output: {
         path: config.build.assetsRoot,
         filename: 'form.js',
-        libraryTarget: 'commonjs',
+        libraryTarget: 'umd',
     },
     resolve: {
         extensions: ['.js', '.vue', '.json'],
