@@ -1354,14 +1354,17 @@ __WEBPACK_IMPORTED_MODULE_10_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_9_vue
         schema: function schema() {
             var ret = __WEBPACK_IMPORTED_MODULE_11_clone___default()(this.sfSchema || {});
             function addRequired(item) {
-                if (item.type === 'object' && item.properites) {
+                if (!item) {
+                    return;
+                }
+                if (item.type === 'object' && item.properties) {
                     if (item.required) {
                         item.required.forEach(function (key) {
-                            item.properites[key].required = true;
+                            item.properties[key].required = true;
                         });
                     }
-                    __WEBPACK_IMPORTED_MODULE_6_babel_runtime_core_js_object_keys___default()(item.properites).forEach(function (key) {
-                        addRequired(item.properites[key]);
+                    __WEBPACK_IMPORTED_MODULE_6_babel_runtime_core_js_object_keys___default()(item.properties).forEach(function (key) {
+                        addRequired(item.properties[key]);
                     });
                 } else if (item.type === 'array') {
                     addRequired(item.items);
@@ -1372,14 +1375,26 @@ __WEBPACK_IMPORTED_MODULE_10_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_9_vue
         }
     }),
     watch: {
-        sfOptions: {
+        plugins: {
             immediate: true,
             deep: true,
-            handler: function handler(value) {
+            handler: function handler(plugins) {
                 var _this = this;
 
+                this.options.tv4 = __WEBPACK_IMPORTED_MODULE_8_tv4___default.a;
+                plugins.forEach(function (plugin) {
+                    _this.use(plugin);
+                });
+                this.$set(this.options, "compMap", this.getAnyTypeCompMap());
+            }
+        },
+        sfOptions: {
+            deep: true,
+            handler: function handler(value) {
+                var _this2 = this;
+
                 __WEBPACK_IMPORTED_MODULE_6_babel_runtime_core_js_object_keys___default()(value).forEach(function (key) {
-                    _this.$set(_this.options, key, value[key]);
+                    _this2.$set(_this2.options, key, value[key]);
                 });
             }
         },
@@ -1485,18 +1500,9 @@ __WEBPACK_IMPORTED_MODULE_10_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_9_vue
             }
         }
     },
-    props: ["sf-schema", "value", "sf-form", "sf-options", "plugins"],
+    props: ["sf-schema", "value", "sf-options", "plugins"],
     beforeMount: function beforeMount() {
-        var _this2 = this;
-
         this.options.tv4 = __WEBPACK_IMPORTED_MODULE_8_tv4___default.a;
-        if (!this.plugins) {
-            return;
-        }
-        this.plugins.forEach(function (plugin) {
-            _this2.use(plugin);
-        });
-        this.$set(this.options, "compMap", this.getAnyTypeCompMap());
     },
     data: function data() {
         return {
@@ -3603,7 +3609,7 @@ module.exports = g;
                 // eslint-disable-next-line
                 case "remove":
                     this.model = undefined;
-                    this.$emit("remove");
+                    this.$store.commit('remove', this.path);
                     break;
                 default:
                     console.warn("invalid destroyStrategy:", destroyStrategy);
@@ -3616,12 +3622,7 @@ module.exports = g;
             if (!(p === true && v === false)) {
                 return;
             }
-            var destroyStrategy = void 0;
-            if (this.form.destroyStrategy) {
-                destroyStrategy = this.form.destroyStrategy;
-            } else {
-                destroyStrategy = "remove";
-            }
+            var destroyStrategy = this.form.destroyStrategy || "remove";
             this.remove(destroyStrategy);
         }
     },
@@ -3635,8 +3636,8 @@ module.exports = g;
             if (form.schema.format) {
                 form.type = form.schema.format;
             }
-            if (this.sfSchema["x-schema-form"]) {
-                __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()(form, this.sfSchema["x-schema-form"]);
+            if (this.sfSchema.form) {
+                __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()(form, this.sfSchema.form);
             }
             return form;
         },
@@ -4248,7 +4249,7 @@ function stdFormObj(name, schema, options) {
                     });
                 }
 
-                if (this.type === 'object' || this.type === 'array') {
+                if (this.type === 'object' || this.type === 'array' || this.form.schema.type === 'object' || this.form.schema.type === 'array') {
                     return;
                 }
                 var schema = JSON.parse(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_json_stringify___default()(this.form.schema));
@@ -4349,8 +4350,8 @@ function stdFormObj(name, schema, options) {
             if (form.schema.format) {
                 form.type = form.schema.format;
             }
-            if (this.sfSchema['x-schema-form']) {
-                __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_assign___default()(form, this.sfSchema['x-schema-form']);
+            if (this.sfSchema.form) {
+                __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_assign___default()(form, this.sfSchema.form);
             }
             return form;
         }
@@ -4647,7 +4648,7 @@ exports = module.exports = __webpack_require__(20)(true);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Form10.vue","sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Form10.vue","sourceRoot":""}]);
 
 // exports
 
@@ -12583,7 +12584,7 @@ var render = function() {
       style: { marginBottom: _vm.marginBottom },
       attrs: {
         label: _vm.hideTitle || _vm.form.notitle ? "" : _vm.$t(_vm.form.title),
-        required: _vm.form.required
+        required: _vm.form.schema.required === true
       }
     },
     [
@@ -12697,6 +12698,16 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
                 } else {
                     state.model = value;
                 }
+            },
+            remove: function remove(state, path) {
+                var obj = state;
+                path.forEach(function (section, i) {
+                    if (i !== path.length - 1) {
+                        obj = obj[section];
+                    } else {
+                        __WEBPACK_IMPORTED_MODULE_0_vue___default.a.delete(obj, section);
+                    }
+                });
             },
             setSelected: function setSelected(state, path) {
                 state.selected = path;
@@ -13012,7 +13023,9 @@ function install(VueInstance) {
 var a = 1;
 function makeFormat(Type) {
     if (Type.mixins) {
-        Type.mixins.push(__WEBPACK_IMPORTED_MODULE_0__mixins_type__["a" /* default */]);
+        if (Type.mixins.indexOf(__WEBPACK_IMPORTED_MODULE_0__mixins_type__["a" /* default */]) === -1) {
+            Type.mixins.push(__WEBPACK_IMPORTED_MODULE_0__mixins_type__["a" /* default */]);
+        }
     } else {
         Type.mixins = [__WEBPACK_IMPORTED_MODULE_0__mixins_type__["a" /* default */]];
     }
