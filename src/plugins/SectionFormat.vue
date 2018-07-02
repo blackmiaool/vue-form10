@@ -38,12 +38,8 @@ export default {
         format: { name: 'section', format: "" },
     },
     extends: ObjectType,
-    mounted() {
-        console.log(this.form);
-    },
     methods: {
-        getSectionChildProps($index, key, $groupIndex) {
-            console.log(this.form.keys, $groupIndex);
+        getSectionChildProps($index, key) {
             const props = this.getChildProps($index, key);
             props.margin = '0px 0px 0px 0px';
             return props;
