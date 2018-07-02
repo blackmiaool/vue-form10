@@ -9,4 +9,3 @@ webpack-stats.json
 ./*.js
 .editorconfig
 .vscode
-.babelrc
