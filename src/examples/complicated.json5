@@ -95,6 +95,7 @@
         obj: {
             type: "object",
             title: "obj",
+            format:'section',
             properties: {
                 a: {
                     type: "string"
