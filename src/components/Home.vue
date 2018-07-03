@@ -32,9 +32,11 @@
 import Vue from "vue";
 import JSON5 from "json5";
 import VueCodemirror from "vue-codemirror";
-import { Select, Option, Button } from "element-ui";
+import ElementUI from "element-ui";
 import find from "lodash/find";
 import VueI18n from "vue-i18n";
+import 'element-ui/lib/theme-chalk/index.css';
+
 // eslint-disable-next-line
 import "codemirror/mode/javascript/javascript.js";
 import Form10 from "./Form10";
@@ -58,10 +60,8 @@ Vue.use(
   events: ['scroll', ...]
 } */
 );
+Vue.use(ElementUI);
 
-Vue.component(Select.name, Select);
-Vue.component(Option.name, Option);
-Vue.component(Button.name, Button);
 
 const storageKey = "vue-form10-json";
 const code = localStorage.getItem(storageKey) || "";
