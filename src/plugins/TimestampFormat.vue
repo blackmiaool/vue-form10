@@ -11,15 +11,10 @@
 </template>
 
 <script>
-import { DatePicker } from 'element-ui';
-
 export default {
     name: "TimestampType",
     form10: {
         format: { name: 'timestamp', format: /^\d{13}$/ },
     },
-    components: {
-        'el-date-picker': DatePicker
-    }
 };
 </script>

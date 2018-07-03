@@ -11,8 +11,6 @@
 </template>
 
 <script>
-import { Select, Option } from "element-ui";
-
 export default {
     name: "EnumType",
     form10: {
@@ -46,14 +44,6 @@ export default {
             return arr;
         }
     },
-    components: {
-        "el-select": Select,
-        "el-option": Option
-    }
 };
 </script>
 
-
-<style scoped>
-
-</style>

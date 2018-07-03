@@ -26,10 +26,6 @@ export default {
     form10: {
         type: 'object',
     },
-    beforeCreate() {
-        // eslint-disable-next-line
-        this.$options.components.AnyType = require("../components/AnyType").default;
-    },
     methods: {
         getChildProps($index, key) {
             const isLast = $index === this.keys.length - 1;

@@ -8,15 +8,11 @@
 </template>
 
 <script>
-import { InputNumber } from 'element-ui';
 
 export default {
     name: "NumberType",
     form10: {
         type: 'number',
     },
-    components: {
-        'el-input-number': InputNumber
-    }
 };
 </script>

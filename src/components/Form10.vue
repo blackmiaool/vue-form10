@@ -12,7 +12,6 @@ import VueI18n from "vue-i18n";
 import Vue from "vue";
 import clone from "clone";
 import { mapState } from "vuex";
-import { Form } from "element-ui";
 import validate from "../validate";
 import AnyType from "./AnyType";
 import store from "../store";
@@ -199,8 +198,7 @@ export default {
         };
     },
     components: {
-        AnyType,
-        "el-form": Form
+        AnyType
     }
 };
 </script>

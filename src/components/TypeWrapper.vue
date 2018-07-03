@@ -15,23 +15,10 @@
 </template>
 
 <script>
-import { FormItem } from 'element-ui';
 
 export default {
     name: "TypeWrapper",
-    mixins: [],
-    mounted() {},
     props: { form: {}, options: {}, "hide-title": { type: Boolean }, margin: {} },
-    computed: {
-
-    },
-    data() {
-        return {
-        };
-    },
-    components: {
-        'el-form-item': FormItem
-    }
 };
 </script>
 

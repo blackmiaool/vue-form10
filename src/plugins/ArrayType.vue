@@ -25,17 +25,12 @@
 
 <script>
 import draggable from "vuedraggable";
-import { Button } from "element-ui";
 import { getDefaultFromSchema } from "../util";
 
 export default {
     name: "ArrayType",
     form10: {
         type: "array"
-    },
-    beforeCreate() {
-        // eslint-disable-next-line
-        this.$options.components.AnyType = require("../components/AnyType").default;
     },
     props: [],
     data() {
@@ -67,7 +62,7 @@ export default {
             };
         }
     },
-    components: { draggable, "el-button": Button }
+    components: { draggable }
 };
 </script>
 

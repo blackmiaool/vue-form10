@@ -8,16 +8,12 @@
 </template>
 
 <script>
-import { Switch } from "element-ui";
 
 export default {
     name: "BooleanType",
     form10: {
         type: 'boolean',
     },
-    components: {
-        'el-switch': Switch
-    }
 };
 </script>
 

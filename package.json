@@ -11,7 +11,8 @@
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
     "npmpublish": "git checkout gh-pages && git rebase master && npm run build && git add -A && git commit -m 'build' && git push -f origin gh-pages && git checkout master",
-    "npm": "webpack --config build/webpack.npm.config.js --profile --json > webpack-stats.json"
+    "npm": "webpack --config build/webpack.npm.config.js",
+    "npm-record": "webpack --config build/webpack.npm.config.js --profile --json"
   },
   "dependencies": {
     "clone": "^2.1.1",

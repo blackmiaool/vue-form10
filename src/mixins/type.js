@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import toPath from "lodash/toPath";
 import { mapState } from 'vuex';
 import TypeWrapper from "../components/TypeWrapper";
-
+import AnyType, { stdFormObj } from "../components/AnyType";
 
 function execWith(expression, context) {
     const keys = Object.keys(context);
@@ -10,34 +10,7 @@ function execWith(expression, context) {
     const func = new Function(...keys, expression);
     func(...keys.map(key => context[key]));
 }
-export function stdFormObj(name, schema, options) {
-    // from json-schema-form-core
-    options = options || {};
 
-    // The Object.assign used to be a angular.copy. Should work though.
-    const f = options.global && options.global.formDefaults ?
-        Object.assign({}, options.global.formDefaults) : {};
-
-    if (!schema) {
-        return f;
-    }
-
-    if (options.global && options.global.supressPropertyTitles === true) {
-        f.title = schema.title;
-    } else {
-        f.title = schema.title || name;
-    }
-
-    if (schema.description) { f.description = schema.description; }
-    if (options.required === true || schema.required === true) { f.required = true; }
-    if (schema.maxLength) { f.maxlength = schema.maxLength; }
-    if (schema.minLength) { f.minlength = schema.minLength; }
-    if (schema.readOnly || schema.readonly) { f.readonly = true; }
-    if (schema.minimum) { f.minimum = schema.minimum + (schema.exclusiveMinimum ? 1 : 0); }
-    if (schema.maximum) { f.maximum = schema.maximum - (schema.exclusiveMaximum ? 1 : 0); }
-    f.schema = schema;
-    return f;
-}
 export default {
     methods: {
         interpolate(str, context) {
@@ -199,6 +172,6 @@ export default {
         };
     },
     props: ['sf-schema', "options", "name", 'parent', 'is-last', 'path', 'margin'],
-    components: { TypeWrapper }
+    components: { TypeWrapper, AnyType }
 };
 

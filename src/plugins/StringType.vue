@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import { Input } from "element-ui";
-
 export default {
     name: "StringType",
     form10: {
@@ -21,9 +19,6 @@ export default {
             }
         }
     },
-    components: {
-        "el-input": Input
-    }
 };
 </script>
 
