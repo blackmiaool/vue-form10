@@ -11,8 +11,11 @@
 </template>
 
 <script>
+import FormatMixin from "../mixins/format";
+
 export default {
     name: "EnumType",
+    mixins: [FormatMixin],
     form10: {
         format: {
             name: "select",

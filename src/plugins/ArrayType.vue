@@ -26,9 +26,11 @@
 <script>
 import draggable from "vuedraggable";
 import { getDefaultFromSchema } from "../util";
+import FormatMixin from "../mixins/format";
 
 export default {
     name: "ArrayType",
+    mixins: [FormatMixin],
     form10: {
         type: "array"
     },

@@ -16,7 +16,9 @@ import validate from "../validate";
 import AnyType from "./AnyType";
 import store from "../store";
 import { makeFormat } from "../plugin";
+import FormatMixin0 from "../mixins/format";
 
+export const FormatMixin = FormatMixin0;
 
 Vue.use(VueI18n);
 

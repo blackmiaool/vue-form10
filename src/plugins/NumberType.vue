@@ -8,9 +8,11 @@
 </template>
 
 <script>
+import FormatMixin from "../mixins/format";
 
 export default {
     name: "NumberType",
+    mixins: [FormatMixin],
     form10: {
         type: 'number',
     },

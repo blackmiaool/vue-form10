@@ -11,8 +11,11 @@
 </template>
 
 <script>
+import FormatMixin from "../mixins/format";
+
 export default {
     name: "TimestampType",
+    mixins: [FormatMixin],
     form10: {
         format: { name: 'timestamp', format: /^\d{13}$/ },
     },

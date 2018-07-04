@@ -20,9 +20,11 @@
 </template>
 
 <script>
+import FormatMixin from "../mixins/format";
 
 export default {
     name: "ObjectType",
+    mixins: [FormatMixin],
     form10: {
         type: 'object',
     },

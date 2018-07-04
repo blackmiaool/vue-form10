@@ -31,9 +31,11 @@
 
 <script>
 import ObjectType from "./ObjectType";
+import FormatMixin from "../mixins/format";
 
 export default {
     name: "SectionFormat",
+    mixins: [FormatMixin],
     form10: {
         format: { name: 'section', format: "" },
     },
@@ -60,15 +62,19 @@ export default {
 </script>
 
 
-<style scoped>
+<style scoped lang="less">
 fieldset {
     border: 1px solid #dcdfe6;
     border-width: 1px;
     border-radius: 4px;
     margin-left: 0;
     padding:0;
+    section{
+        padding-top:0px;
+    }
 }
 legend {
+    margin-left:6px;
     color: #606266;
 }
 .form10-section-format-splitter{

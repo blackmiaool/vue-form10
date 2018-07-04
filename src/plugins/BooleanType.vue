@@ -8,9 +8,11 @@
 </template>
 
 <script>
+import FormatMixin from "../mixins/format";
 
 export default {
     name: "BooleanType",
+    mixins: [FormatMixin],
     form10: {
         type: 'boolean',
     },

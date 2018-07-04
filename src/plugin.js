@@ -1,14 +1,14 @@
-import TypeMixin from "./mixins/type";
+import FormatMixin from "./mixins/format";
 
 
 export const a = 1;
 export function makeFormat(Type) {
     if (Type.mixins) {
-        if (Type.mixins.indexOf(TypeMixin) === -1) {
-            Type.mixins.push(TypeMixin);
+        if (Type.mixins.indexOf(FormatMixin) === -1) {
+            Type.mixins.push(FormatMixin);
         }
     } else {
-        Type.mixins = [TypeMixin];
+        Type.mixins = [FormatMixin];
     }
     if (!Type.form10) {
         Type.form10 = {};
