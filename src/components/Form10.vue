@@ -70,6 +70,7 @@ export default {
             }
         },
         sfOptions: {
+            immediate: true,
             deep: true,
             handler(value) {
                 Object.keys(value).forEach(key => {

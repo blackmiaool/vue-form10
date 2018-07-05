@@ -4,23 +4,25 @@
         <div slot="input">
             <fieldset v-if="name!==undefined&&name!==null&&parent!=='array'">
                 <legend>{{form.title}}</legend>
-                <template v-for="(keys,$groupIndex) in form.keys" >
-                    <section :key="$groupIndex">
-                        <AnyType v-for="(key,$index) in keys"
+                <template v-for="(section,$groupIndex) in form.sections" >
+                    <section :key="$groupIndex" :class="{'form10-first-section':$groupIndex===0}">
+                        <h3 v-if="section.title" style="margin:0;">{{section.title}}</h3>
+                        <AnyType v-for="(key,$index) in section.keys"
                         :key="key"
                         v-bind="getSectionChildProps($index,key,$groupIndex)"/>
                     </section>
-                    <div :key="$groupIndex+'-spliter'" v-if="$groupIndex!==form.keys.length-1" class="form10-section-format-splitter"></div>
+                    <div :key="$groupIndex+'-spliter'" v-if="$groupIndex!==form.sections.length-1" class="form10-section-format-splitter"></div>
                 </template>
             </fieldset>
             <template v-else>
-                <template v-for="(keys,$groupIndex) in form.keys" >
-                    <section :key="$groupIndex">
-                        <AnyType v-for="(key,$index) in keys"
+                <template v-for="(section,$groupIndex) in form.sections" >
+                    <section :key="$groupIndex" :class="{'form10-first-section':$groupIndex===0}">
+                        <h3 v-if="section.title" style="margin:0;">{{section.title}}</h3>
+                        <AnyType v-for="(key,$index) in section.keys"
                         :key="key"
                         v-bind="getSectionChildProps($index,key,$groupIndex)"/>
                     </section>
-                    <div :key="$groupIndex+'-spliter'" v-if="$groupIndex!==form.keys.length-1" class="form10-section-format-splitter"></div>
+                    <div :key="$groupIndex+'-spliter'" v-if="$groupIndex!==form.sections.length-1" class="form10-section-format-splitter"></div>
                 </template>
             </template>
 
@@ -48,15 +50,6 @@ export default {
         }
     },
     computed: {
-        keys() {
-            if (this.form.keys) {
-                return this.form.keys;
-            }
-            if (this.form.schema.properties) {
-                return Object.keys(this.form.schema.properties);
-            }
-            return [];
-        },
     },
 };
 </script>
@@ -69,7 +62,7 @@ fieldset {
     border-radius: 4px;
     margin-left: 0;
     padding:0;
-    section{
+    section.form10-first-section{
         padding-top:0px;
     }
 }
@@ -82,6 +75,6 @@ legend {
     height:10px;
 }
 section{
-    padding:15px 10px;
+    padding:7px 10px 10px;
 }
 </style>

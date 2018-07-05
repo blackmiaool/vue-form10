@@ -97,7 +97,13 @@
             title: "obj",
             format:'section',
             form:{
-                keys:[["a","c"],["b"],]
+                sections:[{
+                    keys:["a","c"],
+                    title:"a and c",
+                },{
+                    keys:["b"],
+                    title:"is b"
+                }]
             },         
             properties: {
                 a: {
