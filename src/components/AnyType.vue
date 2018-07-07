@@ -1,14 +1,16 @@
 <template>
-    <div class="wrap" :class="{selected:isEqual(selected,path)}" @click.stop="onClick">
+    <div class="wrap" :class="{selected:isEqual(selected,path)}"
+        @click.stop="onClick">
         <component v-if="condition" :is="componentId"
-        :sf-schema="sfSchema" :sf-model.sync="model"
-        :parent="parent" :path="path" :options="options"
-        :name="name" :margin="margin"></component>
+            :sf-schema="sfSchema" :sf-model.sync="model"
+            :parent="parent" :path="path" :options="options"
+            :name="name" :margin="margin"></component>
     </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import get from "lodash/get";
 import isEqual from "lodash/isEqual";
 
 export function stdFormObj(name, schema, options) {
@@ -50,7 +52,8 @@ export default {
                 this.options.$root.$emit('select', this.path);
             }
         },
-        remove(destroyStrategy) {
+        remove(destroyStrategy = "remove") {
+            let breaked = false;
             switch (destroyStrategy) {
                 case "retain":
                     break;
@@ -61,16 +64,23 @@ export default {
                     switch (this.form.schema.type) {
                         case "string":
                             this.model = "";
+                            breaked = true;
                             break;
                         case "object":
                             this.model = {};
+                            breaked = true;
                             break;
                         case "array":
                             this.model = [];
+                            breaked = true;
                             break;
                         default:
                         // treat as remove
                     }
+                    if (breaked) {
+                        break;
+                    }
+
                 // eslint-disable-next-line
                 case "remove":
                     this.model = undefined;
@@ -87,8 +97,7 @@ export default {
             if (!(p === true && v === false)) {
                 return;
             }
-            const destroyStrategy = this.form.destroyStrategy || "remove";
-            this.remove(destroyStrategy);
+            this.remove(this.form.destroyStrategy);
         }
     },
     computed: {
@@ -108,10 +117,10 @@ export default {
         },
         model: {
             set(value) {
-                this.$emit("update:sfModel", value);
+                this.$vuexSet(this.path.slice(), value);
             },
             get() {
-                return this.sfModel;
+                return get(this.$store.state, this.path);
             }
         },
         componentId() {

@@ -1,6 +1,6 @@
 {
     type: "object",
-    required:['string'],
+    required:['string',"boolean"],
     properties: {
         string: {
             type: "string",
@@ -14,8 +14,15 @@
                     maxLength:
                         '{{title}}"{{value}}"太长了,最长{{schema.maxLength}}个字',
                     minLength: "太短了"
-                }
+                },
+                condition: "model.number>2"
+            
             }
+        },
+        number: {
+            type: "number",
+            title: "测试number",
+            maximum: 3
         },
         array: {
             type: "array",
@@ -66,11 +73,7 @@
                 condition: "model.number>2"
             }
         },
-        number: {
-            type: "number",
-            title: "测试number",
-            maximum: 3
-        },
+        
         enum: {
             type: "string",
             title: "测试enum",

@@ -1,6 +1,6 @@
 <template>
     <div class="hello">
-        <div class="left" v-if="showForm10" :style="{padding:showForm10?'10px':''}">
+        <div class="left" style="padding:10px">
             <label>schema</label>
             <el-select v-model="selectingExample" placeholder="select an example">
                 <el-option v-for="example in examples" :key="example.name"
@@ -17,7 +17,9 @@
             <label>model</label>
             <pre>{{JSON.stringify(model,false,4)}}</pre>
         </div>
-        <div class="right" v-if="showForm10">
+        <div class="right" >
+            <label>Editor Mode</label>
+            <el-switch v-model="editorMode">Edit Mode</el-switch>
             <Form10 ref="form10" :sf-schema="schema" v-model="model"
                 :sf-form="form" :sf-options="options"
                 @select="onSelect" :plugins="plugins"
@@ -73,7 +75,15 @@ export default {
     name: "Home",
     i18n,
     computed: {
-        showForm10: () => !window.angular
+        options() {
+            const ret = {};
+            if (this.editorMode) {
+                ret.mode = 'editor';
+            } else {
+                ret.mode = 'normal';
+            }
+            return ret;
+        }
     },
     methods: {
         submit() {
@@ -190,9 +200,7 @@ export default {
             schema: null,
             model: JSON.parse(JSON.stringify(model)),
             form: null,
-            options: {
-                mode: "editor"
-            }
+            editorMode: false,
         };
     },
     components: { Form10, Editor }
