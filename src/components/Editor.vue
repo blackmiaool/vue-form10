@@ -166,25 +166,18 @@ export default {
                         type: "object",
                         title: "样式",
                         properties: {
-                            placeholder: {
-                                title: this.$t("placeholder"),
-                                type: this.editingSchema.type,
-                                form: {
-                                    condition:
-                                        '(model&&(model.type==="string"))'
-                                }
-                            },
-                            startEmpty: {
-                                title: "是否一开始一项都没有",
-                                type: "boolean",
-                                form: {
-                                    condition: '(model&&(model.type==="array"))'
-                                }
-                            }
+
                         }
                     }
                 }
             };
+
+            console.log(targetPlugin);
+            const pluginSchema = targetPlugin.form10.schema;
+            if (pluginSchema) {
+                pluginSchema.title = "特有属性";
+                this.editorSchema.properties.form = pluginSchema;
+            }
             this.preSchema = this.editorSchema;
         }
     },

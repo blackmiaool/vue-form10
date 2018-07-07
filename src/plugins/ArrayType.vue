@@ -8,7 +8,7 @@
                     <AnyType :options="options" :sf-schema="form.schema.items"
                         :parent-path="path" parent="array"
                         :name="$index" :is-last="$index===model.length-1"
-                         v-bind="getChildProps($index)"
+                        v-bind="getChildProps($index)"
                     />
                     <i class="el-icon-sort sort-handle" :title="'drag to sort (index:'+$index+')'"></i>
                     <i class="el-icon-delete delete-btn" @click="deleteItem($index)"
@@ -32,7 +32,16 @@ export default {
     name: "ArrayType",
     mixins: [FormatMixin],
     form10: {
-        type: "array"
+        type: "array",
+        schema: {
+            type: "object",
+            properties: {
+                startEmpty: {
+                    title: "是否一开始一项都没有",
+                    type: "boolean",
+                }
+            },
+        }
     },
     props: [],
     data() {
@@ -60,7 +69,7 @@ export default {
         },
         getChildProps($index) {
             return {
-                margin: $index === this.model.length - 1 ? '0px' : '0px 0px 15px 0px '
+                margin: $index === this.model.length - 1 ? "0px" : "0px 0px 15px 0px "
             };
         }
     },
