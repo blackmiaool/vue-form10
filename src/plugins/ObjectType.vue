@@ -2,7 +2,7 @@
     <TypeWrapper v-bind="typeWrapperProps" :hide-title="true"
         ref="typeWrapper">
         <div slot="input">
-            <fieldset v-if="name!==undefined&&name!==null&&parent!=='array'">
+            <fieldset v-if="name!==undefined&&name!==null&&parent!=='array'&&!form.strip">
                 <legend>{{form.title}}</legend>
                 <AnyType v-for="(key,$index) in keys"
                     :key="key"

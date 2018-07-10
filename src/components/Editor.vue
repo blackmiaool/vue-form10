@@ -67,11 +67,7 @@ function getSchemaWithPathSet(schema, path, model) {
         return model;
     }
     if (schema.properties) {
-        schema.properties[path[0]] = getSchemaWithPathSet(
-            schema.properties[path[0]],
-            path.slice(1),
-            model
-        );
+        schema.properties[path[0]] = getSchemaWithPathSet(schema.properties[path[0]], path.slice(1), model);
     } else if (schema.items) {
         schema.items = getSchemaWithPathSet(schema.items, path.slice(1), model);
     }
@@ -86,21 +82,13 @@ export default {
                 return null;
             }
 
-            const format =
-                this.editingSchema.type ||
-                this.editingSchema.form.type;
+            const format = this.editingSchema.type || this.editingSchema.form.type;
 
             let targetPlugin;
             if (format) {
                 targetPlugin = this.plugins.find(plugin => {
                     const shouldUse = get(plugin, "form10.format.shouldUse");
-                    if (
-                        shouldUse &&
-                        shouldUse(
-                            this.editingSchema.form || {},
-                            this.editingSchema
-                        )
-                    ) {
+                    if (shouldUse && shouldUse(this.editingSchema.form || {}, this.editingSchema)) {
                         return true;
                     }
                     return get(plugin, "form10.format.name") === format;
@@ -108,16 +96,11 @@ export default {
             }
             if (!targetPlugin) {
                 targetPlugin = this.plugins.find(plugin => {
-                    return (
-                        get(plugin, "form10.type") === this.editingSchema.type
-                    );
+                    return get(plugin, "form10.type") === this.editingSchema.type;
                 });
             }
 
-            if (
-                JSON.stringify(this.value) === JSON.stringify(this.preValue) &&
-                this.targetPlugin === targetPlugin
-            ) {
+            if (JSON.stringify(this.value) === JSON.stringify(this.preValue) && this.targetPlugin === targetPlugin) {
                 return this.preSchema;
             }
             this.targetPlugin = targetPlugin;
@@ -125,54 +108,9 @@ export default {
 
             this.editorSchema = {
                 type: "object",
-                properties: {
-                    title: {
-                        type: "string",
-                        title: "标题"
-                    },
-                    type: {
-                        type: "string",
-                        title: "类型",
-                        form: {
-                            titleMap: [
-                                "object",
-                                "array",
-                                "string",
-                                "boolean",
-                                "number"
-                            ].map(type => ({
-                                value: type,
-                                name: this.$t(type)
-                            }))
-                        }
-                    },
-                    format: {
-                        type: "string",
-                        title: "格式",
-                        form: {
-                            titleMap: this.formats
-                                .map(formatThis => formatThis.name)
-                                .map(name => ({
-                                    value: name,
-                                    name: this.$t(name)
-                                }))
-                        }
-                    },
-                    description: {
-                        type: "string",
-                        title: "描述"
-                    },
-                    form: {
-                        type: "object",
-                        title: "样式",
-                        properties: {
-
-                        }
-                    }
-                }
+                properties: Object.assign({}, this.commonSchema, this.typeSchema[this.editingSchema.type])
             };
 
-            console.log(targetPlugin);
             const pluginSchema = targetPlugin.form10.schema;
             if (pluginSchema) {
                 pluginSchema.title = "特有属性";
@@ -189,7 +127,9 @@ export default {
             preValue: "",
             preSchema: null,
             editorSchema: null,
-            targetPlugin: null
+            targetPlugin: null,
+            typeSchema: {},
+            commonSchema: {}
         };
     },
     computed: {
@@ -221,11 +161,7 @@ export default {
                 if (!this.path) {
                     return;
                 }
-                const schema = getSchemaWithPathSet(
-                    this.value,
-                    this.path.slice(1),
-                    model
-                );
+                const schema = getSchemaWithPathSet(this.value, this.path.slice(1), model);
                 this.$emit("input", schema);
                 this.updateEditorSchema();
             }
@@ -240,6 +176,71 @@ export default {
                 this.updateEditorSchema();
             }
         }
+    },
+    mounted() {
+        this.commonSchema = {
+            title: {
+                type: "string",
+                title: "标题"
+            },
+            type: {
+                type: "string",
+                title: "类型",
+                form: {
+                    titleMap: ["object", "array", "string", "boolean", "number"].map(type => ({
+                        value: type,
+                        name: this.$t(type)
+                    }))
+                }
+            },
+            description: {
+                type: "string",
+                title: "描述"
+            }
+        };
+        this.typeSchema = {
+            string: {
+                maxLength: {
+                    type: "number",
+                    title: "最大长度"
+                },
+                minLength: {
+                    type: "number",
+                    title: "最小长度"
+                },
+                pattern: {
+                    type: "string",
+                    title: "模式",
+                    description: "用正则表达式来验证"
+                }
+            },
+            number: {
+                multipleOf: {
+                    type: "number",
+                    title: "是其倍数"
+                },
+                maximum: {
+                    type: "number",
+                    title: "最大值"
+                },
+                minimum: {
+                    type: "number",
+                    title: "最小值"
+                }
+            },
+            array: {
+                maxItems: {
+                    type: "number",
+                    title: "最大长度"
+                },
+                minItems: {
+                    type: "number",
+                    title: "最小长度"
+                }
+            },
+            object: {},
+            boolean: {}
+        };
     },
     props: ["value", "path", "plugins"],
     components: {

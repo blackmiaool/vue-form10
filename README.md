@@ -1,6 +1,7 @@
 # vue-form10
 
-> A Vue.js project
+### Reference
+[Json Schema Validation](http://json-schema.org/latest/json-schema-validation.html)
 
 * [ ]  required:["a","b"]
 * [ ]  key: "address.street"  
