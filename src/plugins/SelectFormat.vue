@@ -1,10 +1,7 @@
 <template>
     <TypeWrapper v-bind="typeWrapperProps" ref="typeWrapper">
-        <el-select v-model="model" :placeholder="form.placeholder"
-            slot="input" :disabled="form.readonly">
-            <el-option v-for="(item,index) in titleMap"
-                :key="index" :label="item.name"
-                :value="item.value">
+        <el-select v-model="model" :placeholder="form.placeholder" slot="input" :disabled="form.readonly">
+            <el-option v-for="(item,index) in titleMap" :key="index" :label="item.name" :value="item.value">
             </el-option>
         </el-select>
     </TypeWrapper>
@@ -22,6 +19,20 @@ export default {
             format: "",
             shouldUse(form, schema) {
                 return form.titleMap || schema.enum;
+            },
+            types: ["number", "string"],
+            preview: {
+                schema: {
+                    title: "下拉选择",
+                    type: "string",
+                    form: {
+                        titleMap: {
+                            a: 1,
+                            b: 2,
+                            c: 3
+                        }
+                    }
+                }
             }
         }
     },
@@ -46,7 +57,7 @@ export default {
             }
             return arr;
         }
-    },
+    }
 };
 </script>
 

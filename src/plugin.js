@@ -13,5 +13,5 @@ export function makeFormat(Type) {
     if (!Type.form10) {
         Type.form10 = {};
     }
-     return Type;
+    return Type;
 }

@@ -15,7 +15,6 @@ import { mapState } from "vuex";
 import validate from "../validate";
 import AnyType from "./AnyType";
 import store from "../store";
-import { makeFormat } from "../plugin";
 import FormatMixin0 from "../mixins/format";
 
 export const FormatMixin = FormatMixin0;
@@ -147,7 +146,6 @@ export default {
         },
         use(plugin) {
             if (plugin.render) {
-                plugin = makeFormat(plugin);
                 const pluginConfig = plugin.form10 || {};
                 if (pluginConfig.format) {
                     const formatConfig = pluginConfig.format;

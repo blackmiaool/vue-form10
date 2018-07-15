@@ -1,29 +1,25 @@
 <template>
-    <div class="hello">
+    <div class="wrap">
+        <div class="format-list">
+            <FormatList :plugins="plugins" />
+        </div>
         <div class="left" style="padding:10px">
             <label>schema</label>
             <el-select v-model="selectingExample" placeholder="select an example">
-                <el-option v-for="example in examples" :key="example.name"
-                    :label="example.name" :value="example.name">
+                <el-option v-for="example in examples" :key="example.name" :label="example.name" :value="example.name">
                 </el-option>
             </el-select>
-            <Editor v-model="schema" :path="selectingPath"
-                style="margin-bottom:30px;" :plugins="plugins"
-            />
-            <codemirror v-model="code" :options="cmOptions"
-                style="height:50vh;"></codemirror>
+            <Editor v-model="schema" :path="selectingPath" style="margin-bottom:30px;" :plugins="plugins" />
+            <codemirror v-model="code" :options="cmOptions" style="height:50vh;"></codemirror>
             <pre class="err-msg" v-if="errMsg">{{errMsg}}</pre>
             <br>
             <label>model</label>
             <pre>{{JSON.stringify(model,false,4)}}</pre>
         </div>
-        <div class="right" >
+        <div class="right">
             <label>Editor Mode</label>
             <el-switch v-model="editorMode">Edit Mode</el-switch>
-            <Form10 ref="form10" :sf-schema="schema" v-model="model"
-                :sf-form="form" :sf-options="options"
-                @select="onSelect" :plugins="plugins"
-            />
+            <Form10 ref="form10" :sf-schema="schema" v-model="model" :sf-form="form" :sf-options="options" @select="onSelect" :plugins="plugins" />
             <el-button @click="submit">{{$t("Submit")}}</el-button>
         </div>
 
@@ -37,7 +33,7 @@ import VueCodemirror from "vue-codemirror";
 import ElementUI from "element-ui";
 import find from "lodash/find";
 import VueI18n from "vue-i18n";
-import 'element-ui/lib/theme-chalk/index.css';
+import "element-ui/lib/theme-chalk/index.css";
 
 // eslint-disable-next-line
 import "codemirror/mode/javascript/javascript.js";
@@ -52,18 +48,15 @@ import SectionFormat from "../plugins/SectionFormat";
 import ObjectType from "../plugins/ObjectType";
 import StringType from "../plugins/StringType";
 import i18n from "../i18n";
-
+import FormatList from "./FormatList";
 // eslint-disable-next-line
 import "codemirror/lib/codemirror.css";
 
-Vue.use(
-    VueCodemirror /* {
+Vue.use(VueCodemirror /* {
   options: { theme: 'base16-dark', ... },
   events: ['scroll', ...]
-} */
-);
+} */);
 Vue.use(ElementUI);
-
 
 const storageKey = "vue-form10-json";
 const code = localStorage.getItem(storageKey) || "";
@@ -78,9 +71,9 @@ export default {
         options() {
             const ret = {};
             if (this.editorMode) {
-                ret.mode = 'editor';
+                ret.mode = "editor";
             } else {
-                ret.mode = 'normal';
+                ret.mode = "normal";
             }
             return ret;
         }
@@ -112,9 +105,7 @@ export default {
             }));
         }
 
-        const examples = importAll(
-            require.context("../examples/", true, /\.json5$/)
-        );
+        const examples = importAll(require.context("../examples/", true, /\.json5$/));
         this.examples = examples;
 
         if (!this.code) {
@@ -164,25 +155,12 @@ export default {
             this.model = null;
             this.selectingPath = [];
             this.timeoutSetSchema(find(this.examples, { name: val }).value);
-            this.code = JSON5.stringify(
-                find(this.examples, { name: val }).value,
-                false,
-                4
-            );
+            this.code = JSON5.stringify(find(this.examples, { name: val }).value, false, 4);
         }
     },
     data() {
         return {
-            plugins: [
-                TimestampFormat,
-                SelectFormat,
-                ArrayType,
-                BooleanType,
-                NumberType,
-                ObjectType,
-                StringType,
-                SectionFormat
-            ],
+            plugins: [TimestampFormat, SelectFormat, ArrayType, BooleanType, NumberType, ObjectType, StringType, SectionFormat],
             selectingPath: null,
             selectingExample: null,
             examples: [],
@@ -200,22 +178,21 @@ export default {
             schema: null,
             model: JSON.parse(JSON.stringify(model)),
             form: null,
-            editorMode: false,
+            editorMode: false
         };
     },
-    components: { Form10, Editor }
+    components: { Form10, Editor, FormatList }
 };
 </script>
 
 <style scoped lang="less">
-.hello {
+.wrap {
     display: flex;
-    .left {
+    > div {
         flex: 1;
-        box-sizing: border-box;
     }
-    .right {
-        flex: 1;
+    .left {
+        box-sizing: border-box;
     }
 }
 .err-msg {

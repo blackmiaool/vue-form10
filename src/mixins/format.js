@@ -2,7 +2,8 @@ import get from 'lodash/get';
 import toPath from "lodash/toPath";
 import { mapState } from 'vuex';
 import TypeWrapper from "../components/TypeWrapper";
-import AnyType, { stdFormObj } from "../components/AnyType";
+import AnyType from "../components/AnyType";
+import { stdFormObj } from "../util";
 
 function execWith(expression, context) {
     const keys = Object.keys(context);
