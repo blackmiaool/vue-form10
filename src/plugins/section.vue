@@ -38,35 +38,30 @@ export default {
             name: "section",
             format: "",
             types: ["object"],
-            preview: {
-                // schema: {
-                //     type: "object",
-                //     title: "obj",
-                //     format: "section",
-                //     form: {
-                //         sections: [
-                //             {
-                //                 keys: ["a", "c"],
-                //                 title: "a and c"
-                //             },
-                //             {
-                //                 keys: ["b"],
-                //                 title: "is b"
-                //             }
-                //         ]
-                //     },
-                //     properties: {
-                //         a: {
-                //             type: "string"
-                //         },
-                //         b: {
-                //             type: "number"
-                //         },
-                //         c: {
-                //             type: "string"
-                //         }
-                //     }
-                // }
+        },
+        preview: {
+            schema: {
+                type: "object",
+                format: "section",
+                form: {
+                    sections: [
+                        {
+                            keys: ["a"],
+                        },
+                        {
+                            keys: ["c"],
+                            title: "title c"
+                        }
+                    ]
+                },
+                properties: {
+                    a: {
+                        type: "string"
+                    },
+                    c: {
+                        type: "string"
+                    }
+                }
             }
         }
     },

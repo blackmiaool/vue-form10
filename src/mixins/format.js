@@ -144,6 +144,9 @@ export default {
                 return get(this.$store.state, this.path);
             }
         },
+        schema() {
+            return this.sfSchema;
+        },
         form() {
             const form = stdFormObj(this.name, this.sfSchema);
             if (form.schema.format) {

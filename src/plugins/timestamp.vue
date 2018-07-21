@@ -1,7 +1,10 @@
 <template>
     <TypeWrapper v-bind="typeWrapperProps" ref="typeWrapper">
         <div slot="input">
-            <el-date-picker :disabled="form.readonly" v-model="model" type="datetime" :placeholder="form.placeholder" value-format="timestamp">
+            <el-date-picker :disabled="form.readonly"
+                v-model="model" type="datetime"
+                :placeholder="form.placeholder"
+                value-format="timestamp">
             </el-date-picker>
         </div>
 
@@ -18,11 +21,11 @@ export default {
         format: {
             name: "timestamp",
             format: /^\d{13}$/,
-            types: ["number"],
-            preview: {
-                schema: {
-                    type: "number"
-                }
+            types: ["number"]
+        },
+        preview: {
+            schema: {
+                type: "number"
             }
         }
     }

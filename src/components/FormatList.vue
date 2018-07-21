@@ -1,25 +1,48 @@
 <template>
-    <el-form>
-        <div v-for="(format,i) in formats" :key="i" class="format-list">
-
-            <el-card class="box-card">
-                <div slot="header" class="clearfix">
-                    <span>{{$t(format.form10.format.name)}}</span>
-                    <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
-                </div>
-                <AnyTypePreview :plugin="format" />
-            </el-card>
-        </div>
-    </el-form>
+    <Form10 ref="form10" :sf-schema="schema" v-model="model" :sf-options="options" :plugins="plugins" />
 </template>
 
 <script>
+import draggable from 'vuedraggable';
+import Vue from "vue";
 import Form10 from "./Form10";
-import AnyTypePreview from "./AnyTypePreview";
+import { assignDeep } from "../util";
 
+Vue.component('draggable', draggable);
 export default {
     name: "FormatList",
     computed: {
+        schema() {
+            const properties = {};
+            const model = [];
+
+            this.plugins.forEach((plugin) => {
+                if (plugin.form10.format.name === 'drag-list') {
+                    return;
+                }
+
+                let schema = plugin.form10.preview && plugin.form10.preview.schema;
+                schema = assignDeep({
+                    title: this.$t(plugin.form10.format.name),
+                    format: plugin.form10.format.name,
+                    type: plugin.form10.format.types[0],
+                    form: {
+                        notitle: true,
+                    }
+                }, schema);
+                properties[plugin.form10.format.name] = schema;
+                model.push(plugin.form10.format.name);
+            });
+            const ret = {
+                type: 'object',
+                format: 'drag-list',
+                properties,
+                form: {
+                    model
+                }
+            };
+            return ret;
+        },
         formats() {
             return this.plugins.filter(plugin => {
                 return plugin.form10 && plugin.form10.format;
@@ -29,25 +52,18 @@ export default {
     methods: {},
     mounted() {},
     props: ["plugins"],
+    data() {
+        return {
+            model: null,
+            options: {}
+        };
+    },
     components: {
-        Form10,
-        AnyTypePreview
+        Form10
     }
 };
 </script>
 <style lang="less">
-.format-list{
-    .el-card__header{
-        padding:8px 12px;
-    }
-    .el-card__body{
-        padding:10px;
-    }
-}
-</style>
-<style scoped lang="less">
-.box-card{
-    margin-bottom: 10px;
-}
+
 </style>
 

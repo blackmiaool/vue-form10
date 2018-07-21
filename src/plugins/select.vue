@@ -21,15 +21,15 @@ export default {
                 return form.titleMap || schema.enum;
             },
             types: ["number", "string"],
-            preview: {
-                schema: {
-                    type: "string",
-                    form: {
-                        titleMap: {
-                            a: 1,
-                            b: 2,
-                            c: 3
-                        }
+        },
+        preview: {
+            schema: {
+                type: "string",
+                form: {
+                    titleMap: {
+                        a: 1,
+                        b: 2,
+                        c: 3
                     }
                 }
             }

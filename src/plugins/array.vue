@@ -44,6 +44,16 @@ export default {
                     type: "boolean",
                 }
             },
+        },
+        preview: {
+            schema: {
+                type: 'array',
+                items: {
+                    type: 'object',
+                    title: 'content'
+                }
+            },
+            data: [{}]
         }
     },
     props: [],

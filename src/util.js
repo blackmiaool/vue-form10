@@ -60,3 +60,27 @@ export const pluginEmptyValues = {
     string: "",
     integer: 0
 };
+
+export function assignDeep(target, ...args) {
+    if (target == null) { // TypeError if undefined or null
+        throw new TypeError('Cannot convert undefined or null to object');
+    }
+
+    const to = Object(target);
+
+    args.forEach((nextSource) => {
+        if (nextSource != null) {
+            Object.keys(nextSource).forEach((nextKey) => {
+                if (typeof to[nextKey] === 'object'
+                    && to[nextKey]
+                    && typeof nextSource[nextKey] === 'object'
+                    && nextSource[nextKey]) {
+                    assignDeep(to[nextKey], nextSource[nextKey]);
+                } else {
+                    to[nextKey] = nextSource[nextKey];
+                }
+            });
+        }
+    });
+    return to;
+}

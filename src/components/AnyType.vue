@@ -2,9 +2,9 @@
     <div class="wrap" :class="{selected:isEqual(selected,path)}"
         @click.stop="onClick">
         <component v-if="condition" :is="componentId"
-            :sf-schema="sfSchema" :sf-model.sync="model"
+            :sf-schema="sfSchema"
             :parent="parent" :path="path" :options="options"
-            :name="name" :margin="margin" :schema="schema"></component>
+            :name="name" :margin="margin"></component>
     </div>
 </template>
 
