@@ -40,14 +40,6 @@ import "element-ui/lib/theme-chalk/index.css";
 import "codemirror/mode/javascript/javascript.js";
 import Form10 from "./Form10";
 import Editor from "./Editor";
-import TimestampFormat from "../plugins/TimestampFormat";
-import SelectFormat from "../plugins/SelectFormat";
-import ArrayType from "../plugins/ArrayType";
-import BooleanType from "../plugins/BooleanType";
-import NumberType from "../plugins/NumberType";
-import SectionFormat from "../plugins/SectionFormat";
-import ObjectType from "../plugins/ObjectType";
-import StringType from "../plugins/StringType";
 import i18n from "../i18n";
 import FormatList from "./FormatList";
 // eslint-disable-next-line
@@ -65,6 +57,17 @@ const code = localStorage.getItem(storageKey) || "";
 const model = null;
 
 Vue.use(VueI18n);
+
+const localRequire = require.context("../plugins", true, /\.vue$/);
+
+function getPluginsFromContext(context) {
+    return context
+        .keys()
+        .map(context)
+        .map(a => a.default);
+}
+const plugins = getPluginsFromContext(localRequire);
+
 export default {
     name: "Home",
     i18n,
@@ -161,7 +164,7 @@ export default {
     },
     data() {
         return {
-            plugins: [TimestampFormat, SelectFormat, ArrayType, BooleanType, NumberType, ObjectType, StringType, SectionFormat],
+            plugins,
             selectingPath: null,
             selectingExample: null,
             examples: [],

@@ -12,7 +12,7 @@
 import FormatMixin from "../mixins/format";
 
 export default {
-    name: "TimestampType",
+    name: "timestamp-format",
     mixins: [FormatMixin],
     form10: {
         format: {

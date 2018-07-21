@@ -11,10 +11,13 @@
 import FormatMixin from "../mixins/format";
 
 export default {
-    name: "NumberType",
+    name: "number-default",
     mixins: [FormatMixin],
     form10: {
-        type: 'number',
+        format: {
+            name: 'number',
+            types: ['number'],
+        },
     },
 };
 </script>

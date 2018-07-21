@@ -59,4 +59,7 @@ export default {
 
 
 <style scoped>
+.wrap{
+    pointer-events: none;
+}
 </style>

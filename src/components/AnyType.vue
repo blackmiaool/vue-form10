@@ -4,7 +4,7 @@
         <component v-if="condition" :is="componentId"
             :sf-schema="sfSchema" :sf-model.sync="model"
             :parent="parent" :path="path" :options="options"
-            :name="name" :margin="margin"></component>
+            :name="name" :margin="margin" :schema="schema"></component>
     </div>
 </template>
 
@@ -77,11 +77,11 @@ export default {
             rootModel: state => state.model
         }),
         ...mapState(["selected"]),
+        schema() {
+            return this.sfSchema;
+        },
         form() {
             const form = stdFormObj(this.name, this.sfSchema);
-            if (form.schema.format) {
-                form.type = form.schema.format;
-            }
             if (this.sfSchema.form) {
                 Object.assign(form, this.sfSchema.form);
             }
@@ -97,35 +97,34 @@ export default {
         },
         componentId() {
             const form = this.form;
-            if (!this.sfSchema || !Object.keys(this.sfSchema).length) {
+            const schema = this.schema;
+
+            const format = schema.format;
+            const type = schema.type;
+
+            const options = this.options;
+            if (!schema || !Object.keys(schema).length) {
                 return null;
             }
             let result;
-            result = this.options.formats.find(({ shouldUse }) => {
-                if (shouldUse && shouldUse(this.form, this.form.schema)) {
-                    return true;
-                }
-                return false;
-            });
-            if (result) {
-                return `format-${result.name}`;
-            }
-            if (form.type) {
-                result = this.options.formats.find(({ name, shouldUse }) => {
-                    if (shouldUse && shouldUse(this.form, this.form.schema)) {
+            if (format) {
+                result = options.formats.find(({ name, shouldUse }) => {
+                    if (shouldUse && shouldUse(form, schema)) {
                         return true;
                     }
-                    return name === form.type;
+                    return name === format;
                 });
                 if (result) {
                     return `format-${result.name}`;
                 }
-                console.error(`unknown format `, this.sfSchema, form.type, this);
+                console.error(`unknown format `, schema, form, format, type, this);
+            } else { // use default format
+                return `format-${options.typeDefaultFormat[type]}`;
             }
-            if (!form.schema.type) {
-                console.error("schema needs type", form);
+            if (!type) {
+                console.error("schema needs type", schema);
             }
-            return `type-${form.schema.type}`;
+            return '';
         },
         condition() {
             let ret;

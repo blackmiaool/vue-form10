@@ -29,10 +29,13 @@ import { getDefaultFromSchema } from "../util";
 import FormatMixin from "../mixins/format";
 
 export default {
-    name: "ArrayType",
+    name: "array-default",
     mixins: [FormatMixin],
     form10: {
-        type: "array",
+        format: {
+            name: 'array',
+            types: ['array'],
+        },
         schema: {
             type: "object",
             properties: {

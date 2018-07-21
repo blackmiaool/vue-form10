@@ -11,16 +11,13 @@
 import FormatMixin from "../mixins/format";
 
 export default {
-    name: "StringType",
+    name: "string-default",
     mixins: [FormatMixin],
     form10: {
-        type: "string",
-        form: {
-            placeholder: {
-                title: 'placeholder',
-                type: 'string',
-            }
-        }
+        format: {
+            name: 'string',
+            types: ['string'],
+        },
     },
 };
 </script>

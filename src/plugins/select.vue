@@ -11,7 +11,7 @@
 import FormatMixin from "../mixins/format";
 
 export default {
-    name: "EnumType",
+    name: "select-format",
     mixins: [FormatMixin],
     form10: {
         format: {

@@ -1,6 +1,6 @@
 <template>
     <el-form>
-        <div v-for="(format,i) in formats" :key="i">
+        <div v-for="(format,i) in formats" :key="i" class="format-list">
 
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
@@ -35,6 +35,16 @@ export default {
     }
 };
 </script>
+<style lang="less">
+.format-list{
+    .el-card__header{
+        padding:8px 12px;
+    }
+    .el-card__body{
+        padding:10px;
+    }
+}
+</style>
 <style scoped lang="less">
 .box-card{
     margin-bottom: 10px;

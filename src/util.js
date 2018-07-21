@@ -49,28 +49,6 @@ export function stdFormObj(name, schema, options) {
     } else {
         f.title = schema.title || name;
     }
-
-    if (schema.description) {
-        f.description = schema.description;
-    }
-    if (options.required === true || schema.required === true) {
-        f.required = true;
-    }
-    if (schema.maxLength) {
-        f.maxlength = schema.maxLength;
-    }
-    if (schema.minLength) {
-        f.minlength = schema.minLength;
-    }
-    if (schema.readOnly || schema.readonly) {
-        f.readonly = true;
-    }
-    if (schema.minimum) {
-        f.minimum = schema.minimum + (schema.exclusiveMinimum ? 1 : 0);
-    }
-    if (schema.maximum) {
-        f.maximum = schema.maximum - (schema.exclusiveMaximum ? 1 : 0);
-    }
     f.schema = schema;
     return f;
 }

@@ -139,9 +139,6 @@ export default {
             this.options.formats.forEach(({ name, component }) => {
                 ret[`format-${name}`] = component;
             });
-            this.options.types.forEach(({ type, component }) => {
-                ret[`type-${type}`] = component;
-            });
             return ret;
         },
         use(plugin) {
@@ -167,20 +164,25 @@ export default {
                     } else {
                         this.options.tv4.addFormat(
                             formatConfig.name,
-                            formatConfig.format
+                            formatConfig.format || "",
                         );
                     }
-                }
-                if (pluginConfig.type) {
-                    this.options.types.push({
-                        type: pluginConfig.type,
-                        component: plugin
-                    });
                 }
             }
         }
     },
-    props: ["sf-schema", "value", "sf-options", "plugins"],
+    props: {
+        'sf-schema': {
+            type: Object,
+        },
+        value: {},
+        'sf-options': {
+            type: Object,
+        },
+        plugins: {
+            type: Array
+        },
+    },
     beforeMount() {
         this.options.tv4 = tv4;
     },
@@ -192,9 +194,16 @@ export default {
             compForm: {},
             options: {
                 formats: [],
-                types: [],
                 $rootParent: this.$parent,
-                $root: this
+                $root: this,
+                typeDefaultFormat: {
+                    object: 'object',
+                    array: 'array',
+                    number: 'number',
+                    integer: 'number',
+                    string: 'string',
+                    boolean: 'boolean',
+                }
             }
         };
     },

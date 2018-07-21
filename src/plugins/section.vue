@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import ObjectType from "./ObjectType";
+import ObjectType from "./object";
 import FormatMixin from "../mixins/format";
 
 export default {
-    name: "SectionFormat",
+    name: "section-format",
     mixins: [FormatMixin],
     form10: {
         format: {

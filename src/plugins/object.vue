@@ -23,10 +23,13 @@
 import FormatMixin from "../mixins/format";
 
 export default {
-    name: "ObjectType",
+    name: "object-default",
     mixins: [FormatMixin],
     form10: {
-        type: 'object',
+        format: {
+            name: 'object',
+            types: ['object'],
+        },
     },
     methods: {
         getChildProps($index, key) {

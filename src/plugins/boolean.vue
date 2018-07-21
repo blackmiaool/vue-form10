@@ -11,10 +11,13 @@
 import FormatMixin from "../mixins/format";
 
 export default {
-    name: "BooleanType",
+    name: "boolean-default",
     mixins: [FormatMixin],
     form10: {
-        type: 'boolean',
+        format: {
+            name: 'boolean',
+            types: ['boolean'],
+        },
     },
 };
 </script>

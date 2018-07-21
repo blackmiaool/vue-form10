@@ -14,6 +14,7 @@ export default {
             // format
             timestamp: '时间戳',
             select: '下拉框',
+            section: '分块'
 
         }
     }
