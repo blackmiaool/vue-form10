@@ -21,7 +21,6 @@ export default {
             types: ["number"],
             preview: {
                 schema: {
-                    title: "时间戳",
                     type: "number"
                 }
             }

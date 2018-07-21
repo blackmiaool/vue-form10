@@ -1,7 +1,14 @@
 <template>
     <el-form>
         <div v-for="(format,i) in formats" :key="i">
-            <AnyTypePreview :plugin="format" />
+
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>{{$t(format.form10.format.name)}}</span>
+                    <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
+                </div>
+                <AnyTypePreview :plugin="format" />
+            </el-card>
         </div>
     </el-form>
 </template>
@@ -28,3 +35,9 @@ export default {
     }
 };
 </script>
+<style scoped lang="less">
+.box-card{
+    margin-bottom: 10px;
+}
+</style>
+

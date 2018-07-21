@@ -23,7 +23,6 @@ export default {
             types: ["number", "string"],
             preview: {
                 schema: {
-                    title: "下拉选择",
                     type: "string",
                     form: {
                         titleMap: {

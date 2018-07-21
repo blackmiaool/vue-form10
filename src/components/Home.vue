@@ -1,28 +1,29 @@
 <template>
     <div class="wrap">
-        <div class="format-list">
-            <FormatList :plugins="plugins" />
-        </div>
-        <div class="left" style="padding:10px">
-            <label>schema</label>
-            <el-select v-model="selectingExample" placeholder="select an example">
-                <el-option v-for="example in examples" :key="example.name" :label="example.name" :value="example.name">
-                </el-option>
-            </el-select>
-            <Editor v-model="schema" :path="selectingPath" style="margin-bottom:30px;" :plugins="plugins" />
-            <codemirror v-model="code" :options="cmOptions" style="height:50vh;"></codemirror>
-            <pre class="err-msg" v-if="errMsg">{{errMsg}}</pre>
-            <br>
-            <label>model</label>
-            <pre>{{JSON.stringify(model,false,4)}}</pre>
-        </div>
-        <div class="right">
-            <label>Editor Mode</label>
-            <el-switch v-model="editorMode">Edit Mode</el-switch>
-            <Form10 ref="form10" :sf-schema="schema" v-model="model" :sf-form="form" :sf-options="options" @select="onSelect" :plugins="plugins" />
-            <el-button @click="submit">{{$t("Submit")}}</el-button>
-        </div>
-
+        <el-row :gutter="20">
+            <el-col :span="8">
+                <FormatList :plugins="plugins" />
+            </el-col>
+            <el-col :span="8">
+                <label>schema</label>
+                <el-select v-model="selectingExample" placeholder="select an example">
+                    <el-option v-for="example in examples" :key="example.name" :label="example.name" :value="example.name">
+                    </el-option>
+                </el-select>
+                <Editor v-model="schema" :path="selectingPath" style="margin-bottom:30px;" :plugins="plugins" />
+                <codemirror v-model="code" :options="cmOptions" style="height:50vh;"></codemirror>
+                <pre class="err-msg" v-if="errMsg">{{errMsg}}</pre>
+                <br>
+                <label>model</label>
+                <pre>{{JSON.stringify(model,false,4)}}</pre>
+            </el-col>
+            <el-col :span="8">
+                <label>Editor Mode</label>
+                <el-switch v-model="editorMode">Edit Mode</el-switch>
+                <Form10 ref="form10" :sf-schema="schema" v-model="model" :sf-form="form" :sf-options="options" @select="onSelect" :plugins="plugins" />
+                <el-button @click="submit">{{$t("Submit")}}</el-button>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -187,13 +188,7 @@ export default {
 
 <style scoped lang="less">
 .wrap {
-    display: flex;
-    > div {
-        flex: 1;
-    }
-    .left {
-        box-sizing: border-box;
-    }
+    padding:20px;
 }
 .err-msg {
     background-color: red;
