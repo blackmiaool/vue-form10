@@ -5,7 +5,7 @@
                 element="ol" :list="model" :options="{animation: 150,handle:'.sort-handle'}">
                 <li v-for="(item,$index) in model" :key="$index"
                     class="list-group-item">
-                    <AnyType :options="options" :sf-schema="form.schema.items"
+                    <AnyType :options="options" :sf-schema="schema.items"
                         :parent-path="path" parent="array"
                         :name="$index" :is-last="$index===model.length-1"
                         v-bind="getChildProps($index)"
@@ -69,7 +69,7 @@ export default {
     },
     methods: {
         addItem() {
-            const defaultData = getDefaultFromSchema(this.form.schema.items);
+            const defaultData = getDefaultFromSchema(this.schema.items);
             let model = this.model;
             if (!Array.isArray(model)) {
                 model = [];

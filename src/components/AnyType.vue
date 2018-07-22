@@ -33,7 +33,7 @@ export default {
                     this.model = null;
                     break;
                 case "empty":
-                    switch (this.form.schema.type) {
+                    switch (this.schema.type) {
                         case "string":
                             this.model = "";
                             breaked = true;

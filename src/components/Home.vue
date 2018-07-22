@@ -10,7 +10,7 @@
             <el-col :span="8">
                 <div style="height:100%;overflow:auto;">
                     <header>Edit Area (Only one item is allowed in the root path)</header>
-                    <NestedList v-model="rags" />
+                    <NestedList v-model="rags"  :plugins="plugins" />
                 </div>
             </el-col>
             <!-- <el-col :span="8">

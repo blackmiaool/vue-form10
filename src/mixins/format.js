@@ -50,10 +50,10 @@ export default {
                 }
 
 
-                if (this.type === 'object' || this.type === 'array' || this.form.schema.type === 'object' || this.form.schema.type === 'array') {
+                if (this.type === 'object' || this.type === 'array' || this.schema.type === 'object' || this.schema.type === 'array') {
                     return;
                 }
-                const schema = JSON.parse(JSON.stringify(this.form.schema));
+                const schema = JSON.parse(JSON.stringify(this.schema));
                 if (this.form.type) {
                     schema.format = this.form.type;
                 }
@@ -80,11 +80,11 @@ export default {
                         if (validationMessage) {
                             const context = {
                                 error,
-                                title: this.form.schema.title,
+                                title: this.schema.title,
                                 value: this.model,
                                 valueValue: this.model,
                                 form: this.form,
-                                schema: this.form.schema
+                                schema: this.schema
                             };
 
                             if (typeof validationMessage === 'object' && validationMessage[keyword]) {
@@ -131,7 +131,7 @@ export default {
             rootModel: state => state.model
         }),
         type() {
-            return this.form.type || this.form.schema.type;
+            return this.form.type || this.schema.type;
         },
         modelValue() {
             return this.model;
@@ -158,6 +158,7 @@ export default {
             return {
                 form: this.form,
                 margin: this.margin,
+                schema: this.schema
             };
         }
     },

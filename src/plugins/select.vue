@@ -49,8 +49,8 @@ export default {
                 } else {
                     console.warn("invalid titleMap:", this.form.titleMap);
                 }
-            } else if (this.form.schema.enum) {
-                arr = this.form.schema.enum.map(name => {
+            } else if (this.schema.enum) {
+                arr = this.schema.enum.map(name => {
                     return { value: name, name };
                 });
             }

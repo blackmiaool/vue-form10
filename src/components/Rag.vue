@@ -24,12 +24,15 @@
 
             <section>
                 <span class="type">
-                    <label>Type: </label>{{schema.type}}</span>
+                    <label>Type: </label>{{$t(schema.type)}}</span>
                 <span class="format">
-                    <label>Format: </label>{{schema.format}}</span>
+                    <label>Format: </label>{{$t(schema.format)}}</span>
                 <div class="tools">
                     <!-- <i :title="$t('move up')" class="clickable el-icon-caret-top"></i>
                         <i :title="$t('move down')" class="clickable el-icon-caret-bottom"></i> -->
+                    <i :title="$t('edit')" class="clickable el-icon-edit"
+                        style="color:#409EFF"
+                        @click="edit()"></i>
                     <i :title="$t('delete')" class="clickable el-icon-delete"
                         style="color:#F56C6C"
                         @click="remove()"></i>
@@ -73,6 +76,9 @@ export default {
             } catch (e) {
                 // nothing
             }
+        },
+        edit() {
+            this.eventHub.$emit('edit', this.schema.form10uid);
         }
     },
     computed: {

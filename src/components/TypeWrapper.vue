@@ -1,29 +1,27 @@
 <template>
     <el-form-item :label="(hideTitle||form.notitle)?'':$t(form.title)"
-        :style="{margin}"
-        :class="[form.htmlClass]"
-        :required="form.schema.required===true"
+        :style="{margin}" :class="[form.htmlClass]"
+        :required="schema.required===true"
         ref="formItem">
         <div style="clear:both;">
             <slot name="input">
             </slot>
         </div>
-        <span v-if="form.description" class="form10-description">
-            {{form.description}}
+        <span v-if="schema.description" class="form10-description">
+            {{schema.description}}
         </span>
     </el-form-item>
 </template>
 
 <script>
-
 export default {
     name: "TypeWrapper",
-    props: { form: {}, options: {}, "hide-title": { type: Boolean }, margin: {} },
+    props: { form: {}, options: {}, "hide-title": { type: Boolean }, margin: {}, schema: {} }
 };
 </script>
 
 <style>
-.CodeMirror{
+.CodeMirror {
     height: 100%;
 }
 </style>

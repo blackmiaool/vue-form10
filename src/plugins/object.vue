@@ -55,8 +55,8 @@ export default {
             if (this.form.keys) {
                 return this.form.keys;
             }
-            if (this.form.schema.properties) {
-                return Object.keys(this.form.schema.properties);
+            if (this.schema.properties) {
+                return Object.keys(this.schema.properties);
             }
             return [];
         },
