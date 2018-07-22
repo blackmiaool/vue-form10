@@ -1,18 +1,9 @@
 <template>
-    <!-- <TypeWrapper v-bind="typeWrapperProps" hide-title  ref="typeWrapper">
-        <template slot="input">
-
-        </template>
-    </TypeWrapper> -->
     <TypeWrapper v-bind="typeWrapperProps" :hide-title="true" ref="typeWrapper">
         <div slot="input" class="format-list">
-            <draggable v-model="form.model" :options="draggableOptions">
-                <!-- <div v-for="element in myArray" :key="element.id">
-                    {{element.name}}
-                </div>
-                <button slot="footer" @click="addPeople">Add</button> -->
+            <draggable v-model="form.model" :options="draggableOptions" :clone="clone">
                 <template v-for="(section,$index) in schema.properties">
-                    <el-card :key="$index" class="box-card">
+                    <el-card :key="$index" class="rag-card box-card">
                         <h3 slot="header" style="margin:0;">{{section.title}}</h3>
                         <section >
                             <AnyType v-bind="getSectionChildProps($index,$index)" />
@@ -28,6 +19,7 @@
 import FormatMixin from "../mixins/format";
 import ObjectType from "./object";
 
+let form10uid = 0;
 export default {
     name: "drag-list-format",
     mixins: [FormatMixin],
@@ -39,6 +31,14 @@ export default {
     },
     extends: ObjectType,
     methods: {
+        clone(obj) {
+            form10uid++;
+            const ret = JSON.parse(JSON.stringify(obj));
+
+            ret.form10uid = `uid${form10uid}`;
+            delete ret.form.notitle;
+            return ret;
+        },
         getSectionChildProps($index, key) {
             const props = this.getChildProps($index, key);
             return props;
@@ -47,7 +47,8 @@ export default {
     data() {
         return {
             draggableOptions: {
-                sort: false
+                group: { name: 'a', pull: 'clone', push: false },
+                sort: false,
             }
         };
     },
@@ -55,17 +56,10 @@ export default {
 };
 </script>
 <style scoped lang="less">
-.box-card{
+.rag-card{
     margin-bottom: 10px;
 }
-.format-list{
-    .el-card__header{
-        padding:8px 12px;
-    }
-    .el-card__body{
-        padding:10px;
-    }
-}
+
 section{
     pointer-events: none;
 }

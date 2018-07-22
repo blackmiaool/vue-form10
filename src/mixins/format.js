@@ -149,9 +149,6 @@ export default {
         },
         form() {
             const form = stdFormObj(this.name, this.sfSchema);
-            if (form.schema.format) {
-                form.type = form.schema.format;
-            }
             if (this.sfSchema.form) {
                 Object.assign(form, this.sfSchema.form);
             }

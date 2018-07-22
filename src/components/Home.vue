@@ -1,10 +1,19 @@
 <template>
-    <div class="wrap">
-        <el-row :gutter="20">
-            <el-col :span="8">
-                <FormatList :plugins="plugins" />
+    <div class="wrap" style="height:100%;">
+        <el-row :gutter="20" style="height:100%;">
+            <el-col :span="8" style="height:100%;">
+                <div style="height:100%;overflow:auto;">
+                    <FormatList :plugins="plugins" />
+                </div>
+
             </el-col>
             <el-col :span="8">
+                <div style="height:100%;overflow:auto;">
+                    <header>Edit Area (Only one is allowed in the root path)</header>
+                    <NestedList v-model="rags" />
+                </div>
+            </el-col>
+            <!-- <el-col :span="8">
                 <label>schema</label>
                 <el-select v-model="selectingExample" placeholder="select an example">
                     <el-option v-for="example in examples" :key="example.name" :label="example.name" :value="example.name">
@@ -16,12 +25,18 @@
                 <br>
                 <label>model</label>
                 <pre>{{JSON.stringify(model,false,4)}}</pre>
-            </el-col>
-            <el-col :span="8">
-                <label>Editor Mode</label>
-                <el-switch v-model="editorMode">Edit Mode</el-switch>
-                <Form10 ref="form10" :sf-schema="schema" v-model="model" :sf-form="form" :sf-options="options" @select="onSelect" :plugins="plugins" />
-                <el-button @click="submit">{{$t("Submit")}}</el-button>
+            </el-col> -->
+            <el-col :span="8" style="height:100%;">
+                <div style="height:100%;overflow:auto;">
+                    <header>Preview Area</header>
+                    <Form10 ref="form10" :sf-schema="schema"
+                        v-model="model"
+                        :sf-options="options"
+                        @select="onSelect" :plugins="plugins"
+                    />
+                    <el-button @click="submit">{{$t("Submit")}}</el-button>
+                    <codemirror :value="modelCode" :options="cmOptions"/>
+                </div>
             </el-col>
         </el-row>
     </div>
@@ -32,7 +47,6 @@ import Vue from "vue";
 import JSON5 from "json5";
 import VueCodemirror from "vue-codemirror";
 import ElementUI from "element-ui";
-import find from "lodash/find";
 import VueI18n from "vue-i18n";
 import "element-ui/lib/theme-chalk/index.css";
 
@@ -42,10 +56,15 @@ import Form10 from "./Form10";
 import Editor from "./Editor";
 import i18n from "../i18n";
 import FormatList from "./FormatList";
+import NestedList, { rag2schema } from "./NestedList";
 // eslint-disable-next-line
 import "codemirror/lib/codemirror.css";
 
-Vue.use(VueCodemirror /* {
+Vue.use(VueCodemirror, {
+    options: {
+
+    }
+} /* {
   options: { theme: 'base16-dark', ... },
   events: ['scroll', ...]
 } */);
@@ -68,6 +87,7 @@ function getPluginsFromContext(context) {
 }
 const plugins = getPluginsFromContext(localRequire);
 
+
 export default {
     name: "Home",
     i18n,
@@ -80,6 +100,16 @@ export default {
                 ret.mode = "normal";
             }
             return ret;
+        },
+        schema() {
+            if (this.rags.length !== 1) {
+                return null;
+            }
+            const ret = this.rags[0];
+            return rag2schema(ret);
+        },
+        modelCode() {
+            return JSON5.stringify(this.model, false, 4);
         }
     },
     methods: {
@@ -121,33 +151,6 @@ export default {
             handler() {},
             deep: true
         },
-        code: {
-            immediate: true,
-            handler(codeText, preCode) {
-                if (preCode) {
-                    return;
-                }
-                let obj;
-
-                try {
-                    // if (
-                    //     preCode && JSON5.stringify(JSON5.parse(`${codeText}`)) ===
-                    //     JSON5.stringify(JSON5.parse(`${preCode}`))
-                    // ) {
-                    //     return;
-                    // }
-
-                    obj = JSON5.parse(codeText);
-                    this.timeoutSetSchema(obj);
-                    if (this.errMsg) {
-                        this.errMsg = "";
-                    }
-                } catch (e) {
-                    obj = null;
-                    this.errMsg = e.message;
-                }
-            }
-        },
         schema: {
             deep: true,
             handler(schema) {
@@ -155,15 +158,16 @@ export default {
                 this.model = null;
             }
         },
-        selectingExample(val) {
-            this.model = null;
-            this.selectingPath = [];
-            this.timeoutSetSchema(find(this.examples, { name: val }).value);
-            this.code = JSON5.stringify(find(this.examples, { name: val }).value, false, 4);
+        selectingExample() {
+            // this.model = null;
+            // this.selectingPath = [];
+            // this.timeoutSetSchema(find(this.examples, { name: val }).value);
+            // this.code = JSON5.stringify(find(this.examples, { name: val }).value, false, 4);
         }
     },
     data() {
         return {
+            rags: [],
             plugins,
             selectingPath: null,
             selectingExample: null,
@@ -171,7 +175,9 @@ export default {
             setSchemaTimeout: 0,
             errMsg: "",
             code,
+            JSON5,
             cmOptions: {
+                readOnly: true,
                 // codemirror options
                 lineWrapping: true,
                 tabSize: 4,
@@ -179,19 +185,20 @@ export default {
                 lineNumbers: true,
                 line: true
             },
-            schema: null,
+            // schema: null,
             model: JSON.parse(JSON.stringify(model)),
             form: null,
-            editorMode: false
+            editorMode: false,
         };
     },
-    components: { Form10, Editor, FormatList }
+    components: { Form10, Editor, FormatList, NestedList }
 };
 </script>
 
 <style scoped lang="less">
 .wrap {
-    padding:20px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 .err-msg {
     background-color: red;

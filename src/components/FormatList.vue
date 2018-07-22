@@ -26,12 +26,13 @@ export default {
                     title: this.$t(plugin.form10.format.name),
                     format: plugin.form10.format.name,
                     type: plugin.form10.format.types[0],
+                    rags: [],
                     form: {
                         notitle: true,
                     }
                 }, schema);
                 properties[plugin.form10.format.name] = schema;
-                model.push(plugin.form10.format.name);
+                model.push(schema);
             });
             const ret = {
                 type: 'object',

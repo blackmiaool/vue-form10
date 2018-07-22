@@ -35,7 +35,7 @@ export default {
         getChildProps($index, key) {
             const isLast = $index === this.keys.length - 1;
             return {
-                sfSchema: this.form.schema.properties[key],
+                sfSchema: this.schema.properties[key],
                 name: key,
                 isLast: $index === this.keys.length - 1,
                 parent: "object",

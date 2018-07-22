@@ -15,12 +15,15 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
 html,body{
     margin: 0;
     padding:0;
+    height:100%;
 }
+
 #app {
+    height:100%;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -38,5 +41,13 @@ html,body{
 }
 legend{
     margin-bottom: 0 !important;
+}
+.rag-card{
+    .el-card__header{
+        padding:8px 12px;
+    }
+    .el-card__body{
+        padding:10px;
+    }
 }
 </style>
