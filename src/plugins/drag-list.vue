@@ -36,6 +36,7 @@ export default {
             const ret = JSON.parse(JSON.stringify(obj));
 
             ret.form10uid = `uid${form10uid}`;
+            ret.form10key = ret.form10uid;
             delete ret.form.notitle;
             return ret;
         },

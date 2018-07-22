@@ -19,6 +19,11 @@ export default {
             types: ['boolean'],
         },
     },
+    beforeMount() {
+        if (!this.model || typeof this.model !== 'object') {
+            this.model = false;
+        }
+    },
 };
 </script>
 

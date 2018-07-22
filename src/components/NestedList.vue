@@ -1,8 +1,8 @@
 <template>
     <draggable class="draggable" v-model="rags"
-        :options="draggableOptions">
+        :options="draggableOptions" :class="{empty:!rags.length}">
         <Rag v-for="schema in rags" :key="schema.form10uid"
-            class="item" :schema='schema'>
+            class="item" :schema='schema' :root="true">
         </Rag>
     </draggable>
 </template>
@@ -31,6 +31,15 @@ export function rag2schema(rag) {
             rag.properties[key] = rag2schema(child);
         });
     }
+    if (rag.type === rag.format) {
+        delete rag.format;
+    }
+    if (rag.form && Object.keys(rag.form).length === 0) {
+        delete rag.form;
+    }
+    delete rag.rags;
+    delete rag.form10uid;
+    delete rag.form10key;
     return rag;
 }
 function getPositionFromUid(rags, uid) {
@@ -106,7 +115,10 @@ export default {
 <style scoped lang="less">
 .draggable {
     min-height: 100px;
-    background-color: #f3f3f3;
+    &.empty{
+        background-color: #f3f3f3;
+    }
+
     padding: 10px;
 }
 </style>

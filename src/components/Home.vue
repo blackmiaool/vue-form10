@@ -9,7 +9,7 @@
             </el-col>
             <el-col :span="8">
                 <div style="height:100%;overflow:auto;">
-                    <header>Edit Area (Only one is allowed in the root path)</header>
+                    <header>Edit Area (Only one item is allowed in the root path)</header>
                     <NestedList v-model="rags" />
                 </div>
             </el-col>
@@ -34,8 +34,9 @@
                         :sf-options="options"
                         @select="onSelect" :plugins="plugins"
                     />
-                    <el-button @click="submit">{{$t("Submit")}}</el-button>
+                    <el-button @click="submit" style="margin:10px 0;">{{$t("Submit")}}</el-button>
                     <codemirror :value="modelCode" :options="cmOptions"/>
+                    <codemirror :value="schemaCode" :options="cmOptions"/>
                 </div>
             </el-col>
         </el-row>
@@ -110,6 +111,9 @@ export default {
         },
         modelCode() {
             return JSON5.stringify(this.model, false, 4);
+        },
+        schemaCode() {
+            return JSON5.stringify(this.schema, false, 4);
         }
     },
     methods: {

@@ -1,20 +1,39 @@
 <template>
     <section>
         <el-card class="rag-card box-card">
-            <h3 slot="header" class="header">
-                <span class="title">{{schema.title}}</span>
-                <div class="tools">
-                    <!-- <i :title="$t('move up')" class="clickable el-icon-caret-top"></i>
-                    <i :title="$t('move down')" class="clickable el-icon-caret-bottom"></i> -->
-                    <i :title="$t('delete')" class="clickable el-icon-delete" style="color:#F56C6C"
-                        @click="remove()"></i>
+            <header slot="header" class="card-header">
+                <h3 class="header-cover">
+                    <span class="title">{{schema.title}}</span>
+                    <span class="form10key" v-if="!root">{{schema.form10key}}</span>
+                </h3>
+                <div class="header-hover">
+                    <div class="input-wrap">
+                        <el-input class="title" v-model="schema.title">
+                        </el-input>
+                        <label slot="prefix" class="input-prefix">{{$t('title')}}</label>
+                    </div>
+                    <div class="input-wrap">
+                        <el-input class="form10key"  v-if="!root" v-model="schema.form10key">
+
+                        </el-input>
+                        <label slot="prefix" class="input-prefix">{{$t('key')}}</label>
+                    </div>
+
                 </div>
-            </h3>
+            </header>
+
             <section>
                 <span class="type">
                     <label>Type: </label>{{schema.type}}</span>
                 <span class="format">
                     <label>Format: </label>{{schema.format}}</span>
+                <div class="tools">
+                    <!-- <i :title="$t('move up')" class="clickable el-icon-caret-top"></i>
+                        <i :title="$t('move down')" class="clickable el-icon-caret-bottom"></i> -->
+                    <i :title="$t('delete')" class="clickable el-icon-delete"
+                        style="color:#F56C6C"
+                        @click="remove()"></i>
+                </div>
             </section>
             <section v-if="isContainer">
                 <draggable class="draggable" v-model="schema.rags"
@@ -35,12 +54,17 @@ export default {
     props: {
         schema: {
             type: Object
+        },
+        root: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {
+        updateTitle() {},
         async remove() {
             try {
-                await this.$confirm(this.$t('deleteConfirm'), this.$t("Warning"), {
+                await this.$confirm(this.$t("deleteConfirm"), this.$t("Warning"), {
                     confirmButtonText: this.$t("OK"),
                     cancelButtonText: this.$t("Cancel"),
                     type: "warning"
@@ -65,17 +89,73 @@ export default {
 <style scoped lang="less">
 .box-card {
     margin-bottom: 10px;
-}
-.header {
-    margin: 0;
-    &:hover {
-        .tools {
+    .card-header {
+        &:hover {
+            .header-cover {
+                display: none;
+            }
+            .header-hover {
+                display: block;
+            }
+            .tools {
+                visibility: visible;
+            }
+        }
+        .input-wrap {
             display: inline-block;
+            width:50%;
+            position: relative;
+            .input-prefix {
+                position: absolute;
+                top: -6px;
+                color: #333;
+                font-size: 12px;
+                white-space: nowrap;
+                left: 10px;
+                padding:0 2px;
+                background-color: white;
+                line-height: 1.4;
+            }
         }
     }
+
     .tools {
-        display: none;
-        float: right;
+        // visibility: hidden;
+        padding-top: 10px;
+        padding-bottom: 3px;
+        text-align: right;
+    }
+}
+.header-hover,
+.header-cover {
+    font-size: 0;
+    .title {
+        font-size: 16px;
+    }
+    .form10key {
+        font-size: 16px;
+        font-weight: normal;
+    }
+}
+.header-hover {
+    display: none;
+    .title {
+        display: inline-block;
+        > * {
+            padding-left: 15px !important;
+        }
+    }
+    .form10key {
+        display: inline-block;
+    }
+}
+.header-cover {
+    margin: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    .title {
+        margin-right: 10px;
     }
 }
 .type {

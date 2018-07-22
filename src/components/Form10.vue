@@ -203,6 +203,7 @@ export default {
                     integer: 'number',
                     string: 'string',
                     boolean: 'boolean',
+                    null: 'null'
                 }
             }
         };

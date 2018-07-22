@@ -25,7 +25,10 @@ export default {
             deleteConfirm: '是否确认删除',
             Warning: '警告',
             OK: '确认',
-            Cancel: '取消'
+            Cancel: '取消',
+            null: '空值',
+            splitter: "分割线",
+            title: '标题',
         }
     }
 }
