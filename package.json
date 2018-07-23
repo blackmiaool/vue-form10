@@ -1,8 +1,9 @@
 {
   "name": "vue-form10",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "A Vue.js project",
   "author": "blackmiaool <blackmiaool@gmail.com>",
+  "main": "dist/form.js",
   "module": "dist/form.js",
   "modules.root": "src",
   "scripts": {
