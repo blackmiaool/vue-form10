@@ -3,9 +3,7 @@
   "version": "1.0.18",
   "description": "A Vue.js project",
   "author": "blackmiaool <blackmiaool@gmail.com>",
-  "main": "dist/form.js",
-  "module": "dist/form.js",
-  "modules.root": "src",
+  "main": "libs/form.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",

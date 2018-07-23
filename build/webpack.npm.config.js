@@ -89,7 +89,7 @@ module.exports = [{
         plugins: "./src/plugins.js",      
     },
     output: {
-        path: config.build.assetsRoot,
+        path: resolve("./libs"),
         filename: "[name].js",
         libraryTarget: "umd"
     },
