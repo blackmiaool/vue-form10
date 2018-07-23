@@ -131,6 +131,7 @@ export default {
                     if (shouldUse && shouldUse(this.editingSchema.form || {}, this.editingSchema)) {
                         return true;
                     }
+                    return false;
                 });
                 if (!targetPlugin) {
                     targetPlugin = this.plugins.find(plugin => {

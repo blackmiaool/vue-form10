@@ -8,8 +8,6 @@
 
 <script>
 import tv4 from "tv4";
-import VueI18n from "vue-i18n";
-import Vue from "vue";
 import clone from "clone";
 import { mapState } from "vuex";
 import validate from "../validate";
@@ -18,8 +16,6 @@ import store from "../store";
 import FormatMixin0 from "../mixins/format";
 
 export const FormatMixin = FormatMixin0;
-
-Vue.use(VueI18n);
 
 
 export default {
