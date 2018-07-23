@@ -98,6 +98,9 @@ export default {
                         }
                     } else if (isEmpty) {
                         validateState = null;
+                    } else if (this.$alternativeErrorMessage) {
+                        validateState = 'error';
+                        validateMessage = this.$alternativeErrorMessage;
                     } else {
                         validateState = 'success';
                         validateMessage = '';
@@ -169,8 +172,8 @@ export default {
     },
     data() {
         return {
+            $alternativeErrorMessage: '',
             $validateState: null,
-            $errorMessage: 'a',
         };
     },
     props: ['sf-schema', "options", "name", 'parent', 'is-last', 'path', 'margin'],

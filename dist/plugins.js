@@ -815,6 +815,9 @@ function execWith(expression, context) {
                         }
                     } else if (isEmpty) {
                         validateState = null;
+                    } else if (_this.$alternativeErrorMessage) {
+                        validateState = 'error';
+                        validateMessage = _this.$alternativeErrorMessage;
                     } else {
                         validateState = 'success';
                         validateMessage = '';
@@ -888,8 +891,8 @@ function execWith(expression, context) {
     },
     data: function data() {
         return {
-            $validateState: null,
-            $errorMessage: 'a'
+            $alternativeErrorMessage: '',
+            $validateState: null
         };
     },
 
