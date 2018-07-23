@@ -15,6 +15,8 @@ import AnyType from "./AnyType";
 import store from "../store";
 import FormatMixin0 from "../mixins/format";
 
+export * from "../util";
+
 export const FormatMixin = FormatMixin0;
 
 

@@ -685,7 +685,7 @@ module.exports = getNative;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof__);
@@ -705,7 +705,7 @@ module.exports = getNative;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_vuex__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_TypeWrapper__ = __webpack_require__(206);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_AnyType__ = __webpack_require__(83);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__util__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__util__ = __webpack_require__(51);
 
 
 
@@ -870,7 +870,7 @@ function execWith(expression, context) {
             return this.sfSchema;
         },
         form: function form() {
-            var form = Object(__WEBPACK_IMPORTED_MODULE_11__util__["b" /* stdFormObj */])(this.name, this.sfSchema);
+            var form = Object(__WEBPACK_IMPORTED_MODULE_11__util__["f" /* stdFormObj */])(this.name, this.sfSchema);
             if (this.sfSchema.form) {
                 __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_assign___default()(form, this.sfSchema.form);
             }
@@ -1500,44 +1500,15 @@ module.exports = Map;
 
 /***/ }),
 /* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _assign = __webpack_require__(33);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _assign2.default || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
-
-/***/ }),
-/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export getSchemaFromPath */
-/* harmony export (immutable) */ __webpack_exports__["a"] = getDefaultFromSchema;
-/* harmony export (immutable) */ __webpack_exports__["b"] = stdFormObj;
-/* unused harmony export assignDeep */
+/* harmony export (immutable) */ __webpack_exports__["d"] = getSchemaFromPath;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getDefaultFromSchema;
+/* harmony export (immutable) */ __webpack_exports__["f"] = stdFormObj;
+/* harmony export (immutable) */ __webpack_exports__["a"] = assignDeep;
 const emptyValue = {};
-/* unused harmony export emptyValue */
+/* harmony export (immutable) */ __webpack_exports__["b"] = emptyValue;
 
 
 function getSchemaFromPath(schema, path) {
@@ -1600,7 +1571,7 @@ const pluginEmptyValues = {
     string: "",
     integer: 0
 };
-/* unused harmony export pluginEmptyValues */
+/* harmony export (immutable) */ __webpack_exports__["e"] = pluginEmptyValues;
 
 
 function assignDeep(target, ...args) {
@@ -1627,6 +1598,35 @@ function assignDeep(target, ...args) {
     return to;
 }
 
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _assign = __webpack_require__(33);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _assign2.default || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
 
 /***/ }),
 /* 53 */
@@ -1905,7 +1905,7 @@ module.exports = { "default": __webpack_require__(113), __esModule: true };
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_extends__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_extends__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuex__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuex__);
@@ -1913,7 +1913,7 @@ module.exports = { "default": __webpack_require__(113), __esModule: true };
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash_get___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_lodash_get__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_lodash_isEqual__ = __webpack_require__(148);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_lodash_isEqual___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_lodash_isEqual__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__util__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__util__ = __webpack_require__(51);
 
 
 
@@ -2002,7 +2002,7 @@ module.exports = { "default": __webpack_require__(113), __esModule: true };
             return this.sfSchema;
         },
         form: function form() {
-            var form = Object(__WEBPACK_IMPORTED_MODULE_6__util__["b" /* stdFormObj */])(this.name, this.sfSchema);
+            var form = Object(__WEBPACK_IMPORTED_MODULE_6__util__["f" /* stdFormObj */])(this.name, this.sfSchema);
             if (this.sfSchema.form) {
                 __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()(form, this.sfSchema.form);
             }
@@ -6560,7 +6560,7 @@ if (false) {(function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable__ = __webpack_require__(246);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuedraggable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_format__ = __webpack_require__(15);
 //
 //
@@ -6634,7 +6634,7 @@ if (false) {(function () {
 
     methods: {
         addItem: function addItem() {
-            var defaultData = Object(__WEBPACK_IMPORTED_MODULE_1__util__["a" /* getDefaultFromSchema */])(this.schema.items);
+            var defaultData = Object(__WEBPACK_IMPORTED_MODULE_1__util__["c" /* getDefaultFromSchema */])(this.schema.items);
             var model = this.model;
             if (!Array.isArray(model)) {
                 model = [];
