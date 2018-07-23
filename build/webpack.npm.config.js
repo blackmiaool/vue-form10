@@ -16,7 +16,7 @@ files.forEach(file => {
 function resolve(dir) {
     return path.join(__dirname, "..", dir);
 }
-module.exports = {
+const npmConfig={
     context: path.resolve(__dirname, "../"),
     entry: {
         form: "./index.js",
@@ -82,3 +82,15 @@ module.exports = {
         ]
     }
 };
+module.exports = [{
+    ...npmConfig,
+    entry: {
+        form: "./index.js",  
+        plugins: "./src/plugins.js",      
+    },
+    output: {
+        path: config.build.assetsRoot,
+        filename: "[name].js",
+        libraryTarget: "umd"
+    },
+}];
