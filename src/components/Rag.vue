@@ -12,8 +12,8 @@
                         </el-input>
                         <label slot="prefix" class="input-prefix">{{$t('title')}}</label>
                     </div>
-                    <div class="input-wrap">
-                        <el-input class="form10key"  v-if="!root" v-model="schema.form10key">
+                    <div class="input-wrap" v-if="!root">
+                        <el-input class="form10key" v-model="schema.form10key">
 
                         </el-input>
                         <label slot="prefix" class="input-prefix">{{$t('key')}}</label>

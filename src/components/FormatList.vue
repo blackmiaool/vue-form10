@@ -17,6 +17,10 @@ export default {
             const model = [];
 
             this.plugins.forEach((plugin) => {
+                if (!plugin.form10.format.types) {
+                    console.warn('plugin must have form10.format.types', plugin);
+                    return;
+                }
                 if (plugin.form10.format.name === 'drag-list') {
                     return;
                 }

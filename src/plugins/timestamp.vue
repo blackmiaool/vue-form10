@@ -1,7 +1,7 @@
 <template>
     <TypeWrapper v-bind="typeWrapperProps" ref="typeWrapper">
         <div slot="input">
-            <el-date-picker :disabled="form.readonly"
+            <el-date-picker :disabled="schema.readOnly"
                 v-model="model" type="datetime"
                 :placeholder="form.placeholder"
                 value-format="timestamp">

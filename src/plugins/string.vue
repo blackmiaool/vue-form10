@@ -2,7 +2,7 @@
     <TypeWrapper v-bind="typeWrapperProps" ref="typeWrapper">
         <el-input :type="type==='textarea'?'textarea':'text'"
             v-model="model" slot="input" :placeholder="form.placeholder"
-            :disabled="form.readonly">
+            :disabled="schema.readOnly">
         </el-input>
     </TypeWrapper>
 </template>

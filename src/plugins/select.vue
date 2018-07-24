@@ -1,6 +1,6 @@
 <template>
     <TypeWrapper v-bind="typeWrapperProps" ref="typeWrapper">
-        <el-select v-model="model" :placeholder="form.placeholder" slot="input" :disabled="form.readonly">
+        <el-select v-model="model" :placeholder="form.placeholder" slot="input" :disabled="schema.readOnly">
             <el-option v-for="(item,index) in titleMap" :key="index" :label="item.name" :value="item.value">
             </el-option>
         </el-select>

@@ -69,7 +69,7 @@ export default {
     },
     methods: {
         addItem() {
-            const defaultData = getDefaultFromSchema(this.schema.items);
+            const defaultData = getDefaultFromSchema(this.schema.items, true);
             let model = this.model;
             if (!Array.isArray(model)) {
                 model = [];

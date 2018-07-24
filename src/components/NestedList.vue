@@ -179,6 +179,7 @@ export default {
                 type: "string",
                 title: "类型",
                 format: "select",
+                readOnly: true,
                 form: {
                     titleMap: ["object", "array", "string", "boolean", "number"].map(type => ({
                         value: type,
@@ -186,9 +187,15 @@ export default {
                     }))
                 }
             },
+            format: {
+                type: "string",
+                title: "格式",
+                readOnly: true,
+            },
             description: {
                 type: "string",
-                title: "描述"
+                title: "描述",
+                format: 'textarea'
             }
         };
         this.typeSchema = {
