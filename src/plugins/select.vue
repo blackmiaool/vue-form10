@@ -1,7 +1,10 @@
 <template>
     <TypeWrapper v-bind="typeWrapperProps" ref="typeWrapper">
-        <el-select v-model="model" :placeholder="form.placeholder" slot="input" :disabled="schema.readOnly">
-            <el-option v-for="(item,index) in titleMap" :key="index" :label="item.name" :value="item.value">
+        <el-select v-model="model" :placeholder="form.placeholder"
+            slot="input" :disabled="schema.readOnly">
+            <el-option v-for="(item,index) in titleMap"
+                :key="index" :label="item.name"
+                :value="item.value">
             </el-option>
         </el-select>
     </TypeWrapper>
@@ -20,16 +23,36 @@ export default {
             shouldUse(form, schema) {
                 return form.titleMap || schema.enum;
             },
-            types: ["number", "string"],
+            types: ["number", "string"]
         },
         preview: {
             schema: {
                 type: "string",
                 form: {
-                    titleMap: {
-                        a: 1,
-                        b: 2,
-                        c: 3
+                    titleMap: [{ value: "1", name: "a" }, { value: "2", name: "b" }, { value: "3", name: "c" }]
+                }
+            }
+        },
+        schema: {
+            type: "object",
+            // form: {
+            //     strip: true,
+            // },
+            properties: {
+                titleMap: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            name: {
+                                type: "string",
+                                title: "name"
+                            },
+                            value: {
+                                type: "string",
+                                title: "value"
+                            },
+                        }
                     }
                 }
             }

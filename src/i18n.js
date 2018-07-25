@@ -30,7 +30,10 @@ export default {
             splitter: "分割线",
             title: '标题',
             edit: '编辑',
-            readonly: '只读'
+            readonly: '只读',
+            value: '值',
+            name: '名字',
+            titleMap: '选项'
         }
     }
 }
