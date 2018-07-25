@@ -1,7 +1,45 @@
+import Vue from "vue";
+
 export const emptyValue = {};
 
 export function getSchemaFromPath(schema, path) {
     console.log(schema, path);
+}
+export function strip(data, schema) {
+    if (!schema) {
+        return;
+    }
+    if (schema.autoRemove) {
+        if (!data) {
+            return undefined;
+        }
+        const json = JSON.stringify(data);
+        if (json === '[]' || json === '{}') {
+            return undefined;
+        }
+    }
+    if (schema.type === "object" && schema.properties) {
+        Object.keys(schema.properties).forEach((key) => {
+            const result = strip(data[key], schema.properties[key]);
+            if (result === undefined) {
+                Vue.delete(data, key);
+            }
+        });
+    } else if (schema.type === "array" && schema.items) {
+        data.forEach((item) => strip(item, schema.items));
+    }
+    return data;
+}
+export function traverseSchema(schema, cb) {
+    if (!schema) {
+        return;
+    }
+    cb(schema);
+    if (schema.type === "object") {
+        traverseSchema(schema.properties, cb);
+    } else if (schema.type === "array") {
+        traverseSchema(schema.items, cb);
+    }
 }
 export function getDefaultFromSchema(schema, root) {
     if (!schema) {

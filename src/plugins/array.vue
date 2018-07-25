@@ -36,15 +36,6 @@ export default {
             name: 'array',
             types: ['array'],
         },
-        schema: {
-            type: "object",
-            properties: {
-                startEmpty: {
-                    title: "是否一开始一项都没有",
-                    type: "boolean",
-                }
-            },
-        },
         preview: {
             schema: {
                 type: 'array',
@@ -62,7 +53,7 @@ export default {
     },
     mounted() {
         if (!this.model || !this.model.length) {
-            if (this.form.startEmpty === false) {
+            if (this.form.startEmpty === false && this.schema.items) {
                 this.addItem();
             }
         }

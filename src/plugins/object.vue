@@ -2,7 +2,7 @@
     <TypeWrapper v-bind="typeWrapperProps" :hide-title="true"
         ref="typeWrapper">
         <div slot="input">
-            <fieldset v-if="name!==undefined&&name!==null&&parent!=='array'&&!form.strip">
+            <fieldset v-if="useFieldset">
                 <legend>{{form.title}}</legend>
                 <AnyType v-for="(key,$index) in keys"
                     :key="key"
@@ -51,6 +51,9 @@ export default {
         }
     },
     computed: {
+        useFieldset() {
+            return this.name !== undefined && this.name !== null && this.parent !== 'array' && !this.form.strip;
+        },
         keys() {
             if (this.form.keys) {
                 return this.form.keys;

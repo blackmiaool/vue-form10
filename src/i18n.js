@@ -29,7 +29,8 @@ export default {
             null: '空值',
             splitter: "分割线",
             title: '标题',
-            edit: '编辑'
+            edit: '编辑',
+            readonly: '只读'
         }
     }
 }

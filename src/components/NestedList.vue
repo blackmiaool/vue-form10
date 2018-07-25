@@ -22,10 +22,12 @@
 </template>
 
 <script>
+import { strip } from "@/util";
 import Vue from "vue";
 import get from "lodash/get";
 import Rag from "./Rag";
 import Form10 from "./Form10";
+
 
 export function rag2schema(rag) {
     rag = JSON.parse(JSON.stringify(rag));
@@ -165,6 +167,7 @@ export default {
             this.editDialogVisible = true;
             this.editingUid = uid;
             this.editingSchema = rag;
+            console.log(JSON.stringify(rag, false, 4));
             this.editResult = JSON.parse(JSON.stringify(rag));
             console.log(rag);
         });
@@ -192,10 +195,16 @@ export default {
                 title: "格式",
                 readOnly: true,
             },
+            readOnly: {
+                type: 'boolean',
+                title: 'readonly',
+                autoRemove: true
+            },
             description: {
                 type: "string",
                 title: "描述",
-                format: 'textarea'
+                format: 'textarea',
+                autoRemove: true
             }
         };
         this.typeSchema = {
@@ -229,6 +238,11 @@ export default {
                 }
             },
             array: {
+                startEmpty: {
+                    title: "是否一开始一项都没有",
+                    type: "boolean",
+                    autoRemove: true
+                },
                 maxItems: {
                     type: "number",
                     title: "最大长度"
@@ -255,6 +269,7 @@ export default {
     },
     methods: {
         editSubmit() {
+            this.editResult = strip(this.editResult, this.editorSchema);
             const { list, index } = getPositionFromUid(this.value, this.editingUid);
             list.splice(index, 1, JSON.parse(JSON.stringify(this.editResult)));
             this.editDialogVisible = false;
