@@ -17,13 +17,11 @@ import FormatMixin0 from "../mixins/format";
 
 require("tv4/lang/zh-CN");
 
-export { default as tv4 } from 'tv4';
-export { default as i18n } from '../i18n';
+export { default as tv4 } from "tv4";
+export { default as i18n } from "../i18n";
 export * from "../util";
 
-
 export const FormatMixin = FormatMixin0;
-
 
 export default {
     name: "Form10",
@@ -42,16 +40,16 @@ export default {
                 if (!item) {
                     return;
                 }
-                if (item.type === 'object' && item.properties) {
+                if (item.type === "object" && item.properties) {
                     if (item.required) {
-                        item.required.forEach((key) => {
+                        item.required.forEach(key => {
                             item.properties[key].required = true;
                         });
                     }
-                    Object.keys(item.properties).forEach((key) => {
+                    Object.keys(item.properties).forEach(key => {
                         addRequired(item.properties[key]);
                     });
-                } else if (item.type === 'array') {
+                } else if (item.type === "array") {
                     addRequired(item.items);
                 }
             }
@@ -60,8 +58,11 @@ export default {
         }
     },
     watch: {
-        'sfOptions.inheritState': function(state) {
-            this.mergeState(state);
+        "sfOptions.inheritState": {
+            handler(state) {
+                this.mergeState(state);
+            },
+            deep: true
         },
         plugins: {
             immediate: true,
@@ -104,13 +105,13 @@ export default {
         value: {
             immediate: true,
             handler(value) {
-                console.log('sf', value, JSON.stringify(value, false, 4));
+                console.log("sf", value, JSON.stringify(value, false, 4));
                 this.$store.commit("setModel", { value });
             }
         }
     },
     methods: {
-        ...mapMutations(['mergeState']),
+        ...mapMutations(["mergeState"]),
         __validate() {},
         submit() {
             let value = JSON.parse(JSON.stringify(this.value));
@@ -169,26 +170,23 @@ export default {
                             return null;
                         });
                     } else {
-                        this.options.tv4.addFormat(
-                            formatConfig.name,
-                            formatConfig.format || "",
-                        );
+                        this.options.tv4.addFormat(formatConfig.name, formatConfig.format || "");
                     }
                 }
             }
         }
     },
     props: {
-        'sf-schema': {
-            type: Object,
+        "sf-schema": {
+            type: Object
         },
         value: {},
-        'sf-options': {
-            type: Object,
+        "sf-options": {
+            type: Object
         },
         plugins: {
             type: Array
-        },
+        }
     },
     beforeMount() {
         this.options.tv4 = tv4;
@@ -204,13 +202,13 @@ export default {
                 $rootParent: this.$parent,
                 $root: this,
                 typeDefaultFormat: {
-                    object: 'object',
-                    array: 'array',
-                    number: 'number',
-                    integer: 'number',
-                    string: 'string',
-                    boolean: 'boolean',
-                    null: 'null'
+                    object: "object",
+                    array: "array",
+                    number: "number",
+                    integer: "number",
+                    string: "string",
+                    boolean: "boolean",
+                    null: "null"
                 }
             }
         };
