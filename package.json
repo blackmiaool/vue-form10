@@ -1,6 +1,6 @@
 {
   "name": "vue-form10",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "A Vue.js project",
   "author": "blackmiaool <blackmiaool@gmail.com>",
   "main": "libs/form.js",
