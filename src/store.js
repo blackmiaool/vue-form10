@@ -15,7 +15,7 @@ export default () => new Vuex.Store({
             if (!target) {
                 return;
             }
-            state.inherit = { ...target };
+            state.inherit = Object.assign({}, target);
         },
         setModel(state, { path, value }) {
             if (path) {
