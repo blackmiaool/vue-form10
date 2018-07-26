@@ -106,7 +106,6 @@ export default {
         value: {
             immediate: true,
             handler(value) {
-                console.log("sf", value, JSON.stringify(value, false, 4));
                 this.$store.commit("setModel", { value });
             }
         }

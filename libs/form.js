@@ -8341,7 +8341,8 @@ var FormatMixin = __WEBPACK_IMPORTED_MODULE_11__mixins_format__["a" /* default *
                 this.mergeState(state);
             },
 
-            deep: true
+            deep: true,
+            immediate: true
         },
         plugins: {
             immediate: true,
@@ -8388,7 +8389,6 @@ var FormatMixin = __WEBPACK_IMPORTED_MODULE_11__mixins_format__["a" /* default *
         value: {
             immediate: true,
             handler: function handler(value) {
-                console.log("sf", value, __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_json_stringify___default()(value, false, 4));
                 this.$store.commit("setModel", { value: value });
             }
         }
