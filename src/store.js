@@ -8,8 +8,15 @@ export default () => new Vuex.Store({
     state: {
         model: null,
         selected: null,
+        inherit: {}
     },
     mutations: {
+        mergeState(state, target) {
+            if (!target) {
+                return;
+            }
+            state.inherit = { ...target };
+        },
         setModel(state, { path, value }) {
             if (path) {
                 VueDeepSet.vuexSet(path, value);

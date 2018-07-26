@@ -9,7 +9,7 @@
 <script>
 import tv4 from "tv4";
 import clone from "clone";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import validate from "../validate";
 import AnyType from "./AnyType";
 import store from "../store";
@@ -60,6 +60,9 @@ export default {
         }
     },
     watch: {
+        'sfOptions.inheritState': function(state) {
+            this.mergeState(state);
+        },
         plugins: {
             immediate: true,
             deep: true,
@@ -107,6 +110,7 @@ export default {
         }
     },
     methods: {
+        ...mapMutations(['mergeState']),
         __validate() {},
         submit() {
             let value = JSON.parse(JSON.stringify(this.value));
