@@ -62,7 +62,8 @@ export default {
             handler(state) {
                 this.mergeState(state);
             },
-            deep: true
+            deep: true,
+            immediate: true
         },
         plugins: {
             immediate: true,

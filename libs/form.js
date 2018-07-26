@@ -8318,7 +8318,7 @@ var FormatMixin = __WEBPACK_IMPORTED_MODULE_11__mixins_format__["a" /* default *
                 if (!item) {
                     return;
                 }
-                if (item.type === 'object' && item.properties) {
+                if (item.type === "object" && item.properties) {
                     if (item.required) {
                         item.required.forEach(function (key) {
                             item.properties[key].required = true;
@@ -8327,7 +8327,7 @@ var FormatMixin = __WEBPACK_IMPORTED_MODULE_11__mixins_format__["a" /* default *
                     __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_keys___default()(item.properties).forEach(function (key) {
                         addRequired(item.properties[key]);
                     });
-                } else if (item.type === 'array') {
+                } else if (item.type === "array") {
                     addRequired(item.items);
                 }
             }
@@ -8336,8 +8336,12 @@ var FormatMixin = __WEBPACK_IMPORTED_MODULE_11__mixins_format__["a" /* default *
         }
     }),
     watch: {
-        'sfOptions.inheritState': function sfOptionsInheritState(state) {
-            this.mergeState(state);
+        "sfOptions.inheritState": {
+            handler: function handler(state) {
+                this.mergeState(state);
+            },
+
+            deep: true
         },
         plugins: {
             immediate: true,
@@ -8384,12 +8388,12 @@ var FormatMixin = __WEBPACK_IMPORTED_MODULE_11__mixins_format__["a" /* default *
         value: {
             immediate: true,
             handler: function handler(value) {
-                console.log('sf', value, __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_json_stringify___default()(value, false, 4));
+                console.log("sf", value, __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_json_stringify___default()(value, false, 4));
                 this.$store.commit("setModel", { value: value });
             }
         }
     },
-    methods: __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_7_vuex__["mapMutations"])(['mergeState']), {
+    methods: __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_7_vuex__["mapMutations"])(["mergeState"]), {
         __validate: function __validate() {},
         submit: function submit() {
             var value = JSON.parse(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_json_stringify___default()(this.value));
@@ -8453,11 +8457,11 @@ var FormatMixin = __WEBPACK_IMPORTED_MODULE_11__mixins_format__["a" /* default *
         }
     }),
     props: {
-        'sf-schema': {
+        "sf-schema": {
             type: Object
         },
         value: {},
-        'sf-options': {
+        "sf-options": {
             type: Object
         },
         plugins: {
@@ -8478,13 +8482,13 @@ var FormatMixin = __WEBPACK_IMPORTED_MODULE_11__mixins_format__["a" /* default *
                 $rootParent: this.$parent,
                 $root: this,
                 typeDefaultFormat: {
-                    object: 'object',
-                    array: 'array',
-                    number: 'number',
-                    integer: 'number',
-                    string: 'string',
-                    boolean: 'boolean',
-                    null: 'null'
+                    object: "object",
+                    array: "array",
+                    number: "number",
+                    integer: "number",
+                    string: "string",
+                    boolean: "boolean",
+                    null: "null"
                 }
             }
         };
@@ -8616,7 +8620,7 @@ exports = module.exports = __webpack_require__(5)(true);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Form10.vue","sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Form10.vue","sourceRoot":""}]);
 
 // exports
 
