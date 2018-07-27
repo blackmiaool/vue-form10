@@ -2165,10 +2165,13 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
                     return "format-" + result.name;
                 }
                 console.error("unknown format ", schema, form, format, type, this);
-            } else {
+            } else if (options.typeDefaultFormat[type]) {
                 // use default format
                 return "format-" + options.typeDefaultFormat[type];
+            } else {
+                console.error("Can't decide format of ", schema, form, format, type, this);
             }
+
             if (!type) {
                 console.error("schema needs type", schema);
             }
@@ -2754,6 +2757,15 @@ module.exports = isLength;
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: "TypeWrapper",
+    computed: {
+        style: function style() {
+            var ret = { margin: this.margin };
+            if (this.schema.fullWidth) {
+                ret.display = "block;";
+            }
+            return ret;
+        }
+    },
     props: { form: {}, options: {}, "hide-title": { type: Boolean }, margin: {}, schema: {} }
 });
 
@@ -5511,7 +5523,7 @@ exports = module.exports = __webpack_require__(5)(true);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA6JA;;;;IAII;AACJ;IACI,mBAAmB;IACnB,0CAA0C;IAC1C,4BAA4B;CAC/B","file":"AnyType.vue","sourcesContent":["\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgKA;;;;IAII;AACJ;IACI,mBAAmB;IACnB,0CAA0C;IAC1C,4BAA4B;CAC/B","file":"AnyType.vue","sourcesContent":["\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -10184,13 +10196,13 @@ var content = __webpack_require__(214);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(6)("304027b8", content, false, {});
+var update = __webpack_require__(6)("687c0052", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../node_modules/css-loader/index.js?{\"sourceMap\":true}!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-af6d1d0e\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TypeWrapper.vue", function() {
-     var newContent = require("!!../../node_modules/css-loader/index.js?{\"sourceMap\":true}!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-af6d1d0e\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TypeWrapper.vue");
+   module.hot.accept("!!../../node_modules/css-loader/index.js?{\"sourceMap\":true}!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-af6d1d0e\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/less-loader/dist/cjs.js?{\"sourceMap\":true}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TypeWrapper.vue", function() {
+     var newContent = require("!!../../node_modules/css-loader/index.js?{\"sourceMap\":true}!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-af6d1d0e\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/less-loader/dist/cjs.js?{\"sourceMap\":true}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TypeWrapper.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -10208,7 +10220,7 @@ exports = module.exports = __webpack_require__(5)(true);
 
 
 // module
-exports.push([module.i, "\n.CodeMirror {\n    height: 100%;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/TypeWrapper.vue"],"names":[],"mappings":";AACA;IACI,aAAa;CAChB","file":"TypeWrapper.vue","sourcesContent":["\n.CodeMirror {\n    height: 100%;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.el-form-item-full-width {\n  display: block !important;\n}\n.el-form-item-full-width > .el-form-item__content {\n  display: block !important;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/TypeWrapper.vue"],"names":[],"mappings":";AACA;EACE,0BAA0B;CAC3B;AACD;EACE,0BAA0B;CAC3B","file":"TypeWrapper.vue","sourcesContent":["\n.el-form-item-full-width {\n  display: block !important;\n}\n.el-form-item-full-width > .el-form-item__content {\n  display: block !important;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -10266,7 +10278,9 @@ var render = function() {
     "el-form-item",
     {
       ref: "formItem",
-      class: [_vm.form.htmlClass],
+      class: ((_obj = { "el-form-item-full-width": _vm.schema.fullWidth }),
+      (_obj[_vm.schema.htmlClass] = true),
+      _obj),
       style: { margin: _vm.margin },
       attrs: {
         label: _vm.hideTitle || _vm.form.notitle ? "" : _vm.$t(_vm.form.title),
@@ -10283,6 +10297,7 @@ var render = function() {
         : _vm._e()
     ]
   )
+  var _obj
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -11123,13 +11138,15 @@ module.exports = function (C, x) {
 //
 //
 //
+//
+//
 
 
 
 
 
 
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('draggable', __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component("draggable", __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default.a);
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: "FormatList",
     computed: {
@@ -11140,30 +11157,39 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('draggable', __WEBPACK_IMP
             var model = [];
 
             this.plugins.forEach(function (plugin) {
-                if (!plugin.form10.format.types) {
-                    console.warn('plugin must have form10.format.types', plugin);
+                var format = plugin.form10.format;
+                if (!format.types) {
+                    console.warn("plugin must have form10.format.types", plugin);
                     return;
                 }
-                if (plugin.form10.format.name === 'drag-list') {
+                if (format.name === "drag-list") {
                     return;
                 }
 
-                var schema = plugin.form10.preview && plugin.form10.preview.schema;
-                schema = Object(__WEBPACK_IMPORTED_MODULE_3__util__["a" /* assignDeep */])({
-                    title: _this.$t(plugin.form10.format.name),
-                    format: plugin.form10.format.name,
-                    type: plugin.form10.format.types[0],
+                var schema = {
+                    title: _this.$t(format.name),
+                    format: format.name,
+                    type: format.types[0],
                     rags: [],
                     form: {
                         notitle: true
                     }
-                }, schema);
-                properties[plugin.form10.format.name] = schema;
+                };
+
+                if (plugin.form10.preview) {
+                    if (plugin.form10.preview.sealed) {
+                        schema.sealed = true;
+                    }
+                    if (plugin.form10.preview.schema) {
+                        schema = Object(__WEBPACK_IMPORTED_MODULE_3__util__["a" /* assignDeep */])(schema, plugin.form10.preview.schema);
+                    }
+                }
+                properties[format.name] = schema;
                 model.push(schema);
             });
             var ret = {
-                type: 'object',
-                format: 'drag-list',
+                type: "object",
+                format: "drag-list",
                 properties: properties,
                 form: {
                     model: model
@@ -11185,7 +11211,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('draggable', __WEBPACK_IMP
         return {
             model: null,
             options: {
-                mode: 'preview'
+                mode: "preview"
             }
         };
     },
