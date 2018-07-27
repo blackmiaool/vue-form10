@@ -3,7 +3,7 @@
         <el-select v-model="model" :placeholder="form.placeholder"
             slot="input" :disabled="schema.readOnly">
             <el-option v-for="(item,index) in titleMap"
-                :key="index" :label="item.name"
+                :key="index" :label="$t(item.name)"
                 :value="item.value">
             </el-option>
         </el-select>
@@ -43,6 +43,9 @@ export default {
                     type: "array",
                     items: {
                         type: "object",
+                        form: {
+                            layout: 'half'
+                        },
                         properties: {
                             name: {
                                 type: "string",

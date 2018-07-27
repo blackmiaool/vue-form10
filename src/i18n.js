@@ -4,7 +4,8 @@ export default {
     silentTranslationWarn: true,
     messages: {
         en: {
-            deleteConfirm: 'Delete it?'
+            deleteConfirm: 'Delete it?',
+            editAreaTip: 'Only one item is allowed in the root path',
         },
         zh: {
             placeholder: '占位内容',
@@ -33,7 +34,10 @@ export default {
             readonly: '只读',
             value: '值',
             name: '名字',
-            titleMap: '选项'
+            titleMap: '选项',
+            'Preview Area': '预览区',
+            'Edit Area': "编辑区",
+            editAreaTip: '根路径仅限一个模块',
         }
     }
 }

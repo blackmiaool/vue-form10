@@ -9,7 +9,7 @@
             </el-col>
             <el-col :span="8">
                 <div style="height:100%;overflow:auto;">
-                    <header>Edit Area (Only one item is allowed in the root path)</header>
+                    <header>{{$t('Edit Area')}} {{$t('editAreaTip')}}</header>
                     <NestedList v-model="rags"  :plugins="plugins" />
                 </div>
             </el-col>
@@ -28,7 +28,7 @@
             </el-col> -->
             <el-col :span="8" style="height:100%;">
                 <div style="height:100%;overflow:auto;">
-                    <header>Preview Area</header>
+                    <header>{{$t('Preview Area')}}</header>
                     <Form10 ref="form10" :sf-schema="schema"
                         v-model="model"
                         :sf-options="options"

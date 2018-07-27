@@ -34,6 +34,11 @@ export default {
     methods: {
         getChildProps($index, key) {
             const isLast = $index === this.keys.length - 1;
+            let margin = '0px';
+            if (this.form.layout !== 'half' && !isLast) {
+                margin = '0px 0px 15px 0px';
+            }
+
             return {
                 sfSchema: this.schema.properties[key],
                 name: key,
@@ -41,7 +46,8 @@ export default {
                 parent: "object",
                 options: this.options,
                 parentPath: this.path,
-                margin: isLast ? '0px 0px 0px 0px ' : '0px 0px 15px 0px'
+                margin,
+                style: this.childStyle
             };
         }
     },
@@ -51,6 +57,11 @@ export default {
         }
     },
     computed: {
+        childStyle() {
+            if (this.form.layout === 'half') {
+                return "width:50%;display:inline-block;padding:5px;box-sizing:border-box;";
+            }
+        },
         useFieldset() {
             return this.name !== undefined && this.name !== null && this.parent !== 'array' && !this.form.strip;
         },

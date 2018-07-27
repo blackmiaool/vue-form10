@@ -8,10 +8,19 @@
             </Rag>
         </draggable>
         <el-dialog :title="$t('edit')" :visible.sync="editDialogVisible"
-            width="30%">
-            <Form10 :sf-schema="editorSchema" v-model="editResult"
-                :sf-options="options" :plugins="plugins"
-            />
+            width="70%">
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <Form10 :sf-schema="schemaSchema" v-model="editResult"
+                        :sf-options="options"
+                        :plugins="plugins" />
+                </el-col>
+                <el-col :span="12">
+                    <Form10 :sf-schema="formSchema" v-model="editResult.form"
+                        :sf-options="options"
+                        :plugins="plugins" />
+                </el-col>
+            </el-row>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editDialogVisible = false">{{$t('Cancel')}}</el-button>
                 <el-button type="primary" @click="editSubmit">{{$t('OK')}}</el-button>
@@ -27,7 +36,6 @@ import Vue from "vue";
 import get from "lodash/get";
 import Rag from "./Rag";
 import Form10 from "./Form10";
-
 
 export function rag2schema(rag) {
     rag = JSON.parse(JSON.stringify(rag));
@@ -118,15 +126,12 @@ export default {
                 disabled: this.disabled
             });
         },
-        editorSchema() {
+        formSchema() {
             if (!this.editingSchema) {
                 return null;
             }
-
-            // todo: use form10 to decide plugin
-            const format = this.editingSchema.format || this.editingSchema.type;
-
             let targetPlugin;
+            const format = this.editingSchema.format || this.editingSchema.type;
             if (format) {
                 targetPlugin = this.plugins.find(plugin => {
                     const shouldUse = get(plugin, "form10.format.shouldUse");
@@ -141,17 +146,25 @@ export default {
                     });
                 }
             }
+            const pluginSchema = targetPlugin.form10.schema;
+            if (pluginSchema) {
+                pluginSchema.title = "特有属性";
+                return pluginSchema;
+            }
+            return null;
+        },
+        schemaSchema() {
+            if (!this.editingSchema) {
+                return null;
+            }
+
+            // todo: use form10 to decide plugin
 
             const ret = {
                 type: "object",
                 properties: Object.assign({}, this.commonSchema, this.typeSchema[this.editingSchema.type])
             };
 
-            const pluginSchema = targetPlugin.form10.schema;
-            if (pluginSchema) {
-                pluginSchema.title = "特有属性";
-                ret.properties.form = pluginSchema;
-            }
             return ret;
         }
     },
@@ -193,17 +206,17 @@ export default {
             format: {
                 type: "string",
                 title: "格式",
-                readOnly: true,
+                readOnly: true
             },
             readOnly: {
-                type: 'boolean',
-                title: 'readonly',
+                type: "boolean",
+                title: "readonly",
                 autoRemove: true
             },
             description: {
                 type: "string",
                 title: "描述",
-                format: 'textarea',
+                format: "textarea",
                 autoRemove: true
             }
         };
@@ -264,7 +277,7 @@ export default {
             commonSchema: null,
             typeSchema: null,
             options: {},
-            editResult: null
+            editResult: {}
         };
     },
     methods: {
