@@ -2055,7 +2055,6 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 //
 //
 //
-//
 
 
 
@@ -2066,12 +2065,6 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
     name: "AnyType",
     methods: {
         isEqual: __WEBPACK_IMPORTED_MODULE_5_lodash_isEqual___default.a,
-        onClick: function onClick() {
-            if (this.options.mode === "editor" && !__WEBPACK_IMPORTED_MODULE_5_lodash_isEqual___default()(this.selected, this.path)) {
-                this.$store.commit("setSelected", this.path);
-                this.options.$root.$emit("select", this.path);
-            }
-        },
         remove: function remove() {
             var destroyStrategy = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "remove";
 
@@ -5518,7 +5511,7 @@ exports = module.exports = __webpack_require__(5)(true);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAoKA;;;;IAII;AACJ;IACI,mBAAmB;IACnB,0CAA0C;IAC1C,4BAA4B;CAC/B","file":"AnyType.vue","sourcesContent":["\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA6JA;;;;IAII;AACJ;IACI,mBAAmB;IACnB,0CAA0C;IAC1C,4BAA4B;CAC/B","file":"AnyType.vue","sourcesContent":["\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -7938,13 +7931,7 @@ var render = function() {
     "div",
     {
       staticClass: "wrap",
-      class: { selected: _vm.isEqual(_vm.selected, _vm.path) },
-      on: {
-        click: function($event) {
-          $event.stopPropagation()
-          return _vm.onClick($event)
-        }
-      }
+      class: { selected: _vm.isEqual(_vm.selected, _vm.path) }
     },
     [
       _vm.condition
@@ -10977,7 +10964,7 @@ var _draggableOptions = {
     },
     computed: {
         isContainer: function isContainer() {
-            return this.schema.type === "object" || this.schema.type === "array";
+            return (this.schema.type === "object" || this.schema.type === "array") && !this.schema.sealed;
         }
     },
     data: function data() {
@@ -11197,7 +11184,9 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('draggable', __WEBPACK_IMP
     data: function data() {
         return {
             model: null,
-            options: {}
+            options: {
+                mode: 'preview'
+            }
         };
     },
 

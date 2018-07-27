@@ -60,7 +60,9 @@ export default {
     data() {
         return {
             model: null,
-            options: {}
+            options: {
+                mode: 'preview'
+            }
         };
     },
     components: {

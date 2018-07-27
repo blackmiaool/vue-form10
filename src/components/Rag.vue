@@ -83,7 +83,7 @@ export default {
     },
     computed: {
         isContainer() {
-            return this.schema.type === "object" || this.schema.type === "array";
+            return (this.schema.type === "object" || this.schema.type === "array") && !this.schema.sealed;
         }
     },
     data() {

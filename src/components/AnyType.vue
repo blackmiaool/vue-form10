@@ -1,6 +1,5 @@
 <template>
-    <div class="wrap" :class="{selected:isEqual(selected,path)}"
-        @click.stop="onClick">
+    <div class="wrap" :class="{selected:isEqual(selected,path)}">
         <component v-if="condition" :is="componentId"
             :sf-schema="sfSchema"
             :parent="parent" :path="path" :options="options"
@@ -18,12 +17,6 @@ export default {
     name: "AnyType",
     methods: {
         isEqual,
-        onClick() {
-            if (this.options.mode === "editor" && !isEqual(this.selected, this.path)) {
-                this.$store.commit("setSelected", this.path);
-                this.options.$root.$emit("select", this.path);
-            }
-        },
         remove(destroyStrategy = "remove") {
             let breaked = false;
             switch (destroyStrategy) {
