@@ -1,6 +1,6 @@
 <template>
     <el-form-item :label="(hideTitle||form.notitle)?'':$t(form.title)"
-        :style="{margin}" :class="[form.htmlClass]"
+        :style="{margin}" :class="{[schema.htmlClass]:true,'el-form-item-full-width':schema.fullWidth}"
         :required="schema.required===true"
         ref="formItem">
         <div style="clear:both;">
@@ -16,13 +16,25 @@
 <script>
 export default {
     name: "TypeWrapper",
+    computed: {
+        style() {
+            const ret = { margin: this.margin };
+            if (this.schema.fullWidth) {
+                ret.display = "block;";
+            }
+            return ret;
+        }
+    },
     props: { form: {}, options: {}, "hide-title": { type: Boolean }, margin: {}, schema: {} }
 };
 </script>
 
-<style>
-.CodeMirror {
-    height: 100%;
+<style lang="less">
+.el-form-item-full-width{
+    display: block !important;
+    >.el-form-item__content{
+        display: block !important;
+    }
 }
 </style>
 <style scoped>

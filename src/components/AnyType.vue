@@ -111,9 +111,12 @@ export default {
                     return `format-${result.name}`;
                 }
                 console.error(`unknown format `, schema, form, format, type, this);
-            } else { // use default format
+            } else if (options.typeDefaultFormat[type]) { // use default format
                 return `format-${options.typeDefaultFormat[type]}`;
+            } else {
+                console.error(`Can't decide format of `, schema, form, format, type, this);
             }
+
             if (!type) {
                 console.error("schema needs type", schema);
             }

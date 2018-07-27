@@ -1,14 +1,16 @@
 <template>
-    <Form10 ref="form10" :sf-schema="schema" v-model="model" :sf-options="options" :plugins="plugins" />
+    <Form10 ref="form10" :sf-schema="schema"
+        v-model="model" :sf-options="options"
+        :plugins="plugins" />
 </template>
 
 <script>
-import draggable from 'vuedraggable';
+import draggable from "vuedraggable";
 import Vue from "vue";
 import Form10 from "./Form10";
 import { assignDeep } from "../util";
 
-Vue.component('draggable', draggable);
+Vue.component("draggable", draggable);
 export default {
     name: "FormatList",
     computed: {
@@ -16,31 +18,40 @@ export default {
             const properties = {};
             const model = [];
 
-            this.plugins.forEach((plugin) => {
-                if (!plugin.form10.format.types) {
-                    console.warn('plugin must have form10.format.types', plugin);
+            this.plugins.forEach(plugin => {
+                const format = plugin.form10.format;
+                if (!format.types) {
+                    console.warn("plugin must have form10.format.types", plugin);
                     return;
                 }
-                if (plugin.form10.format.name === 'drag-list') {
+                if (format.name === "drag-list") {
                     return;
                 }
 
-                let schema = plugin.form10.preview && plugin.form10.preview.schema;
-                schema = assignDeep({
-                    title: this.$t(plugin.form10.format.name),
-                    format: plugin.form10.format.name,
-                    type: plugin.form10.format.types[0],
+                let schema = {
+                    title: this.$t(format.name),
+                    format: format.name,
+                    type: format.types[0],
                     rags: [],
                     form: {
-                        notitle: true,
+                        notitle: true
                     }
-                }, schema);
-                properties[plugin.form10.format.name] = schema;
+                };
+
+                if (plugin.form10.preview) {
+                    if (plugin.form10.preview.sealed) {
+                        schema.sealed = true;
+                    }
+                    if (plugin.form10.preview.schema) {
+                        schema = assignDeep(schema, plugin.form10.preview.schema);
+                    }
+                }
+                properties[format.name] = schema;
                 model.push(schema);
             });
             const ret = {
-                type: 'object',
-                format: 'drag-list',
+                type: "object",
+                format: "drag-list",
                 properties,
                 form: {
                     model
@@ -61,7 +72,7 @@ export default {
         return {
             model: null,
             options: {
-                mode: 'preview'
+                mode: "preview"
             }
         };
     },
@@ -71,6 +82,5 @@ export default {
 };
 </script>
 <style lang="less">
-
 </style>
 

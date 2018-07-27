@@ -21,7 +21,9 @@ html,body{
     padding:0;
     height:100%;
 }
-
+.CodeMirror {
+    height: 100%;
+}
 #app {
     height:100%;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
