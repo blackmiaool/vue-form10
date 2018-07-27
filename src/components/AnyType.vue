@@ -128,10 +128,10 @@ export default {
         },
         condition() {
             let ret;
-            if (this.form.condition) {
+            if (this.schema.condition) {
                 try {
                     // eslint-disable-next-line
-                    ret = new Function("model", `return ${this.form.condition};`)(this.rootModel);
+                    ret = new Function("model", `return ${this.schema.condition};`)(this.rootModel);
                 } catch (e) {
                     ret = false;
                 }
