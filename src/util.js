@@ -5,6 +5,37 @@ export const emptyValue = {};
 export function getSchemaFromPath(schema, path) {
     console.log(schema, path);
 }
+export function rag2schema(rag) {
+    rag = JSON.parse(JSON.stringify(rag));
+    if (rag.type === "array") {
+        let items;
+        if (rag.rags.length > 1) {
+            items = rag2schema({
+                type: "object",
+                rags: rag.rags
+            });
+        } else if (rag.rags.length === 1) {
+            items = rag2schema(rag.rags[0]);
+        }
+        rag.items = items;
+    } else if (rag.type === "object") {
+        rag.properties = {};
+        rag.rags.forEach(child => {
+            const key = child.form10key || child.form10uid;
+            rag.properties[key] = rag2schema(child);
+        });
+    }
+    if (rag.type === rag.format) {
+        delete rag.format;
+    }
+    if (rag.form && Object.keys(rag.form).length === 0) {
+        delete rag.form;
+    }
+    delete rag.rags;
+    delete rag.form10uid;
+    delete rag.form10key;
+    return rag;
+}
 export function strip(data, schema) {
     if (!schema) {
         return;

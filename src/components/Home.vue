@@ -50,14 +50,14 @@ import VueCodemirror from "vue-codemirror";
 import ElementUI from "element-ui";
 import VueI18n from "vue-i18n";
 import "element-ui/lib/theme-chalk/index.css";
-
+import { rag2schema } from "../util";
 // eslint-disable-next-line
 import "codemirror/mode/javascript/javascript.js";
 import Form10 from "./Form10";
 import Editor from "./Editor";
 import i18n from "../i18n";
 import FormatList from "./FormatList";
-import NestedList, { rag2schema } from "./NestedList";
+import NestedList from "./NestedList";
 // eslint-disable-next-line
 import "codemirror/lib/codemirror.css";
 
