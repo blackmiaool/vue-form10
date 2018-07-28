@@ -56,9 +56,7 @@ const npmConfig={
                 test: /\.js$/,
                 loader: "babel-loader",
                 include: [
-                    resolve("src/components"),
-                    resolve("src/mixins"),
-                    resolve("src/*.js"),
+                    resolve("src"),
                     resolve("test"),
                     resolve("node_modules/webpack-dev-server/client")
                 ]
@@ -82,7 +80,7 @@ const npmConfig={
         ]
     }
 };
-module.exports = [{
+module.exports = {
     ...npmConfig,
     entry: {
         form: "./index.js",  
@@ -94,4 +92,4 @@ module.exports = [{
         libraryTarget: "umd",
         library:'vue-form10'
     },
-}];
+};

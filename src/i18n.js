@@ -19,6 +19,7 @@ export default {
             timestamp: '时间戳',
             select: '下拉框',
             section: '分块',
+            textarea: '多行输入框',
 
             delete: '删除',
             'move up': '上移',
@@ -38,6 +39,8 @@ export default {
             'Preview Area': '预览区',
             'Edit Area': "编辑区",
             editAreaTip: '根路径仅限一个模块',
+            decoration: '装饰',
+            checkbox: '复选框'
         }
     }
 }

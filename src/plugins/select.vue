@@ -11,18 +11,15 @@
 </template>
 
 <script>
-import FormatMixin from "../mixins/format";
+import FormatMixin from "@/mixins/format";
+import EnumMixin, { editorSchema } from "@/mixins/enum";
 
 export default {
     name: "select-format",
-    mixins: [FormatMixin],
+    mixins: [FormatMixin, EnumMixin],
     form10: {
         format: {
             name: "select",
-            format: "",
-            shouldUse(form, schema) {
-                return form.titleMap || schema.enum;
-            },
             types: ["number", "string"]
         },
         preview: {
@@ -33,56 +30,8 @@ export default {
                 }
             }
         },
-        schema: {
-            type: "object",
-            // form: {
-            //     strip: true,
-            // },
-            properties: {
-                titleMap: {
-                    type: "array",
-                    items: {
-                        type: "object",
-                        form: {
-                            layout: 'half'
-                        },
-                        properties: {
-                            name: {
-                                type: "string",
-                                title: "name"
-                            },
-                            value: {
-                                type: "string",
-                                title: "value"
-                            },
-                        }
-                    }
-                }
-            }
-        }
+        schema: editorSchema
     },
-    computed: {
-        titleMap() {
-            let arr = [];
-            if (this.form.titleMap) {
-                const titleMap = this.form.titleMap;
-                if (Array.isArray(titleMap)) {
-                    arr = titleMap;
-                } else if (typeof titleMap === "object") {
-                    arr = Object.keys(titleMap).map(key => {
-                        return { value: key, name: titleMap[key] };
-                    });
-                } else {
-                    console.warn("invalid titleMap:", this.form.titleMap);
-                }
-            } else if (this.schema.enum) {
-                arr = this.schema.enum.map(name => {
-                    return { value: name, name };
-                });
-            }
-            return arr;
-        }
-    }
 };
 </script>
 

@@ -2,7 +2,7 @@
     <div class="wrap" style="height:100%;">
         <el-row :gutter="20" style="height:100%;">
             <el-col :span="8" style="height:100%;">
-                <div style="height:100%;overflow:auto;">
+                <div style="height:100%;overflow:auto;padding-right:5px;">
                     <FormatList :plugins="plugins" />
                 </div>
 

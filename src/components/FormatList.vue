@@ -1,7 +1,12 @@
 <template>
-    <Form10 ref="form10" :schema="schema"
-        v-model="model" :options="options"
-        :plugins="plugins" />
+    <div>
+        <header class="format-list-header">
+            <span class="tag el-tag" v-for="tab in tabs" :key="tab" :class="{active:tab===activeTab}" @click="activeTab=tab">
+               <i :class="tabIcon[tab]"/> {{$t(tab)}}
+            </span>
+        </header>
+        <Form10 ref="form10" :schema="schema" v-model="model" :options="options" :plugins="plugins" />
+    </div>
 </template>
 
 <script>
@@ -24,14 +29,30 @@ export default {
                     console.warn("plugin must have form10.format.types", plugin);
                     return;
                 }
+                if (!(format.types.includes(this.activeTab) || this.activeTab === 'decoration' && format.types.includes('null'))) {
+                    return;
+                }
                 if (format.name === "drag-list") {
                     return;
                 }
-
+                const that = this;
+                function getType() {
+                    if (that.activeTab === 'decoration') {
+                        return 'null';
+                    } else if (that.activeTab === 'number') {
+                        if (format.types.includes('number')) {
+                            return 'number';
+                        }
+                        if (format.types.includes('integer')) {
+                            return 'integer';
+                        }
+                    }
+                    return that.activeTab;
+                }
                 let schema = {
                     title: this.$t(format.name),
                     format: format.name,
-                    type: format.types[0],
+                    type: getType(),
                     rags: [],
                     form: {
                         notitle: true
@@ -73,6 +94,16 @@ export default {
             model: null,
             options: {
                 mode: "preview"
+            },
+            tabs: ["object", "array", "string", "boolean", "number", "decoration"],
+            activeTab: "object",
+            tabIcon: {
+                object: 'el-icon-goods',
+                array: 'el-icon-sort',
+                string: 'el-icon-edit-outline',
+                boolean: 'el-icon-bell',
+                number: 'el-icon-sort-up',
+                decoration: 'el-icon-news'
             }
         };
     },
@@ -82,5 +113,22 @@ export default {
 };
 </script>
 <style lang="less">
+.format-list-header {
+    display: flex;
+    flex-wrap: wrap;
+
+    > .tag {
+        flex:1;
+        flex-basis: 30%;
+        text-align: center;
+        display: inline-block;
+        margin:5px;
+        cursor: pointer;
+        &.active{
+            color:white;
+            background-color:#409EFF;
+        }
+    }
+}
 </style>
 
