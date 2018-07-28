@@ -1,6 +1,6 @@
 {
   "name": "vue-form10",
-  "version": "1.0.42",
+  "version": "1.0.43",
   "description": "A Vue.js project",
   "author": "blackmiaool <blackmiaool@gmail.com>",
   "main": "libs/form.js",
@@ -12,7 +12,7 @@
     "npmpublish": "git checkout gh-pages && git rebase master && npm run build && git add -A && git commit -m 'build' && git push -f origin gh-pages && git checkout master",
     "npm": "webpack --config build/webpack.npm.config.js",
     "npmdebug": "webpack --config build/webpack.npm.config.js --watch",
-    "npm-record": "webpack --config build/webpack.npm.config.js --profile --json",
+    "npm-record": "webpack --config build/webpack.npm.config.js --profile --json > webpack-stats.json",
     "prepublishOnly": "npm run npm"
   },
   "dependencies": {
