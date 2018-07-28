@@ -17,7 +17,6 @@ function resolve(dir) {
     return path.join(__dirname, "..", dir);
 }
 const npmConfig={
-    watch:true,
     context: path.resolve(__dirname, "../"),
     entry: {
         form: "./index.js",
