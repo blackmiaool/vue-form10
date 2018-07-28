@@ -1,7 +1,7 @@
 <template>
     <div class="wrap" :class="{selected:isEqual(selected,path)}">
         <component v-if="condition" :is="componentId"
-            :sf-schema="sfSchema"
+            :schema="schema"
             :parent="parent" :path="path" :options="options"
             :name="name" :margin="margin"></component>
     </div>
@@ -70,13 +70,10 @@ export default {
             rootModel: state => state.model
         }),
         ...mapState(["selected"]),
-        schema() {
-            return this.sfSchema;
-        },
         form() {
-            const form = stdFormObj(this.name, this.sfSchema);
-            if (this.sfSchema.form) {
-                Object.assign(form, this.sfSchema.form);
+            const form = stdFormObj(this.name, this.schema);
+            if (this.schema.form) {
+                Object.assign(form, this.schema.form);
             }
             return form;
         },
@@ -149,7 +146,7 @@ export default {
     beforeMount() {
         Object.assign(this.$options.components, this.options.compMap);
     },
-    props: ["sf-model", "sf-schema", "options", "name", "parent", "is-last", "parent-path", "margin"],
+    props: ["schema", "options", "name", "parent", "is-last", "parent-path", "margin"],
     data() {
         return {};
     }

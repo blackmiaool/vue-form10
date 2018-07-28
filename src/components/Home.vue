@@ -29,9 +29,9 @@
             <el-col :span="8" style="height:100%;">
                 <div style="height:100%;overflow:auto;">
                     <header>{{$t('Preview Area')}}</header>
-                    <Form10 ref="form10" :sf-schema="schema"
+                    <Form10 ref="form10" :schema="schema"
                         v-model="model"
-                        :sf-options="options"
+                        :options="options"
                         @select="onSelect" :plugins="plugins"
                     />
                     <el-button @click="submit" style="margin:10px 0;">{{$t("Submit")}}</el-button>
@@ -54,7 +54,6 @@ import { rag2schema } from "../util";
 // eslint-disable-next-line
 import "codemirror/mode/javascript/javascript.js";
 import Form10 from "./Form10";
-import Editor from "./Editor";
 import i18n from "../i18n";
 import FormatList from "./FormatList";
 import NestedList from "./NestedList";
@@ -195,7 +194,7 @@ export default {
             editorMode: false,
         };
     },
-    components: { Form10, Editor, FormatList, NestedList }
+    components: { Form10, FormatList, NestedList }
 };
 </script>
 

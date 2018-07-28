@@ -3,10 +3,10 @@
 		module.exports = factory(require("vue"), require("vuex"));
 	else if(typeof define === 'function' && define.amd)
 		define(["vue", "vuex"], factory);
-	else {
-		var a = typeof exports === 'object' ? factory(require("vue"), require("vuex")) : factory(root["vue"], root["vuex"]);
-		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
-	}
+	else if(typeof exports === 'object')
+		exports["vue-form10"] = factory(require("vue"), require("vuex"));
+	else
+		root["vue-form10"] = factory(root["vue"], root["vuex"]);
 })(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_40__, __WEBPACK_EXTERNAL_MODULE_51__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -897,13 +897,10 @@ function execWith(expression, context) {
                 return __WEBPACK_IMPORTED_MODULE_6_lodash_get___default()(this.$store.state, this.path);
             }
         },
-        schema: function schema() {
-            return this.sfSchema;
-        },
         form: function form() {
-            var form = Object(__WEBPACK_IMPORTED_MODULE_11__util__["g" /* stdFormObj */])(this.name, this.sfSchema);
-            if (this.sfSchema.form) {
-                __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_assign___default()(form, this.sfSchema.form);
+            var form = Object(__WEBPACK_IMPORTED_MODULE_11__util__["g" /* stdFormObj */])(this.name, this.schema);
+            if (this.schema.form) {
+                __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_assign___default()(form, this.schema.form);
             }
             return form;
         },
@@ -916,8 +913,8 @@ function execWith(expression, context) {
         }
     }),
     mounted: function mounted() {
-        if (this.sfSchema.default && this.model === undefined) {
-            this.model = this.sfSchema.default;
+        if (this.schema.default && this.model === undefined) {
+            this.model = this.schema.default;
         }
     },
     data: function data() {
@@ -927,7 +924,7 @@ function execWith(expression, context) {
         };
     },
 
-    props: ['sf-schema', "options", "name", 'parent', 'is-last', 'path', 'margin'],
+    props: ['schema', "options", "name", 'parent', 'is-last', 'path', 'margin'],
     components: { TypeWrapper: __WEBPACK_IMPORTED_MODULE_9__components_TypeWrapper__["a" /* default */], AnyType: __WEBPACK_IMPORTED_MODULE_10__components_AnyType__["a" /* default */] }
 });
 
@@ -2120,13 +2117,10 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
             return state.model;
         }
     }), Object(__WEBPACK_IMPORTED_MODULE_3_vuex__["mapState"])(["selected"]), {
-        schema: function schema() {
-            return this.sfSchema;
-        },
         form: function form() {
-            var form = Object(__WEBPACK_IMPORTED_MODULE_6__util__["g" /* stdFormObj */])(this.name, this.sfSchema);
-            if (this.sfSchema.form) {
-                __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()(form, this.sfSchema.form);
+            var form = Object(__WEBPACK_IMPORTED_MODULE_6__util__["g" /* stdFormObj */])(this.name, this.schema);
+            if (this.schema.form) {
+                __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()(form, this.schema.form);
             }
             return form;
         },
@@ -2205,7 +2199,7 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
         __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()(this.$options.components, this.options.compMap);
     },
 
-    props: ["sf-model", "sf-schema", "options", "name", "parent", "is-last", "parent-path", "margin"],
+    props: ["schema", "options", "name", "parent", "is-last", "parent-path", "margin"],
     data: function data() {
         return {};
     }
@@ -2883,14 +2877,14 @@ If you find a bug or make an improvement, it would be courteous to let the autho
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else if (typeof module !== 'undefined' && module.exports) {
+  } else if (typeof module !== 'undefined' && module.exports){
     // CommonJS. Define export.
     module.exports = factory();
   } else {
     // Browser globals
     global.tv4 = factory();
   }
-}(this, () => {
+}(this, function () {
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FGlobal_Objects%2FObject%2Fkeys
 if (!Object.keys) {
@@ -4381,7 +4375,6 @@ function createApi(language) {
 	var currentLanguage;
 	var customErrorReporter;
 	var api = {
-		languages:languages,
 		setErrorReporter: function (reporter) {
 			if (typeof reporter === 'string') {
 				return this.language(reporter);
@@ -4553,7 +4546,6 @@ tv4.tv4 = tv4;
 return tv4; // used by _header.js to globalise.
 
 }));
-
 
 /***/ }),
 /* 89 */
@@ -5523,7 +5515,7 @@ exports = module.exports = __webpack_require__(5)(true);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgKA;;;;IAII;AACJ;IACI,mBAAmB;IACnB,0CAA0C;IAC1C,4BAA4B;CAC/B","file":"AnyType.vue","sourcesContent":["\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA6JA;;;;IAII;AACJ;IACI,mBAAmB;IACnB,0CAA0C;IAC1C,4BAA4B;CAC/B","file":"AnyType.vue","sourcesContent":["\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -7950,7 +7942,7 @@ var render = function() {
         ? _c(_vm.componentId, {
             tag: "component",
             attrs: {
-              "sf-schema": _vm.sfSchema,
+              schema: _vm.schema,
               parent: _vm.parent,
               path: _vm.path,
               options: _vm.options,
@@ -10365,12 +10357,12 @@ __webpack_require__(251);
         this.$store = Object(__WEBPACK_IMPORTED_MODULE_10__store__["a" /* default */])();
     },
     provide: function provide() {
-        return { options: this.sfOptions };
+        return { options: this.options };
     },
 
     computed: __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_7_vuex__["mapState"])(["model"]), {
-        schema: function schema() {
-            var ret = __WEBPACK_IMPORTED_MODULE_6_clone___default()(this.sfSchema || {});
+        refinedSchema: function refinedSchema() {
+            var ret = __WEBPACK_IMPORTED_MODULE_6_clone___default()(this.schema || {});
             function addRequired(item) {
                 if (!item) {
                     return;
@@ -10393,7 +10385,7 @@ __webpack_require__(251);
         }
     }),
     watch: {
-        "sfOptions.inheritState": {
+        "options.inheritState": {
             handler: function handler(state) {
                 this.mergeState(state);
             },
@@ -10407,21 +10399,21 @@ __webpack_require__(251);
             handler: function handler(plugins) {
                 var _this = this;
 
-                this.options.tv4 = __WEBPACK_IMPORTED_MODULE_5_tv4___default.a;
+                this.refinedOptions.tv4 = __WEBPACK_IMPORTED_MODULE_5_tv4___default.a;
                 plugins.forEach(function (plugin) {
                     _this.use(plugin);
                 });
-                this.$set(this.options, "compMap", this.getAnyTypeCompMap());
+                this.$set(this.refinedOptions, "compMap", this.getAnyTypeCompMap());
             }
         },
-        sfOptions: {
+        options: {
             immediate: true,
             deep: true,
             handler: function handler(value) {
                 var _this2 = this;
 
                 __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_keys___default()(value).forEach(function (key) {
-                    _this2.$set(_this2.options, key, value[key]);
+                    _this2.$set(_this2.refinedOptions, key, value[key]);
                 });
             }
         },
@@ -10431,13 +10423,7 @@ __webpack_require__(251);
                 this.$emit("input", model);
             }
         },
-        sfSchema: {
-            deep: true,
-            handler: function handler() {
-                this.uid++;
-            }
-        },
-        form: {
+        schema: {
             deep: true,
             handler: function handler() {
                 this.uid++;
@@ -10475,7 +10461,7 @@ __webpack_require__(251);
                 }
             }
 
-            var validateResult = Object(__WEBPACK_IMPORTED_MODULE_8__validate__["a" /* default */])(value, this.schema);
+            var validateResult = Object(__WEBPACK_IMPORTED_MODULE_8__validate__["a" /* default */])(value, this.refinedSchema);
             if (validateResult) {
                 return { error: validateResult };
             }
@@ -10483,7 +10469,7 @@ __webpack_require__(251);
         },
         getAnyTypeCompMap: function getAnyTypeCompMap() {
             var ret = {};
-            this.options.formats.forEach(function (_ref) {
+            this.refinedOptions.formats.forEach(function (_ref) {
                 var name = _ref.name,
                     component = _ref.component;
 
@@ -10496,29 +10482,29 @@ __webpack_require__(251);
                 var pluginConfig = plugin.form10 || {};
                 if (pluginConfig.format) {
                     var formatConfig = pluginConfig.format;
-                    this.options.formats.push(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_assign___default()({
+                    this.refinedOptions.formats.push(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_assign___default()({
                         component: plugin
                     }, formatConfig));
                     if (formatConfig.format instanceof RegExp) {
-                        this.options.tv4.addFormat(formatConfig.name, function (data) {
+                        this.refinedOptions.tv4.addFormat(formatConfig.name, function (data) {
                             if (!formatConfig.format.test(data)) {
                                 return "invalid format";
                             }
                             return null;
                         });
                     } else {
-                        this.options.tv4.addFormat(formatConfig.name, formatConfig.format || "");
+                        this.refinedOptions.tv4.addFormat(formatConfig.name, formatConfig.format || "");
                     }
                 }
             }
         }
     }),
     props: {
-        "sf-schema": {
+        schema: {
             type: Object
         },
         value: {},
-        "sf-options": {
+        options: {
             type: Object
         },
         plugins: {
@@ -10526,7 +10512,7 @@ __webpack_require__(251);
         }
     },
     beforeMount: function beforeMount() {
-        this.options.tv4 = __WEBPACK_IMPORTED_MODULE_5_tv4___default.a;
+        this.refinedOptions.tv4 = __WEBPACK_IMPORTED_MODULE_5_tv4___default.a;
     },
     data: function data() {
         return {
@@ -10534,7 +10520,7 @@ __webpack_require__(251);
             uid: 0,
             componentId: "div",
             compForm: {},
-            options: {
+            refinedOptions: {
                 formats: [],
                 $rootParent: this.$parent,
                 $root: this,
@@ -11274,7 +11260,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
 /***/ }),
 /* 241 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -11310,7 +11295,7 @@ exports = module.exports = __webpack_require__(5)(true);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Form10.vue","sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Form10.vue","sourceRoot":""}]);
 
 // exports
 
@@ -14104,8 +14089,8 @@ var render = function() {
         attrs: {
           "parent-path": _vm.rootPath,
           parent: "root",
-          "sf-schema": _vm.schema,
-          options: _vm.options
+          schema: _vm.refinedSchema,
+          options: _vm.refinedOptions
         }
       })
     ],
@@ -15897,8 +15882,8 @@ var render = function() {
                 [
                   _c("Form10", {
                     attrs: {
-                      "sf-schema": _vm.schemaSchema,
-                      "sf-options": _vm.options,
+                      schema: _vm.schemaSchema,
+                      options: _vm.options,
                       plugins: _vm.plugins
                     },
                     model: {
@@ -15919,8 +15904,8 @@ var render = function() {
                 [
                   _c("Form10", {
                     attrs: {
-                      "sf-schema": _vm.formSchema,
-                      "sf-options": _vm.options,
+                      schema: _vm.formSchema,
+                      options: _vm.options,
                       plugins: _vm.plugins
                     },
                     model: {
@@ -16091,11 +16076,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("Form10", {
     ref: "form10",
-    attrs: {
-      "sf-schema": _vm.schema,
-      "sf-options": _vm.options,
-      plugins: _vm.plugins
-    },
+    attrs: { schema: _vm.schema, options: _vm.options, plugins: _vm.plugins },
     model: {
       value: _vm.model,
       callback: function($$v) {

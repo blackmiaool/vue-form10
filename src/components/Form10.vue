@@ -1,8 +1,8 @@
 <template>
     <el-form class="vue-form10" v-bind="options.formProps">
         <AnyType :parent-path="rootPath" :key="uid"
-            parent="root" :sf-schema="schema"
-            :options="options"></AnyType>
+            parent="root" :schema="refinedSchema"
+            :options="refinedOptions"></AnyType>
     </el-form>
 </template>
 
@@ -24,12 +24,12 @@ export default {
         this.$store = store();
     },
     provide() {
-        return { options: this.sfOptions };
+        return { options: this.options };
     },
     computed: {
         ...mapState(["model"]),
-        schema() {
-            const ret = clone(this.sfSchema || {});
+        refinedSchema() {
+            const ret = clone(this.schema || {});
             function addRequired(item) {
                 if (!item) {
                     return;
@@ -52,7 +52,7 @@ export default {
         }
     },
     watch: {
-        "sfOptions.inheritState": {
+        "options.inheritState": {
             handler(state) {
                 this.mergeState(state);
             },
@@ -63,19 +63,19 @@ export default {
             immediate: true,
             deep: true,
             handler(plugins) {
-                this.options.tv4 = tv4;
+                this.refinedOptions.tv4 = tv4;
                 plugins.forEach(plugin => {
                     this.use(plugin);
                 });
-                this.$set(this.options, "compMap", this.getAnyTypeCompMap());
+                this.$set(this.refinedOptions, "compMap", this.getAnyTypeCompMap());
             }
         },
-        sfOptions: {
+        options: {
             immediate: true,
             deep: true,
             handler(value) {
                 Object.keys(value).forEach(key => {
-                    this.$set(this.options, key, value[key]);
+                    this.$set(this.refinedOptions, key, value[key]);
                 });
             }
         },
@@ -85,13 +85,7 @@ export default {
                 this.$emit("input", model);
             }
         },
-        sfSchema: {
-            deep: true,
-            handler() {
-                this.uid++;
-            }
-        },
-        form: {
+        schema: {
             deep: true,
             handler() {
                 this.uid++;
@@ -130,7 +124,7 @@ export default {
                 }
             }
 
-            const validateResult = validate(value, this.schema);
+            const validateResult = validate(value, this.refinedSchema);
             if (validateResult) {
                 return { error: validateResult };
             }
@@ -138,7 +132,7 @@ export default {
         },
         getAnyTypeCompMap() {
             const ret = {};
-            this.options.formats.forEach(({ name, component }) => {
+            this.refinedOptions.formats.forEach(({ name, component }) => {
                 ret[`format-${name}`] = component;
             });
             return ret;
@@ -148,7 +142,7 @@ export default {
                 const pluginConfig = plugin.form10 || {};
                 if (pluginConfig.format) {
                     const formatConfig = pluginConfig.format;
-                    this.options.formats.push(
+                    this.refinedOptions.formats.push(
                         Object.assign(
                             {
                                 component: plugin
@@ -157,25 +151,25 @@ export default {
                         )
                     );
                     if (formatConfig.format instanceof RegExp) {
-                        this.options.tv4.addFormat(formatConfig.name, data => {
+                        this.refinedOptions.tv4.addFormat(formatConfig.name, data => {
                             if (!formatConfig.format.test(data)) {
                                 return "invalid format";
                             }
                             return null;
                         });
                     } else {
-                        this.options.tv4.addFormat(formatConfig.name, formatConfig.format || "");
+                        this.refinedOptions.tv4.addFormat(formatConfig.name, formatConfig.format || "");
                     }
                 }
             }
         }
     },
     props: {
-        "sf-schema": {
+        schema: {
             type: Object
         },
         value: {},
-        "sf-options": {
+        options: {
             type: Object
         },
         plugins: {
@@ -183,7 +177,7 @@ export default {
         }
     },
     beforeMount() {
-        this.options.tv4 = tv4;
+        this.refinedOptions.tv4 = tv4;
     },
     data() {
         return {
@@ -191,7 +185,7 @@ export default {
             uid: 0,
             componentId: "div",
             compForm: {},
-            options: {
+            refinedOptions: {
                 formats: [],
                 $rootParent: this.$parent,
                 $root: this,

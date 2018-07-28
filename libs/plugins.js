@@ -3,10 +3,10 @@
 		module.exports = factory(require("vue"), require("vuex"));
 	else if(typeof define === 'function' && define.amd)
 		define(["vue", "vuex"], factory);
-	else {
-		var a = typeof exports === 'object' ? factory(require("vue"), require("vuex")) : factory(root["vue"], root["vuex"]);
-		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
-	}
+	else if(typeof exports === 'object')
+		exports["vue-form10"] = factory(require("vue"), require("vuex"));
+	else
+		root["vue-form10"] = factory(root["vue"], root["vuex"]);
 })(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_40__, __WEBPACK_EXTERNAL_MODULE_51__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -897,13 +897,10 @@ function execWith(expression, context) {
                 return __WEBPACK_IMPORTED_MODULE_6_lodash_get___default()(this.$store.state, this.path);
             }
         },
-        schema: function schema() {
-            return this.sfSchema;
-        },
         form: function form() {
-            var form = Object(__WEBPACK_IMPORTED_MODULE_11__util__["g" /* stdFormObj */])(this.name, this.sfSchema);
-            if (this.sfSchema.form) {
-                __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_assign___default()(form, this.sfSchema.form);
+            var form = Object(__WEBPACK_IMPORTED_MODULE_11__util__["g" /* stdFormObj */])(this.name, this.schema);
+            if (this.schema.form) {
+                __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_assign___default()(form, this.schema.form);
             }
             return form;
         },
@@ -916,8 +913,8 @@ function execWith(expression, context) {
         }
     }),
     mounted: function mounted() {
-        if (this.sfSchema.default && this.model === undefined) {
-            this.model = this.sfSchema.default;
+        if (this.schema.default && this.model === undefined) {
+            this.model = this.schema.default;
         }
     },
     data: function data() {
@@ -927,7 +924,7 @@ function execWith(expression, context) {
         };
     },
 
-    props: ['sf-schema', "options", "name", 'parent', 'is-last', 'path', 'margin'],
+    props: ['schema', "options", "name", 'parent', 'is-last', 'path', 'margin'],
     components: { TypeWrapper: __WEBPACK_IMPORTED_MODULE_9__components_TypeWrapper__["a" /* default */], AnyType: __WEBPACK_IMPORTED_MODULE_10__components_AnyType__["a" /* default */] }
 });
 
@@ -2120,13 +2117,10 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
             return state.model;
         }
     }), Object(__WEBPACK_IMPORTED_MODULE_3_vuex__["mapState"])(["selected"]), {
-        schema: function schema() {
-            return this.sfSchema;
-        },
         form: function form() {
-            var form = Object(__WEBPACK_IMPORTED_MODULE_6__util__["g" /* stdFormObj */])(this.name, this.sfSchema);
-            if (this.sfSchema.form) {
-                __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()(form, this.sfSchema.form);
+            var form = Object(__WEBPACK_IMPORTED_MODULE_6__util__["g" /* stdFormObj */])(this.name, this.schema);
+            if (this.schema.form) {
+                __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()(form, this.schema.form);
             }
             return form;
         },
@@ -2205,7 +2199,7 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
         __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()(this.$options.components, this.options.compMap);
     },
 
-    props: ["sf-model", "sf-schema", "options", "name", "parent", "is-last", "parent-path", "margin"],
+    props: ["schema", "options", "name", "parent", "is-last", "parent-path", "margin"],
     data: function data() {
         return {};
     }
@@ -3778,7 +3772,7 @@ exports = module.exports = __webpack_require__(5)(true);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgKA;;;;IAII;AACJ;IACI,mBAAmB;IACnB,0CAA0C;IAC1C,4BAA4B;CAC/B","file":"AnyType.vue","sourcesContent":["\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA6JA;;;;IAII;AACJ;IACI,mBAAmB;IACnB,0CAA0C;IAC1C,4BAA4B;CAC/B","file":"AnyType.vue","sourcesContent":["\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .wrap {\n    display: inline-block;\n    min-width: 50%;\n    vertical-align: top;\n} */\n.wrap.selected[data-v-30127374] {\n    position: relative;\n    /* background-color: rgba(0,0,255,0.1); */\n    outline: 1px dashed darkred;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -6205,7 +6199,7 @@ var render = function() {
         ? _c(_vm.componentId, {
             tag: "component",
             attrs: {
-              "sf-schema": _vm.sfSchema,
+              schema: _vm.schema,
               parent: _vm.parent,
               path: _vm.path,
               options: _vm.options,
@@ -8855,7 +8849,7 @@ var form10uid = 0;
             }
 
             return {
-                sfSchema: this.schema.properties[key],
+                schema: this.schema.properties[key],
                 name: key,
                 isLast: $index === this.keys.length - 1,
                 parent: "object",
@@ -9548,7 +9542,7 @@ var render = function() {
                           {
                             attrs: {
                               options: _vm.options,
-                              "sf-schema": _vm.schema.items,
+                              schema: _vm.schema.items,
                               "parent-path": _vm.path,
                               parent: "array",
                               name: $index,

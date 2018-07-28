@@ -17,6 +17,7 @@ function resolve(dir) {
     return path.join(__dirname, "..", dir);
 }
 const npmConfig={
+    watch:true,
     context: path.resolve(__dirname, "../"),
     entry: {
         form: "./index.js",
@@ -91,6 +92,7 @@ module.exports = [{
     output: {
         path: resolve("./libs"),
         filename: "[name].js",
-        libraryTarget: "umd"
+        libraryTarget: "umd",
+        library:'vue-form10'
     },
 }];

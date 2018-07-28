@@ -40,7 +40,7 @@ export default {
             }
 
             return {
-                sfSchema: this.schema.properties[key],
+                schema: this.schema.properties[key],
                 name: key,
                 isLast: $index === this.keys.length - 1,
                 parent: "object",

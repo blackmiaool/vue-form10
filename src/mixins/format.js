@@ -147,13 +147,10 @@ export default {
                 return get(this.$store.state, this.path);
             }
         },
-        schema() {
-            return this.sfSchema;
-        },
         form() {
-            const form = stdFormObj(this.name, this.sfSchema);
-            if (this.sfSchema.form) {
-                Object.assign(form, this.sfSchema.form);
+            const form = stdFormObj(this.name, this.schema);
+            if (this.schema.form) {
+                Object.assign(form, this.schema.form);
             }
             return form;
         },
@@ -166,8 +163,8 @@ export default {
         }
     },
     mounted() {
-        if (this.sfSchema.default && this.model === undefined) {
-            this.model = this.sfSchema.default;
+        if (this.schema.default && this.model === undefined) {
+            this.model = this.schema.default;
         }
     },
     data() {
@@ -176,7 +173,7 @@ export default {
             $validateState: null,
         };
     },
-    props: ['sf-schema', "options", "name", 'parent', 'is-last', 'path', 'margin'],
+    props: ['schema', "options", "name", 'parent', 'is-last', 'path', 'margin'],
     components: { TypeWrapper, AnyType }
 };
 

@@ -1,6 +1,6 @@
 <template>
-    <Form10 ref="form10" :sf-schema="schema"
-        v-model="model" :sf-options="options"
+    <Form10 ref="form10" :schema="schema"
+        v-model="model" :options="options"
         :plugins="plugins" />
 </template>
 

@@ -11,13 +11,13 @@
             width="70%">
             <el-row :gutter="20">
                 <el-col :span="12">
-                    <Form10 :sf-schema="schemaSchema" v-model="editResult"
-                        :sf-options="options"
+                    <Form10 :schema="schemaSchema" v-model="editResult"
+                        :options="options"
                         :plugins="plugins" />
                 </el-col>
                 <el-col :span="12">
-                    <Form10 :sf-schema="formSchema" v-model="editResult.form"
-                        :sf-options="options"
+                    <Form10 :schema="formSchema" v-model="editResult.form"
+                        :options="options"
                         :plugins="plugins" />
                 </el-col>
             </el-row>
