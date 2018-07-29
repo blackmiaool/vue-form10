@@ -12,20 +12,8 @@
                     <header>{{$t('Edit Area')}} {{$t('editAreaTip')}}</header>
                     <NestedList v-model="rags"  :plugins="plugins" />
                 </div>
+                <el-button type="primary" @click="saveRags">{{$t('Save')}}</el-button>
             </el-col>
-            <!-- <el-col :span="8">
-                <label>schema</label>
-                <el-select v-model="selectingExample" placeholder="select an example">
-                    <el-option v-for="example in examples" :key="example.name" :label="example.name" :value="example.name">
-                    </el-option>
-                </el-select>
-                <Editor v-model="schema" :path="selectingPath" style="margin-bottom:30px;" :plugins="plugins" />
-                <codemirror v-model="code" :options="cmOptions" style="height:50vh;"></codemirror>
-                <pre class="err-msg" v-if="errMsg">{{errMsg}}</pre>
-                <br>
-                <label>model</label>
-                <pre>{{JSON.stringify(model,false,4)}}</pre>
-            </el-col> -->
             <el-col :span="8" style="height:100%;">
                 <div style="height:100%;overflow:auto;">
                     <header>{{$t('Preview Area')}}</header>
@@ -116,6 +104,9 @@ export default {
         }
     },
     methods: {
+        saveRags() {
+            localStorage.setItem('rags', JSON.stringify(this.rags));
+        },
         submit() {
             console.log(this.$refs.form10.submit());
         },

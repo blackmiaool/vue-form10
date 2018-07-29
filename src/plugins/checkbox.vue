@@ -35,7 +35,6 @@ export default {
         schema: editorSchema
     },
     beforeMount() {
-        console.log('this.schema.type',this.schema.type)
         if (this.schema.type === "boolean" && typeof this.model !== "boolean") {
             this.model = false;
         } else if (this.schema.type === "array" && !Array.isArray(this.model)) {

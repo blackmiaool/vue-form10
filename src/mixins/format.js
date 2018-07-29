@@ -59,15 +59,16 @@ export default {
                 }
 
                 let valid;
+                let tv4ValidateResult;
                 const isEmpty = value === undefined || value === null;
                 if (isEmpty) {
                     valid = true;
                 } else {
-                    const tv4ValidateResult = this.options.tv4.validate(value, schema);
-                    valid = tv4ValidateResult;
+                    tv4ValidateResult = this.options.tv4.validateResult(value, schema);
+                    valid = tv4ValidateResult.valid;
                 }
 
-                const error = this.options.tv4.error;
+                const error = tv4ValidateResult && tv4ValidateResult.error;
                 this.$nextTick(() => {
                     let validateState;
                     let validateMessage;

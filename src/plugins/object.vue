@@ -13,9 +13,7 @@
                     :key="key"
                     v-bind="getChildProps($index,key)"/>
             </template>
-
         </div>
-
     </TypeWrapper>
 </template>
 

@@ -100,7 +100,6 @@ export default {
     },
     methods: {
         ...mapMutations(["mergeState"]),
-        __validate() {},
         submit() {
             let value = JSON.parse(JSON.stringify(this.value));
             function stripEmptyStr(obj) {
@@ -125,8 +124,9 @@ export default {
             }
 
             const validateResult = validate(value, this.refinedSchema);
-            if (validateResult) {
-                return { error: validateResult };
+            console.log('validateResult', validateResult);
+            if (validateResult && validateResult.length) {
+                return { error: validateResult[0], errors: validateResult };
             }
             return { value };
         },

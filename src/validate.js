@@ -18,16 +18,13 @@ function error302Handler(error, schema) {
     return `没有填写字段: ${title}`;
 }
 export default function validate(value, schema) {
-    const isValid = tv4.validate(value, schema);
-    const error = tv4.error;
-    let message;
-    if (!isValid) {
-        if (error.code === 302) {
-            message = error302Handler(error, schema);
-        }
+    const { valid, errors } = tv4.validateMultiple(value, schema);
+    if (!valid) {
+        errors.forEach((error) => {
+            if (error.code === 302) {
+                error.message = error302Handler(error, schema);
+            }
+        });
     }
-    if (message) {
-        error.message = message;
-    }
-    return error;
+    return errors;
 }
