@@ -1,5 +1,5 @@
 <template>
-    <TypeWrapper v-bind="typeWrapperProps" hide-title ref="typeWrapper">
+    <TypeWrapper v-bind="typeWrapperProps" :hide-title="schema.type==='boolean'" ref="typeWrapper">
         <template slot="input">
             <el-checkbox v-if="schema.type==='boolean'" v-model="model" :disabled="schema.readOnly">{{$t(form.title)}}</el-checkbox>
             <div v-if="schema.type==='array'">
@@ -32,7 +32,7 @@ export default {
                 }
             }
         },
-        schema: editorSchema
+        formSchema: editorSchema
     },
     beforeMount() {
         if (this.schema.type === "boolean" && typeof this.model !== "boolean") {

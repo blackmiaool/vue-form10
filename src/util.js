@@ -1,4 +1,5 @@
 import Vue from "vue";
+import get from "lodash/get";
 
 export const emptyValue = {};
 
@@ -45,19 +46,19 @@ export function strip(data, schema) {
             return undefined;
         }
         const json = JSON.stringify(data);
-        if (json === '[]' || json === '{}') {
+        if (json === "[]" || json === "{}") {
             return undefined;
         }
     }
     if (schema.type === "object" && schema.properties) {
-        Object.keys(schema.properties).forEach((key) => {
+        Object.keys(schema.properties).forEach(key => {
             const result = strip(data[key], schema.properties[key]);
             if (result === undefined) {
                 Vue.delete(data, key);
             }
         });
     } else if (schema.type === "array" && schema.items) {
-        data.forEach((item) => strip(item, schema.items));
+        data.forEach(item => strip(item, schema.items));
     }
     return data;
 }
@@ -71,6 +72,29 @@ export function traverseSchema(schema, cb) {
     } else if (schema.type === "array") {
         traverseSchema(schema.items, cb);
     }
+}
+export function getPluginFromSchemaAndPlugins(schema, plugins, typeDefaultFormat) {
+    let targetPlugin;
+    let format = schema.format;
+    if (!format && typeDefaultFormat) {
+        format = typeDefaultFormat[schema.type];
+    }
+    if (format) {
+        targetPlugin = plugins.find(plugin => {
+            const shouldUse = get(plugin, "form10.format.shouldUse");
+            if (shouldUse && shouldUse(schema.form || {}, schema)) {
+                return true;
+            }
+            return false;
+        });
+        if (!targetPlugin) {
+            targetPlugin = plugins.find(plugin => {
+                return get(plugin, "form10.format.name") === format;
+            });
+        }
+    }
+
+    return targetPlugin;
 }
 export function getDefaultFromSchema(schema, root) {
     if (!schema) {
@@ -131,19 +155,17 @@ export const pluginEmptyValues = {
 };
 
 export function assignDeep(target, ...args) {
-    if (target == null) { // TypeError if undefined or null
-        throw new TypeError('Cannot convert undefined or null to object');
+    if (target == null) {
+        // TypeError if undefined or null
+        throw new TypeError("Cannot convert undefined or null to object");
     }
 
     const to = Object(target);
 
-    args.forEach((nextSource) => {
+    args.forEach(nextSource => {
         if (nextSource != null) {
-            Object.keys(nextSource).forEach((nextKey) => {
-                if (typeof to[nextKey] === 'object'
-                    && to[nextKey]
-                    && typeof nextSource[nextKey] === 'object'
-                    && nextSource[nextKey]) {
+            Object.keys(nextSource).forEach(nextKey => {
+                if (typeof to[nextKey] === "object" && to[nextKey] && typeof nextSource[nextKey] === "object" && nextSource[nextKey]) {
                     assignDeep(to[nextKey], nextSource[nextKey]);
                 } else {
                     to[nextKey] = nextSource[nextKey];

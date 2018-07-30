@@ -6,6 +6,7 @@ export default {
         en: {
             deleteConfirm: 'Delete it?',
             editAreaTip: 'Only one item is allowed in the root path',
+            noItems: 'No "items" defined in the schema'
         },
         zh: {
             placeholder: '占位内容',
@@ -40,7 +41,9 @@ export default {
             'Edit Area': "编辑区",
             editAreaTip: '根路径仅限一个模块',
             decoration: '装饰',
-            checkbox: '复选框'
+            checkbox: '复选框',
+            noItems: 'schema中未定义“items”字段',
+            Draggable: "可以拖动"
         }
     }
 }

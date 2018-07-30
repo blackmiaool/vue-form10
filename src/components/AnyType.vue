@@ -1,9 +1,6 @@
 <template>
     <div class="wrap" :class="{selected:isEqual(selected,path)}">
-        <component v-if="condition" :is="componentId"
-            :schema="schema"
-            :parent="parent" :path="path" :options="options"
-            :name="name" :margin="margin"></component>
+        <component v-if="condition" :is="componentId" :schema="schema" :parent="parent" :path="path" :options="options" :name="name" :margin="margin"></component>
     </div>
 </template>
 
@@ -11,7 +8,7 @@
 import { mapState } from "vuex";
 import get from "lodash/get";
 import isEqual from "lodash/isEqual";
-import { stdFormObj } from "../util";
+import { stdFormObj, getPluginFromSchemaAndPlugins } from "../util";
 
 export default {
     name: "AnyType",
@@ -96,28 +93,13 @@ export default {
             if (!schema || !Object.keys(schema).length) {
                 return null;
             }
-            let result;
-            if (format) {
-                result = options.formats.find(({ name, shouldUse }) => {
-                    if (shouldUse && shouldUse(form, schema)) {
-                        return true;
-                    }
-                    return name === format;
-                });
-                if (result) {
-                    return `format-${result.name}`;
-                }
-                console.error(`unknown format `, schema, form, format, type, this);
-            } else if (options.typeDefaultFormat[type]) { // use default format
-                return `format-${options.typeDefaultFormat[type]}`;
-            } else {
-                console.error(`Can't decide format of `, schema, form, format, type, this);
+            const targetPlugin = getPluginFromSchemaAndPlugins(schema, options.plugins, options.typeDefaultFormat);
+            if (targetPlugin) {
+                return `format-${targetPlugin.form10.format.name}`;
             }
+            console.error(`Can't decide format of `, schema, form, format, type, this);
 
-            if (!type) {
-                console.error("schema needs type", schema);
-            }
-            return '';
+            return null;
         },
         condition() {
             let ret;

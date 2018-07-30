@@ -63,11 +63,11 @@ export default {
             immediate: true,
             deep: true,
             handler(plugins) {
-                this.refinedOptions.tv4 = tv4;
                 plugins.forEach(plugin => {
                     this.use(plugin);
                 });
                 this.$set(this.refinedOptions, "compMap", this.getAnyTypeCompMap());
+                this.$set(this.refinedOptions, "plugins", plugins);
             }
         },
         options: {
@@ -186,6 +186,7 @@ export default {
             componentId: "div",
             compForm: {},
             refinedOptions: {
+                tv4,
                 formats: [],
                 $rootParent: this.$parent,
                 $root: this,

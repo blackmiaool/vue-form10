@@ -42,7 +42,7 @@
                 <draggable class="draggable" v-model="schema.rags"
                     :options="draggableOptions">
                     <Rag v-for="(schema,i) in schema.rags" :key="i"
-                        class="item" :schema='schema'>
+                        class="item" :schema='schema'  :plugins="plugins">
                     </Rag>
                 </draggable>
             </section>
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+
 export default {
     name: "Rag",
     inject: ["draggableOptions", "eventHub"],
@@ -61,6 +62,9 @@ export default {
         root: {
             type: Boolean,
             default: false
+        },
+        plugins: {
+            type: Array
         }
     },
     methods: {

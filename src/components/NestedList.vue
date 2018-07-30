@@ -3,7 +3,7 @@
         <draggable class="draggable" v-model="rags"
             :options="draggableOptions" :class="{empty:!rags.length}">
             <Rag v-for="schema in rags" :key="schema.form10uid"
-                class="item" :schema='schema'
+                class="item" :schema='schema' :plugins="plugins"
                 :root="true">
             </Rag>
         </draggable>
@@ -31,9 +31,8 @@
 </template>
 
 <script>
-import { strip } from "@/util";
+import { strip, getPluginFromSchemaAndPlugins } from "@/util";
 import Vue from "vue";
-import get from "lodash/get";
 import Rag from "./Rag";
 import Form10 from "./Form10";
 
@@ -100,23 +99,9 @@ export default {
             if (!this.editingSchema) {
                 return null;
             }
-            let targetPlugin;
-            const format = this.editingSchema.format || this.editingSchema.type;
-            if (format) {
-                targetPlugin = this.plugins.find(plugin => {
-                    const shouldUse = get(plugin, "form10.format.shouldUse");
-                    if (shouldUse && shouldUse(this.editingSchema.form || {}, this.editingSchema)) {
-                        return true;
-                    }
-                    return false;
-                });
-                if (!targetPlugin) {
-                    targetPlugin = this.plugins.find(plugin => {
-                        return get(plugin, "form10.format.name") === format;
-                    });
-                }
-            }
-            const pluginSchema = targetPlugin.form10.schema;
+            const targetPlugin = getPluginFromSchemaAndPlugins(this.editingSchema, this.plugins);
+
+            const pluginSchema = targetPlugin.form10.schema || targetPlugin.form10.formSchema;
             if (pluginSchema) {
                 pluginSchema.title = "特有属性";
                 return pluginSchema;

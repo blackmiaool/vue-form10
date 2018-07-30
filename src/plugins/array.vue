@@ -10,14 +10,18 @@
                         :name="$index" :is-last="$index===model.length-1"
                         v-bind="getChildProps($index)"
                     />
-                    <i class="el-icon-sort sort-handle" :title="'drag to sort (index:'+$index+')'"></i>
+                    <i class="el-icon-sort sort-handle" :title="'drag to sort (index:'+$index+')'" v-if="form.draggable"></i>
                     <i class="el-icon-delete delete-btn" @click="deleteItem($index)"
                         title="delete"></i>
                 </li>
             </draggable>
             <el-button type="default" class="add-btn"
-                @click="addItem">
-                <i class="el-icon-plus"></i> Add</el-button>
+                @click="addItem" v-if="schema.items">
+                <i class="el-icon-plus"></i> Add
+            </el-button>
+            <div v-if="!schema.items">
+                {{$t('noItems')}}
+            </div>
         </div>
 
     </TypeWrapper>
@@ -36,12 +40,29 @@ export default {
             name: 'array',
             types: ['array'],
         },
+        defaultSchema: {
+            form: {
+                draggable: true,
+            }
+        },
+        formSchema: {
+            type: "object",
+            properties: {
+                draggable: {
+                    type: 'boolean',
+                    title: 'Draggable'
+                }
+            }
+        },
         preview: {
             schema: {
                 type: 'array',
                 items: {
                     type: 'object',
                     title: 'content'
+                },
+                form: {
+                    draggable: true,
                 }
             },
             data: [{}]

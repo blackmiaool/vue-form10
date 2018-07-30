@@ -16,8 +16,10 @@
 </template>
 
 <script>
-import FormatMixin from "../mixins/format";
+// import Form10 from "@/components/Form10";
+import FormatMixin from "@/mixins/format";
 import ObjectType from "./object";
+import { assignDeep, getPluginFromSchemaAndPlugins } from "../util";
 
 let form10uid = 0;
 export default {
@@ -38,6 +40,11 @@ export default {
             ret.form10uid = `uid${form10uid}`;
             ret.form10key = ret.form10uid;
             delete ret.form.notitle;
+            const plugin = getPluginFromSchemaAndPlugins(obj, this.options.plugins);
+
+            if (plugin.form10.defaultSchema) {
+                assignDeep(ret, plugin.form10.defaultSchema);
+            }
             return ret;
         },
         getSectionChildProps($index, key) {
