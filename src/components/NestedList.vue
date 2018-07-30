@@ -92,8 +92,11 @@ export default {
             }
             const targetPlugin = getPluginFromSchemaAndPlugins(this.editingSchema, this.plugins);
 
-            const pluginSchema = targetPlugin.form10.schema || targetPlugin.form10.formSchema;
+            let pluginSchema = targetPlugin.form10.schema || targetPlugin.form10.formSchema;
             if (pluginSchema) {
+                if (typeof pluginSchema === 'function') {
+                    pluginSchema = pluginSchema(this.editingSchema);
+                }
                 pluginSchema.title = "特有属性";
                 return pluginSchema;
             }

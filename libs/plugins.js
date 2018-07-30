@@ -10771,7 +10771,10 @@ var render = function() {
         _vm._l(_vm.titleMap, function(item, index) {
           return _c("el-option", {
             key: index,
-            attrs: { label: _vm.$t(item.name), value: item.value }
+            attrs: {
+              label: _vm.$t(item.name),
+              value: _vm.schema.type === "number" ? item.value * 1 : item.value
+            }
           })
         })
       )
