@@ -4,7 +4,7 @@
             slot="input" :disabled="schema.readOnly">
             <el-option v-for="(item,index) in titleMap"
                 :key="index" :label="$t(item.name)"
-                :value="item.value">
+                :value="schema.type==='number'?item.value*1:item.value">
             </el-option>
         </el-select>
     </TypeWrapper>
