@@ -1,24 +1,16 @@
 <template>
     <div>
-        <draggable class="draggable" v-model="rags"
-            :options="draggableOptions" :class="{empty:!rags.length}">
-            <Rag v-for="schema in rags" :key="schema.form10uid"
-                class="item" :schema='schema' :plugins="plugins"
-                :root="true">
+        <draggable class="draggable" v-model="rags" :options="draggableOptions" :class="{empty:!rags.length}">
+            <Rag v-for="schema in rags" :key="schema.form10uid" class="item" :schema='schema' :plugins="plugins" :root="true">
             </Rag>
         </draggable>
-        <el-dialog :title="$t('edit')" :visible.sync="editDialogVisible"
-            width="70%">
+        <el-dialog :title="$t('edit')" :visible.sync="editDialogVisible" width="70%">
             <el-row :gutter="20">
                 <el-col :span="12">
-                    <Form10 :schema="schemaSchema" v-model="editResult"
-                        :options="options"
-                        :plugins="plugins" />
+                    <Form10 :schema="schemaSchema" v-model="editResult" :options="options" :plugins="plugins" />
                 </el-col>
                 <el-col :span="12">
-                    <Form10 :schema="formSchema" v-model="editResult.form"
-                        :options="options"
-                        :plugins="plugins" />
+                    <Form10 :schema="formSchema" v-model="editResult.form" :options="options" :plugins="plugins" />
                 </el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
@@ -35,7 +27,6 @@ import { strip, getPluginFromSchemaAndPlugins } from "@/util";
 import Vue from "vue";
 import Rag from "./Rag";
 import Form10 from "./Form10";
-
 
 function getPositionFromUid(rags, uid) {
     let ret;
@@ -124,7 +115,7 @@ export default {
         },
         combinedSchema() {
             return { ...this.schemaSchema, form: this.formSchema };
-        },
+        }
     },
     beforeMount() {
         const vue = new Vue();
@@ -232,7 +223,13 @@ export default {
             editingUid: null,
             commonSchema: null,
             typeSchema: null,
-            options: {},
+            options: {
+                inline: true,
+                formProps: {
+                    inline: true,
+                    // "label-width": "100px"
+                }
+            },
             editResult: {}
         };
     },
