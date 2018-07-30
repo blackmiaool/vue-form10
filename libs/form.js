@@ -10605,14 +10605,6 @@ __webpack_require__(253);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -10829,7 +10821,13 @@ var _draggableOptions = {
             editingUid: null,
             commonSchema: null,
             typeSchema: null,
-            options: {},
+            options: {
+                inline: true,
+                formProps: {
+                    inline: true
+                    // "label-width": "100px"
+                }
+            },
             editResult: {}
         };
     },
