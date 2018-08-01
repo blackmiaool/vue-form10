@@ -50,7 +50,7 @@ export default {
                     return that.activeTab;
                 }
                 let schema = {
-                    title: this.$t(format.name),
+                    title: this.$t(format.title) || this.$t(format.name),
                     format: format.name,
                     type: getType(),
                     rags: [],
@@ -60,7 +60,7 @@ export default {
                 };
 
                 if (plugin.form10.preview) {
-                    if (plugin.form10.preview.sealed) {
+                    if (plugin.form10.format.sealed || plugin.form10.preview.sealed) {
                         schema.sealed = true;
                     }
                     if (plugin.form10.preview.schema) {
