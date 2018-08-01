@@ -11180,7 +11180,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component("draggable", __WEBPACK_IMP
                     return that.activeTab;
                 }
                 var schema = {
-                    title: _this.$t(format.name),
+                    title: _this.$t(format.title) || _this.$t(format.name),
                     format: format.name,
                     type: getType(),
                     rags: [],
@@ -11190,7 +11190,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component("draggable", __WEBPACK_IMP
                 };
 
                 if (plugin.form10.preview) {
-                    if (plugin.form10.preview.sealed) {
+                    if (plugin.form10.format.sealed || plugin.form10.preview.sealed) {
                         schema.sealed = true;
                     }
                     if (plugin.form10.preview.schema) {
