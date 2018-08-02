@@ -6,6 +6,7 @@ export const emptyValue = {};
 export function getSchemaFromPath(schema, path) {
     console.log(schema, path);
 }
+
 export function rag2schema(rag) {
     rag = JSON.parse(JSON.stringify(rag));
     if (rag.type === "array") {
@@ -20,11 +21,17 @@ export function rag2schema(rag) {
         }
         rag.items = items;
     } else if (rag.type === "object") {
-        rag.properties = {};
+        rag.properties = rag.properties || {};
+        rag.required = [];
         rag.rags.forEach(child => {
             const key = child.form10key || child.form10uid;
             rag.properties[key] = rag2schema(child);
         });
+        Object.keys(rag.properties).forEach(((key) => {
+            if (rag.properties[key].required) {
+                rag.required.push(key);
+            }
+        }));
     }
     if (rag.type === rag.format) {
         delete rag.format;

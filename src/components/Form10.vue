@@ -35,7 +35,7 @@ export default {
                     return;
                 }
                 if (item.type === "object" && item.properties) {
-                    if (item.required) {
+                    if (item.required && Array.isArray(item.required)) {
                         item.required.forEach(key => {
                             item.properties[key].required = true;
                         });
@@ -124,7 +124,6 @@ export default {
             }
 
             const validateResult = validate(value, this.refinedSchema);
-            console.log('validateResult', validateResult);
             if (validateResult && validateResult.length) {
                 return { error: validateResult[0], errors: validateResult };
             }

@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap" :class="{selected:isEqual(selected,path)}">
+    <div class="any-type-wrap" :class="{selected:isEqual(selected,path),expand:schema.type==='object'||schema.type==='array'||(targetPlugin&&targetPlugin.form10.format.expand)}">
         <component v-if="condition" :is="componentId" :schema="schema" :parent="parent" :path="path" :options="options" :name="name" :margin="margin"></component>
     </div>
 </template>
@@ -67,6 +67,9 @@ export default {
             rootModel: state => state.model
         }),
         ...mapState(["selected"]),
+        targetPlugin() {
+            return getPluginFromSchemaAndPlugins(this.schema, this.options.plugins, this.options.typeDefaultFormat);
+        },
         form() {
             const form = stdFormObj(this.name, this.schema);
             if (this.schema.form) {
@@ -89,11 +92,10 @@ export default {
             const format = schema.format;
             const type = schema.type;
 
-            const options = this.options;
             if (!schema || !Object.keys(schema).length) {
                 return null;
             }
-            const targetPlugin = getPluginFromSchemaAndPlugins(schema, options.plugins, options.typeDefaultFormat);
+            const targetPlugin = this.targetPlugin;
             if (targetPlugin) {
                 return `format-${targetPlugin.form10.format.name}`;
             }
@@ -135,16 +137,19 @@ export default {
 };
 </script>
 
+<style lang="less">
+// .any-type-wrap>
+</style>
 
-<style scoped>
-/* .wrap {
-    display: inline-block;
-    min-width: 50%;
-    vertical-align: top;
-} */
-.wrap.selected {
-    position: relative;
-    /* background-color: rgba(0,0,255,0.1); */
-    outline: 1px dashed darkred;
+<style lang="less">
+.any-type-wrap {
+    &.expand {
+        > .el-form-item {
+            display: block;
+            > .el-form-item__content {
+                display: block;
+            }
+        }
+    }
 }
 </style>

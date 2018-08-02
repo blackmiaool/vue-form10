@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { getPluginFromSchemaAndPlugins } from "@/util";
 
 export default {
     name: "Rag",
@@ -85,7 +86,26 @@ export default {
             this.eventHub.$emit('edit', this.schema.form10uid);
         }
     },
+    watch: {
+        "schema.form": {
+            immediate: true,
+            deep: true,
+            handler() {
+                let properties = this.targetPlugin.form10.format.properties;
+
+                if (properties) {
+                    if (typeof properties === 'function') {
+                        properties = properties(this.schema);
+                    }
+                    this.$set(this.schema, 'properties', properties);
+                }
+            }
+        }
+    },
     computed: {
+        targetPlugin() {
+            return getPluginFromSchemaAndPlugins(this.schema, this.plugins);
+        },
         isContainer() {
             return (this.schema.type === "object" || this.schema.type === "array") && !this.schema.sealed;
         }
@@ -128,7 +148,6 @@ export default {
             }
         }
     }
-
     .tools {
         // visibility: hidden;
         padding-top: 10px;

@@ -90,7 +90,7 @@ export default {
             if (!this.editingSchema) {
                 return null;
             }
-            const targetPlugin = getPluginFromSchemaAndPlugins(this.editingSchema, this.plugins);
+            const targetPlugin = this.targetPlugin;
 
             let pluginSchema = targetPlugin.form10.schema || targetPlugin.form10.formSchema;
             if (pluginSchema) {
@@ -133,6 +133,8 @@ export default {
             this.editingUid = uid;
             this.editingSchema = rag;
             this.editResult = JSON.parse(JSON.stringify(rag));
+
+            this.targetPlugin = getPluginFromSchemaAndPlugins(this.editingSchema, this.plugins);
         });
     },
     mounted() {
@@ -157,6 +159,11 @@ export default {
                 type: "string",
                 title: "格式",
                 readOnly: true
+            },
+            required: {
+                type: "boolean",
+                title: "必填",
+                autoRemove: true
             },
             readOnly: {
                 type: "boolean",
@@ -221,6 +228,7 @@ export default {
     },
     data() {
         return {
+            targetPlugin: null,
             editDialogVisible: false,
             editingSchema: null,
             editingUid: null,
@@ -239,6 +247,15 @@ export default {
     methods: {
         editSubmit() {
             this.editResult = strip(this.editResult, this.combinedSchema);
+
+            let properties = this.targetPlugin.form10.format.properties;
+            if (properties) {
+                if (typeof properties === 'function') {
+                    properties = properties(this.editResult);
+                }
+                this.editResult.properties = properties;
+            }
+
             const { list, index } = getPositionFromUid(this.value, this.editingUid);
             list.splice(index, 1, JSON.parse(JSON.stringify(this.editResult)));
             this.editDialogVisible = false;
