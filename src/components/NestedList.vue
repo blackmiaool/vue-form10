@@ -1,6 +1,6 @@
 <template>
     <div>
-        <draggable class="draggable" v-model="rags" :options="draggableOptions" :class="{empty:!rags.length}">
+        <draggable class="draggable" v-model="rags" :options="draggableOptions" :class="{empty:!rags.length}" @change="onChange">
             <Rag v-for="schema in rags" :key="schema.form10uid" class="item" :schema='schema' :plugins="plugins" :root="true">
             </Rag>
         </draggable>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { strip, getPluginFromSchemaAndPlugins } from "@/util";
+import { strip, getPluginFromSchemaAndPlugins, getFormSchema, getDefaultFromSchema } from "@/util";
 import Vue from "vue";
 import Rag from "./Rag";
 import Form10 from "./Form10";
@@ -90,13 +90,12 @@ export default {
             if (!this.editingSchema) {
                 return null;
             }
+
+
             const targetPlugin = this.targetPlugin;
 
-            let pluginSchema = targetPlugin.form10.schema || targetPlugin.form10.formSchema;
+            const pluginSchema = getFormSchema(targetPlugin, this.editingSchema);
             if (pluginSchema) {
-                if (typeof pluginSchema === 'function') {
-                    pluginSchema = pluginSchema(this.editingSchema);
-                }
                 pluginSchema.title = "特有属性";
                 return pluginSchema;
             }
@@ -135,6 +134,9 @@ export default {
             this.editResult = JSON.parse(JSON.stringify(rag));
 
             this.targetPlugin = getPluginFromSchemaAndPlugins(this.editingSchema, this.plugins);
+        });
+        vue.$on('change', event => {
+            this.onChange(event);
         });
     },
     mounted() {
@@ -245,6 +247,41 @@ export default {
         };
     },
     methods: {
+        eachRag(rags, cb) {
+            rags.forEach((rag) => {
+                cb(rag);
+                if (rag.rags) {
+                    this.eachRag(rag.rags, cb);
+                }
+            });
+        },
+        getUid() {
+            let max = 0;
+            this.eachRag(this.rags, (rag) => {
+                if (!rag.form10uid) {
+                    return;
+                }
+                const uid = rag.form10uid.match(/\d+$/) * 1;
+                if (max < uid) {
+                    max = uid;
+                }
+            });
+            return max + 1;
+        },
+        onChange(event) {
+            if (event.added) {
+                const uid = `uid${this.getUid()}`;
+                const targetPlugin = getPluginFromSchemaAndPlugins(event.added.element, this.plugins);
+                const formSchema = getFormSchema(targetPlugin, event.added.element);
+                if (formSchema) {
+                    event.added.element.form = getDefaultFromSchema(formSchema);
+                }
+
+
+                this.$set(event.added.element, 'form10uid', uid);
+                this.$set(event.added.element, 'form10key', uid);
+            }
+        },
         editSubmit() {
             this.editResult = strip(this.editResult, this.combinedSchema);
 

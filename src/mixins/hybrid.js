@@ -1,9 +1,10 @@
 import difference from "lodash/difference";
+import { getDefaultFromSchema } from "@/util";
 
 export default {
     beforeMount() {
-        if (!this.model || typeof this.model !== 'object') {
-            this.model = {};
+        if (!this.model || typeof this.model !== 'object' || Object.keys(this.model).length === 0) {
+            this.model = getDefaultFromSchema(this.schema);
         }
         this.keys.forEach((key) => {
             if (!Object.hasOwnProperty.call(this.model, key)) {

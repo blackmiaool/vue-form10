@@ -39,7 +39,7 @@
                 </div>
             </section>
             <section v-if="isContainer">
-                <draggable class="draggable" v-model="schema.rags"
+                <draggable class="draggable" v-model="schema.rags"  @change="onChange"
                     :options="draggableOptions">
                     <Rag v-for="(schema,i) in schema.rags" :key="i"
                         class="item" :schema='schema'  :plugins="plugins">
@@ -69,6 +69,9 @@ export default {
         }
     },
     methods: {
+        onChange(event) {
+            this.eventHub.$emit('change', event);
+        },
         updateTitle() {},
         async remove() {
             try {

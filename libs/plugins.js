@@ -922,7 +922,7 @@ function execWith(expression, context) {
             }
         },
         form: function form() {
-            var form = Object(__WEBPACK_IMPORTED_MODULE_11__util__["h" /* stdFormObj */])(this.name, this.schema);
+            var form = Object(__WEBPACK_IMPORTED_MODULE_11__util__["i" /* stdFormObj */])(this.name, this.schema);
             if (this.schema.form) {
                 __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_assign___default()(form, this.schema.form);
             }
@@ -1033,15 +1033,16 @@ module.exports = isObjectLike;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return emptyValue; });
-/* harmony export (immutable) */ __webpack_exports__["e"] = getSchemaFromPath;
-/* harmony export (immutable) */ __webpack_exports__["g"] = rag2schema;
-/* harmony export (immutable) */ __webpack_exports__["i"] = strip;
-/* harmony export (immutable) */ __webpack_exports__["j"] = traverseSchema;
-/* harmony export (immutable) */ __webpack_exports__["d"] = getPluginFromSchemaAndPlugins;
+/* harmony export (immutable) */ __webpack_exports__["f"] = getSchemaFromPath;
+/* harmony export (immutable) */ __webpack_exports__["h"] = rag2schema;
+/* harmony export (immutable) */ __webpack_exports__["j"] = strip;
+/* harmony export (immutable) */ __webpack_exports__["k"] = traverseSchema;
+/* harmony export (immutable) */ __webpack_exports__["e"] = getPluginFromSchemaAndPlugins;
 /* harmony export (immutable) */ __webpack_exports__["c"] = getDefaultFromSchema;
-/* harmony export (immutable) */ __webpack_exports__["h"] = stdFormObj;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return pluginEmptyValues; });
+/* harmony export (immutable) */ __webpack_exports__["i"] = stdFormObj;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return pluginEmptyValues; });
 /* harmony export (immutable) */ __webpack_exports__["a"] = assignDeep;
+/* harmony export (immutable) */ __webpack_exports__["d"] = getFormSchema;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign__ = __webpack_require__(19);
@@ -1165,7 +1166,9 @@ function getPluginFromSchemaAndPlugins(schema, plugins, typeDefaultFormat) {
 
     return targetPlugin;
 }
-function getDefaultFromSchema(schema, root) {
+function getDefaultFromSchema(schema) {
+    var root = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
     if (!schema) {
         return schema;
     }
@@ -1179,7 +1182,7 @@ function getDefaultFromSchema(schema, root) {
             return {};
         }
         __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_object_keys___default()(schema.properties).forEach(function (key) {
-            var value = getDefaultFromSchema(schema.properties[key]);
+            var value = getDefaultFromSchema(schema.properties[key], false);
             if (value !== emptyValue) {
                 ret[key] = value;
             }
@@ -1247,6 +1250,16 @@ function assignDeep(target) {
         }
     });
     return to;
+}
+
+function getFormSchema(plugin, schema) {
+    var pluginSchema = plugin.form10.schema || plugin.form10.formSchema;
+    if (pluginSchema) {
+        if (typeof pluginSchema === "function") {
+            pluginSchema = pluginSchema(schema);
+        }
+    }
+    return pluginSchema;
 }
 
 /***/ }),
@@ -2450,10 +2463,10 @@ module.exports = toKey;
         }
     }), Object(__WEBPACK_IMPORTED_MODULE_3_vuex__["mapState"])(["selected"]), {
         targetPlugin: function targetPlugin() {
-            return Object(__WEBPACK_IMPORTED_MODULE_6__util__["d" /* getPluginFromSchemaAndPlugins */])(this.schema, this.options.plugins, this.options.typeDefaultFormat);
+            return Object(__WEBPACK_IMPORTED_MODULE_6__util__["e" /* getPluginFromSchemaAndPlugins */])(this.schema, this.options.plugins, this.options.typeDefaultFormat);
         },
         form: function form() {
-            var form = Object(__WEBPACK_IMPORTED_MODULE_6__util__["h" /* stdFormObj */])(this.name, this.schema);
+            var form = Object(__WEBPACK_IMPORTED_MODULE_6__util__["i" /* stdFormObj */])(this.name, this.schema);
             if (this.schema.form) {
                 __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()(form, this.schema.form);
             }
@@ -8913,7 +8926,6 @@ var editorSchema = {
 
 
 
-var form10uid = 0;
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: "drag-list-format",
     mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_format__["a" /* default */]],
@@ -8926,13 +8938,10 @@ var form10uid = 0;
     extends: __WEBPACK_IMPORTED_MODULE_2__object__["default"],
     methods: {
         clone: function clone(obj) {
-            form10uid++;
             var ret = JSON.parse(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(obj));
 
-            ret.form10uid = "uid" + form10uid;
-            ret.form10key = ret.form10uid;
             delete ret.form.notitle;
-            var plugin = Object(__WEBPACK_IMPORTED_MODULE_3__util__["d" /* getPluginFromSchemaAndPlugins */])(obj, this.options.plugins);
+            var plugin = Object(__WEBPACK_IMPORTED_MODULE_3__util__["e" /* getPluginFromSchemaAndPlugins */])(obj, this.options.plugins);
 
             if (plugin.form10.defaultSchema) {
                 Object(__WEBPACK_IMPORTED_MODULE_3__util__["a" /* assignDeep */])(ret, plugin.form10.defaultSchema);

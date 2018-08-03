@@ -21,7 +21,6 @@ import FormatMixin from "@/mixins/format";
 import ObjectType from "./object";
 import { assignDeep, getPluginFromSchemaAndPlugins } from "../util";
 
-let form10uid = 0;
 export default {
     name: "drag-list-format",
     mixins: [FormatMixin],
@@ -34,11 +33,8 @@ export default {
     extends: ObjectType,
     methods: {
         clone(obj) {
-            form10uid++;
             const ret = JSON.parse(JSON.stringify(obj));
 
-            ret.form10uid = `uid${form10uid}`;
-            ret.form10key = ret.form10uid;
             delete ret.form.notitle;
             const plugin = getPluginFromSchemaAndPlugins(obj, this.options.plugins);
 

@@ -27,11 +27,11 @@ export function rag2schema(rag) {
             const key = child.form10key || child.form10uid;
             rag.properties[key] = rag2schema(child);
         });
-        Object.keys(rag.properties).forEach(((key) => {
+        Object.keys(rag.properties).forEach(key => {
             if (rag.properties[key].required) {
                 rag.required.push(key);
             }
-        }));
+        });
     }
     if (rag.type === rag.format) {
         delete rag.format;
@@ -103,7 +103,7 @@ export function getPluginFromSchemaAndPlugins(schema, plugins, typeDefaultFormat
 
     return targetPlugin;
 }
-export function getDefaultFromSchema(schema, root) {
+export function getDefaultFromSchema(schema, root = true) {
     if (!schema) {
         return schema;
     }
@@ -117,7 +117,7 @@ export function getDefaultFromSchema(schema, root) {
             return {};
         }
         Object.keys(schema.properties).forEach(key => {
-            const value = getDefaultFromSchema(schema.properties[key]);
+            const value = getDefaultFromSchema(schema.properties[key], false);
             if (value !== emptyValue) {
                 ret[key] = value;
             }
@@ -181,4 +181,14 @@ export function assignDeep(target, ...args) {
         }
     });
     return to;
+}
+
+export function getFormSchema(plugin, schema) {
+    let pluginSchema = plugin.form10.schema || plugin.form10.formSchema;
+    if (pluginSchema) {
+        if (typeof pluginSchema === "function") {
+            pluginSchema = pluginSchema(schema);
+        }
+    }
+    return pluginSchema;
 }

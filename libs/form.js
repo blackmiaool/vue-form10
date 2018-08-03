@@ -922,7 +922,7 @@ function execWith(expression, context) {
             }
         },
         form: function form() {
-            var form = Object(__WEBPACK_IMPORTED_MODULE_11__util__["h" /* stdFormObj */])(this.name, this.schema);
+            var form = Object(__WEBPACK_IMPORTED_MODULE_11__util__["i" /* stdFormObj */])(this.name, this.schema);
             if (this.schema.form) {
                 __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_assign___default()(form, this.schema.form);
             }
@@ -1033,15 +1033,16 @@ module.exports = isObjectLike;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return emptyValue; });
-/* harmony export (immutable) */ __webpack_exports__["e"] = getSchemaFromPath;
-/* harmony export (immutable) */ __webpack_exports__["g"] = rag2schema;
-/* harmony export (immutable) */ __webpack_exports__["i"] = strip;
-/* harmony export (immutable) */ __webpack_exports__["j"] = traverseSchema;
-/* harmony export (immutable) */ __webpack_exports__["d"] = getPluginFromSchemaAndPlugins;
+/* harmony export (immutable) */ __webpack_exports__["f"] = getSchemaFromPath;
+/* harmony export (immutable) */ __webpack_exports__["h"] = rag2schema;
+/* harmony export (immutable) */ __webpack_exports__["j"] = strip;
+/* harmony export (immutable) */ __webpack_exports__["k"] = traverseSchema;
+/* harmony export (immutable) */ __webpack_exports__["e"] = getPluginFromSchemaAndPlugins;
 /* harmony export (immutable) */ __webpack_exports__["c"] = getDefaultFromSchema;
-/* harmony export (immutable) */ __webpack_exports__["h"] = stdFormObj;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return pluginEmptyValues; });
+/* harmony export (immutable) */ __webpack_exports__["i"] = stdFormObj;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return pluginEmptyValues; });
 /* harmony export (immutable) */ __webpack_exports__["a"] = assignDeep;
+/* harmony export (immutable) */ __webpack_exports__["d"] = getFormSchema;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign__ = __webpack_require__(19);
@@ -1165,7 +1166,9 @@ function getPluginFromSchemaAndPlugins(schema, plugins, typeDefaultFormat) {
 
     return targetPlugin;
 }
-function getDefaultFromSchema(schema, root) {
+function getDefaultFromSchema(schema) {
+    var root = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
     if (!schema) {
         return schema;
     }
@@ -1179,7 +1182,7 @@ function getDefaultFromSchema(schema, root) {
             return {};
         }
         __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_object_keys___default()(schema.properties).forEach(function (key) {
-            var value = getDefaultFromSchema(schema.properties[key]);
+            var value = getDefaultFromSchema(schema.properties[key], false);
             if (value !== emptyValue) {
                 ret[key] = value;
             }
@@ -1247,6 +1250,16 @@ function assignDeep(target) {
         }
     });
     return to;
+}
+
+function getFormSchema(plugin, schema) {
+    var pluginSchema = plugin.form10.schema || plugin.form10.formSchema;
+    if (pluginSchema) {
+        if (typeof pluginSchema === "function") {
+            pluginSchema = pluginSchema(schema);
+        }
+    }
+    return pluginSchema;
 }
 
 /***/ }),
@@ -2450,10 +2463,10 @@ module.exports = toKey;
         }
     }), Object(__WEBPACK_IMPORTED_MODULE_3_vuex__["mapState"])(["selected"]), {
         targetPlugin: function targetPlugin() {
-            return Object(__WEBPACK_IMPORTED_MODULE_6__util__["d" /* getPluginFromSchemaAndPlugins */])(this.schema, this.options.plugins, this.options.typeDefaultFormat);
+            return Object(__WEBPACK_IMPORTED_MODULE_6__util__["e" /* getPluginFromSchemaAndPlugins */])(this.schema, this.options.plugins, this.options.typeDefaultFormat);
         },
         form: function form() {
-            var form = Object(__WEBPACK_IMPORTED_MODULE_6__util__["h" /* stdFormObj */])(this.name, this.schema);
+            var form = Object(__WEBPACK_IMPORTED_MODULE_6__util__["i" /* stdFormObj */])(this.name, this.schema);
             if (this.schema.form) {
                 __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()(form, this.schema.form);
             }
@@ -10551,6 +10564,8 @@ __webpack_require__(255);
             return ret;
         },
         use: function use(plugin) {
+            var _this3 = this;
+
             if (plugin.render) {
                 var pluginConfig = plugin.form10 || {};
                 if (pluginConfig.format) {
@@ -10561,7 +10576,7 @@ __webpack_require__(255);
                     if (formatConfig.format instanceof RegExp) {
                         this.refinedOptions.tv4.addFormat(formatConfig.name, function (data) {
                             if (!formatConfig.format.test(data)) {
-                                return "invalid format";
+                                return _this3.$t("Invalid format");
                             }
                             return null;
                         });
@@ -10731,13 +10746,11 @@ var _draggableOptions = {
             if (!this.editingSchema) {
                 return null;
             }
+
             var targetPlugin = this.targetPlugin;
 
-            var pluginSchema = targetPlugin.form10.schema || targetPlugin.form10.formSchema;
+            var pluginSchema = Object(__WEBPACK_IMPORTED_MODULE_3__util__["d" /* getFormSchema */])(targetPlugin, this.editingSchema);
             if (pluginSchema) {
-                if (typeof pluginSchema === 'function') {
-                    pluginSchema = pluginSchema(this.editingSchema);
-                }
                 pluginSchema.title = "特有属性";
                 return pluginSchema;
             }
@@ -10782,7 +10795,10 @@ var _draggableOptions = {
             _this.editingSchema = rag;
             _this.editResult = JSON.parse(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(rag));
 
-            _this.targetPlugin = Object(__WEBPACK_IMPORTED_MODULE_3__util__["d" /* getPluginFromSchemaAndPlugins */])(_this.editingSchema, _this.plugins);
+            _this.targetPlugin = Object(__WEBPACK_IMPORTED_MODULE_3__util__["e" /* getPluginFromSchemaAndPlugins */])(_this.editingSchema, _this.plugins);
+        });
+        vue.$on('change', function (event) {
+            _this.onChange(event);
         });
     },
     mounted: function mounted() {
@@ -10898,8 +10914,44 @@ var _draggableOptions = {
     },
 
     methods: {
+        eachRag: function eachRag(rags, cb) {
+            var _this3 = this;
+
+            rags.forEach(function (rag) {
+                cb(rag);
+                if (rag.rags) {
+                    _this3.eachRag(rag.rags, cb);
+                }
+            });
+        },
+        getUid: function getUid() {
+            var max = 0;
+            this.eachRag(this.rags, function (rag) {
+                if (!rag.form10uid) {
+                    return;
+                }
+                var uid = rag.form10uid.match(/\d+$/) * 1;
+                if (max < uid) {
+                    max = uid;
+                }
+            });
+            return max + 1;
+        },
+        onChange: function onChange(event) {
+            if (event.added) {
+                var uid = "uid" + this.getUid();
+                var targetPlugin = Object(__WEBPACK_IMPORTED_MODULE_3__util__["e" /* getPluginFromSchemaAndPlugins */])(event.added.element, this.plugins);
+                var formSchema = Object(__WEBPACK_IMPORTED_MODULE_3__util__["d" /* getFormSchema */])(targetPlugin, event.added.element);
+                if (formSchema) {
+                    event.added.element.form = Object(__WEBPACK_IMPORTED_MODULE_3__util__["c" /* getDefaultFromSchema */])(formSchema);
+                }
+
+                this.$set(event.added.element, 'form10uid', uid);
+                this.$set(event.added.element, 'form10key', uid);
+            }
+        },
         editSubmit: function editSubmit() {
-            this.editResult = Object(__WEBPACK_IMPORTED_MODULE_3__util__["i" /* strip */])(this.editResult, this.combinedSchema);
+            this.editResult = Object(__WEBPACK_IMPORTED_MODULE_3__util__["j" /* strip */])(this.editResult, this.combinedSchema);
 
             var properties = this.targetPlugin.form10.format.properties;
             if (properties) {
@@ -11003,6 +11055,9 @@ var _draggableOptions = {
         }
     },
     methods: {
+        onChange: function onChange(event) {
+            this.eventHub.$emit('change', event);
+        },
         updateTitle: function updateTitle() {},
         remove: function remove() {
             var _this = this;
@@ -11059,7 +11114,7 @@ var _draggableOptions = {
     },
     computed: {
         targetPlugin: function targetPlugin() {
-            return Object(__WEBPACK_IMPORTED_MODULE_2__util__["d" /* getPluginFromSchemaAndPlugins */])(this.schema, this.plugins);
+            return Object(__WEBPACK_IMPORTED_MODULE_2__util__["e" /* getPluginFromSchemaAndPlugins */])(this.schema, this.plugins);
         },
         isContainer: function isContainer() {
             return (this.schema.type === "object" || this.schema.type === "array") && !this.schema.sealed;
@@ -11385,15 +11440,16 @@ module.exports = identity;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util__ = __webpack_require__(21);
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "emptyValue", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["b"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getSchemaFromPath", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["e"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "rag2schema", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["g"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "strip", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["i"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "traverseSchema", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["j"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getPluginFromSchemaAndPlugins", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["d"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getSchemaFromPath", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["f"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "rag2schema", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["h"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "strip", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["j"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "traverseSchema", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["k"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getPluginFromSchemaAndPlugins", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["e"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getDefaultFromSchema", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["c"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "stdFormObj", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["h"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "pluginEmptyValues", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["f"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "stdFormObj", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["i"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "pluginEmptyValues", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["g"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "assignDeep", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["a"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getFormSchema", function() { return __WEBPACK_IMPORTED_MODULE_0__util__["d"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Form10__ = __webpack_require__(88);
 /* empty harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_NestedList__ = __webpack_require__(257);
@@ -15955,6 +16011,7 @@ var render = function() {
                   {
                     staticClass: "draggable",
                     attrs: { options: _vm.draggableOptions },
+                    on: { change: _vm.onChange },
                     model: {
                       value: _vm.schema.rags,
                       callback: function($$v) {
@@ -16009,6 +16066,7 @@ var render = function() {
           staticClass: "draggable",
           class: { empty: !_vm.rags.length },
           attrs: { options: _vm.draggableOptions },
+          on: { change: _vm.onChange },
           model: {
             value: _vm.rags,
             callback: function($$v) {
@@ -16350,7 +16408,8 @@ if (false) {
             decoration: '装饰',
             checkbox: '复选框',
             noItems: 'schema中未定义“items”字段',
-            Draggable: "可以拖动"
+            Draggable: "可以拖动",
+            'invalid format': '非法格式'
         }
     }
 });
@@ -16366,6 +16425,8 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_difference__ = __webpack_require__(286);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_difference___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash_difference__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util__ = __webpack_require__(21);
+
 
 
 
@@ -16374,8 +16435,8 @@ if (false) {
     beforeMount: function beforeMount() {
         var _this = this;
 
-        if (!this.model || __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof___default()(this.model) !== 'object') {
-            this.model = {};
+        if (!this.model || __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof___default()(this.model) !== 'object' || __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default()(this.model).length === 0) {
+            this.model = Object(__WEBPACK_IMPORTED_MODULE_3__util__["c" /* getDefaultFromSchema */])(this.schema);
         }
         this.keys.forEach(function (key) {
             if (!Object.hasOwnProperty.call(_this.model, key)) {
