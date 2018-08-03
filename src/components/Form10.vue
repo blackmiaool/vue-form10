@@ -152,7 +152,7 @@ export default {
                     if (formatConfig.format instanceof RegExp) {
                         this.refinedOptions.tv4.addFormat(formatConfig.name, data => {
                             if (!formatConfig.format.test(data)) {
-                                return "invalid format";
+                                return this.$t("Invalid format");
                             }
                             return null;
                         });

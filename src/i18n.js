@@ -43,7 +43,8 @@ export default {
             decoration: '装饰',
             checkbox: '复选框',
             noItems: 'schema中未定义“items”字段',
-            Draggable: "可以拖动"
+            Draggable: "可以拖动",
+            'invalid format': '非法格式'
         }
     }
 }
