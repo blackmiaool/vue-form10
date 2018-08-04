@@ -74,76 +74,81 @@ A format plugin is a standard vue component with `$options.format.form10` and it
 The `form10` property is a place to put your vue-form10 related config.
 
 #### form10.format
-Type: `Object`
+Type: `Object`  
 Required: `true`
 
 Format related config
 ##### form10.format.name
-Type: `String`
+Type: `String`  
 Required: `true`
 
 Format's unique name. Schema's `format` value should use this value to indicate the format it uses.
 ##### form10.format.types
-Type: `Array[String]`
+Type: `Array[String]`  
 Required: `true`
 
 Format's available types. For example, you decide to write a timestamp format, and write it as a number type format. Afterwards the back-end developer request you to make the `timestamp` property be a string to fit his/her own logic.  But you don't want to make this change permanet. So write `form10.format.types=["number","string"]` to meet the requirement.
 
 ##### form10.format.title
-Type: `String`
-Required: `false`
+Type: `String`  
+Required: `false`  
 default: `form10.format.name`
 
-The title property is only for form editing or similar development related usages.
+Shown as title in the editor mode.
 
 ##### form10.format.format
-Type: `RegExp|Function:String`
+Type: `RegExp|Function:String`  
 Required: `false`
 
-It's used to validate the data of the format. If it's a function, it will receive the data of the format as the only parameter. It returns the error that you find out in the data, or returns undefined if nothing wrong with the data.
+Validate the data of the format. If it's a function, it will receive the data of the format as the only parameter. It returns the error that you find out in the data, or returns undefined if nothing wrong with the data.
 
 ##### form10.format.expand
-Type: `Boolean`
+Type: `Boolean`  
 Required: `false`
 
-If the type of the component is `Object` or `Array`, the component will automatically expand itself to use the full width of its parent. Otherwise, if you want the component to expand, you should set this flag.
+If the type of the component is `Object` or `Array`, the component will automatically expand itself to use the full width of its parent. Otherwise, setting this flag is needed to expand its width.
 
 ##### form10.format.sealed
-Type: `Boolean`
+Type: `Boolean`  
 Required: `false`
 
-In form editor:
+In the form editor(NestedList):
 
-If the type of the rag is `Object` or `Array`, it will have a area to put its descendent rags by default. If you don't want the area, set this flag to `false`.
+If the type of the rag is `Object` or `Array`, it has a area(drag area) to arrange its descendent rags by default. If you don't want the area, set this flag to `false`.
 
 ##### form10.preview
-Type: `Object`
+Type: `Object`  
 Required: `false`
 
 Form editor related things.
 
 ##### form10.preview.schema
-Type: `Object`
+Type: `Object`  
 Required: `false`
 
-It's used to render the components in the `FormatList`;
+A schema to render the components in the `FormatList`. A better preview schema should imply the function of the format.
 
 #### form.defaultSchema
 Type: `Object`
 Required: `false`
 
-It's used to generate component's default schema.
+A schema to generate component's default schema.
 
 #### form.formSchema
-Type: `Object|Function`
+Type: `Object|Function`  
 Required: `false`
 
-It's used to generate the rag editor's form part. It's a form's schema or it generates a form's schema based on the schema.
+A to generate the rag editor's `schema.form`.  
 
+`Object`:  
+`schema.form`'s schema  
+
+`Function`:  
+Generate the schema above with its current schema as argument.
 
 ### FormatMixin
 
-It provides many environment variables and utility functions to help you develop a format.
+Provides many environment variables and utility functions to help you develop a format.
 
 ### FormatMixin's environment variables:
 #### schema
