@@ -25,6 +25,7 @@
 <script>
 import { strip, getPluginFromSchemaAndPlugins, getFormSchema, getDefaultFromSchema } from "@/util";
 import Vue from "vue";
+import i18n from "@/i18n";
 import Rag from "./Rag";
 import Form10 from "./Form10";
 
@@ -59,6 +60,7 @@ export default {
         draggableOptions
     },
     name: "NestedList",
+    i18n,
     props: {
         value: {
             type: Array,

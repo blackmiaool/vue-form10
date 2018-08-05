@@ -12,12 +12,14 @@
 <script>
 import draggable from "vuedraggable";
 import Vue from "vue";
+import i18n from "@/i18n";
 import Form10 from "./Form10";
 import { assignDeep } from "../util";
 
 Vue.component("draggable", draggable);
 export default {
     name: "FormatList",
+    i18n,
     computed: {
         schema() {
             const properties = {};

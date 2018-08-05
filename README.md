@@ -7,7 +7,53 @@ npm i -S vue-form10
 
 # Usage
 ```html
+<template>
+  <div id="app">
+    <Form10 :schema="schema" :plugins="form10plugins" />
+  </div>
+</template>
 
+<script>
+import Form10 from 'vue-form10';
+import form10plugins from 'vue-form10/libs/plugins';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import Vue from 'vue';
+
+Vue.use(ElementUI);
+
+export default {
+  name: 'app',
+  data() {
+    return {
+      form10plugins,
+      schema: {
+        type: 'object',
+        title: 'obj',
+        properties: {
+          str: {
+            type: 'string',
+            title: 'str',
+          },
+          obj: {
+            type: 'object',
+            title: 'obj',
+            properties: {
+              str: {
+                type: 'string',
+                title: 'str',
+              },
+            },
+          },
+        },
+      },
+    };
+  },
+  components: {
+    Form10,
+  },
+};
+</script>
 ```
 
 

@@ -83,6 +83,7 @@ fieldset {
     border-width: 1px;
     border-radius: 4px;
     margin-left: 0;
+    padding-top:0;
 }
 legend {
     color: #606266;

@@ -1,24 +1,25 @@
 <template>
     <el-form class="vue-form10" v-bind="options.formProps||{}" :inline="options.inline">
-        <AnyType :parent-path="rootPath" :key="uid"
-            parent="root" :schema="refinedSchema"
-            :options="refinedOptions"></AnyType>
+        <AnyType :parent-path="rootPath" :key="uid" parent="root" :schema="refinedSchema" :options="refinedOptions"></AnyType>
     </el-form>
 </template>
 
 <script>
 import tv4 from "tv4";
 import { mapState, mapMutations } from "vuex";
+import i18n from "@/i18n";
+import Vue from "vue";
+import vuei18n from "vue-i18n";
 import validate from "../validate";
 import AnyType from "./AnyType";
 import store from "../store";
 
 require("tv4/lang/zh-CN");
 
-
+Vue.use(vuei18n);
 export default {
     name: "Form10",
-    // store: store(),
+    i18n,
     beforeCreate() {
         this.$store = store();
     },
@@ -209,5 +210,16 @@ export default {
 </script>
 
 
-<style scoped>
+<style lang="less">
+.vue-form10 {
+    .el-form-item__content {
+        line-height: 25px;
+    }
+    .el-form-item__label {
+        line-height: 35px;
+    }
+    .el-form-item {
+        margin-bottom: 10px;
+    }
+}
 </style>
