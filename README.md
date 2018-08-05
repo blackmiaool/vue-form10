@@ -87,14 +87,14 @@ If has error: `{ error }`
 If not: `{ value }`
 
 
-### Reference
+# Reference
 [Json Schema Validation](http://json-schema.org/latest/json-schema-validation.html)
 
 
 
 
 
-### Compared with angular-schema-form
+# Compared with angular-schema-form
 * [ ]  required:["a","b"]
 * [ ]  key: "address.street"  
 * [x]  type: "text"  
