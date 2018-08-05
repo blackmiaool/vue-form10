@@ -9,7 +9,9 @@ npm i -S vue-form10
 ```html
 <template>
   <div id="app">
-    <Form10 :schema="schema" :plugins="form10plugins" />
+    <Form10 :schema="schema" :plugins="form10plugins" v-model="model"/>
+    <pre>{{JSON.stringify(model,false,4)}}
+    </pre>
   </div>
 </template>
 
@@ -26,6 +28,9 @@ export default {
   name: 'app',
   data() {
     return {
+      model:{
+
+      },
       form10plugins,
       schema: {
         type: 'object',
@@ -55,7 +60,31 @@ export default {
 };
 </script>
 ```
+## Props
 
+### v-model
+Form10's model
+
+### options
+Type:`Object`  
+Required:`false`
+
+### schema
+Type:`Object`  
+Required:`true`
+
+### plugins
+Type:`Array`  
+Required:`true`
+
+## Methods
+
+### submit
+`Function():Object`
+
+Returns:
+If has error: `{ error }`  
+If not: `{ value }`
 
 
 ### Reference
