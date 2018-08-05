@@ -69,13 +69,43 @@ Form10's model
 Type:`Object`  
 Required:`false`
 
+#### options.inline
+Type:`Boolean`  
+Required:`false`  
+If the label and the input are on the same line.
+
+#### options.formProps
+Type:`Object`  
+Required:`false`  
+Pass to form10's topmost `el-form` component.
+
+#### options.inheritState
+Type:`Object`  
+Required:`false`  
+Used to compose form10's vuex state. Form10 has its own vuex state, so its format plugins can't access its $parent's state. Pass `this.$store.state` to this option and the format plugins can access the state by `this.$store.state.inherit`.
+
+#### options.typeDefaultFormat
+Type:`Object`  
+Required:`false`  
+Default:`{
+    object: "object",
+    array: "array",
+    number: "number",
+    integer: "number",
+    string: "string",
+    boolean: "boolean",
+    null: "null"
+}`  
+If a schema has `type` but doesn't have `format`, form10 uses `typeDefaultFormat[type]` to decide its format.
+
+
 ### schema
 Type:`Object`  
 Required:`true`
 
 ### plugins
 Type:`Array`  
-Required:`true`
+Required:`true`  
 
 ## Methods
 
