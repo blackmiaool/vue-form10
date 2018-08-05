@@ -1,6 +1,6 @@
 # vue-form10
 
-<img src="https://user-images.githubusercontent.com/5674588/43684356-43f15e7c-98d1-11e8-8da5-47b60f28befb.gif"/>
+<img src="https://user-images.githubusercontent.com/5674588/43684427-5771226a-98d2-11e8-8e90-3f8931abea12.gif"/>
 
 # Install
 ```bash
