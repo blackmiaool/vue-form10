@@ -12214,6 +12214,7 @@ var render = function() {
       _c(
         "el-select",
         {
+          staticStyle: { width: "100%" },
           attrs: {
             slot: "input",
             placeholder: _vm.form.placeholder,

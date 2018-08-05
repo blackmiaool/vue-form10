@@ -1,7 +1,7 @@
 <template>
     <TypeWrapper v-bind="typeWrapperProps" ref="typeWrapper">
         <el-select v-model="model" :placeholder="form.placeholder"
-            slot="input" :disabled="schema.readOnly">
+            slot="input" :disabled="schema.readOnly" style="width:100%;">
             <el-option v-for="(item,index) in titleMap"
                 :key="index" :label="$t(item.name)"
                 :value="schema.type==='number'?item.value*1:item.value">
