@@ -1,5 +1,5 @@
 <template>
-    <el-form class="vue-form10" v-bind="options.formProps">
+    <el-form class="vue-form10" v-bind="options.formProps||{}" :inline="options.inline">
         <AnyType :parent-path="rootPath" :key="uid"
             parent="root" :schema="refinedSchema"
             :options="refinedOptions"></AnyType>
@@ -8,7 +8,6 @@
 
 <script>
 import tv4 from "tv4";
-import clone from "clone";
 import { mapState, mapMutations } from "vuex";
 import validate from "../validate";
 import AnyType from "./AnyType";
@@ -29,7 +28,7 @@ export default {
     computed: {
         ...mapState(["model"]),
         refinedSchema() {
-            const ret = clone(this.schema || {});
+            const ret = JSON.parse(JSON.stringify(this.schema || {}));
             function addRequired(item) {
                 if (!item) {
                     return;
@@ -74,6 +73,9 @@ export default {
             immediate: true,
             deep: true,
             handler(value) {
+                if (!value) {
+                    return;
+                }
                 Object.keys(value).forEach(key => {
                     this.$set(this.refinedOptions, key, value[key]);
                 });
@@ -150,14 +152,14 @@ export default {
                         )
                     );
                     if (formatConfig.format instanceof RegExp) {
-                        this.refinedOptions.tv4.addFormat(formatConfig.name, data => {
+                        tv4.addFormat(formatConfig.name, data => {
                             if (!formatConfig.format.test(data)) {
                                 return this.$t("Invalid format");
                             }
                             return null;
                         });
                     } else {
-                        this.refinedOptions.tv4.addFormat(formatConfig.name, formatConfig.format || "");
+                        tv4.addFormat(formatConfig.name, formatConfig.format || "");
                     }
                 }
             }
@@ -169,14 +171,14 @@ export default {
         },
         value: {},
         options: {
-            type: Object
+            type: Object,
+            default() {
+                return {};
+            }
         },
         plugins: {
             type: Array
         }
-    },
-    beforeMount() {
-        this.refinedOptions.tv4 = tv4;
     },
     data() {
         return {
@@ -185,7 +187,6 @@ export default {
             componentId: "div",
             compForm: {},
             refinedOptions: {
-                tv4,
                 formats: [],
                 $rootParent: this.$parent,
                 $root: this,

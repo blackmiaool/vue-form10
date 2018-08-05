@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import toPath from "lodash/toPath";
 import { mapState } from 'vuex';
+import tv4 from "tv4";
 import TypeWrapper from "../components/TypeWrapper";
 import AnyType from "../components/AnyType";
 import { stdFormObj } from "../util";
@@ -64,7 +65,7 @@ export default {
                 if (isEmpty) {
                     valid = true;
                 } else {
-                    tv4ValidateResult = this.options.tv4.validateResult(value, schema);
+                    tv4ValidateResult = tv4.validateResult(value, schema);
                     valid = tv4ValidateResult.valid;
                 }
 

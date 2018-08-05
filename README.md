@@ -1,8 +1,25 @@
 # vue-form10
 
+# Install
+```bash
+npm i -S vue-form10
+```
+
+# Usage
+```html
+
+```
+
+
+
 ### Reference
 [Json Schema Validation](http://json-schema.org/latest/json-schema-validation.html)
 
+
+
+
+
+### Compared with angular-schema-form
 * [ ]  required:["a","b"]
 * [ ]  key: "address.street"  
 * [x]  type: "text"  
