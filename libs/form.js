@@ -916,6 +916,14 @@ function execWith(expression, context) {
             return this.model;
         },
 
+        parentModel: {
+            set: function set(value) {
+                this.$vuexSet(this.path.slice(0, this.path.length - 1), value);
+            },
+            get: function get() {
+                return __WEBPACK_IMPORTED_MODULE_6_lodash_get___default()(this.$store.state, this.path.slice(0, this.path.length - 1));
+            }
+        },
         model: {
             set: function set(value) {
                 this.$vuexSet(this.path.slice(), value);
@@ -10498,7 +10506,10 @@ if (false) {
 
 __webpack_require__(253);
 
-__WEBPACK_IMPORTED_MODULE_8_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_9_vue_i18n__["a" /* default */]);
+if (!__WEBPACK_IMPORTED_MODULE_8_vue___default.a.prototype.$t) {
+    __WEBPACK_IMPORTED_MODULE_8_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_9_vue_i18n__["a" /* default */]);
+}
+
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: "Form10",
     i18n: __WEBPACK_IMPORTED_MODULE_7__i18n__["a" /* default */],

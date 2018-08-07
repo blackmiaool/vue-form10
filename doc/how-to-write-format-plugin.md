@@ -163,3 +163,7 @@ Type: Follows schema.type
 
 Format's value. Format can modify this value directly. 
 
+#### parentModel
+Type: Follows its parent's schema.type
+
+The value of Format's parent. Access siblings from it.

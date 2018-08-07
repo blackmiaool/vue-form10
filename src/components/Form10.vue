@@ -16,7 +16,10 @@ import store from "../store";
 
 require("tv4/lang/zh-CN");
 
-Vue.use(vuei18n);
+if (!Vue.prototype.$t) {
+    Vue.use(vuei18n);
+}
+
 export default {
     name: "Form10",
     i18n,

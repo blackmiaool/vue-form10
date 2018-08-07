@@ -141,6 +141,14 @@ export default {
         modelValue() {
             return this.model;
         },
+        parentModel: {
+            set(value) {
+                this.$vuexSet(this.path.slice(0, this.path.length - 1), value);
+            },
+            get() {
+                return get(this.$store.state, this.path.slice(0, this.path.length - 1));
+            }
+        },
         model: {
             set(value) {
                 this.$vuexSet(this.path.slice(), value);

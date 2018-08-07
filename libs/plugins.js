@@ -916,6 +916,14 @@ function execWith(expression, context) {
             return this.model;
         },
 
+        parentModel: {
+            set: function set(value) {
+                this.$vuexSet(this.path.slice(0, this.path.length - 1), value);
+            },
+            get: function get() {
+                return __WEBPACK_IMPORTED_MODULE_6_lodash_get___default()(this.$store.state, this.path.slice(0, this.path.length - 1));
+            }
+        },
         model: {
             set: function set(value) {
                 this.$vuexSet(this.path.slice(), value);
