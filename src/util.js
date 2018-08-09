@@ -107,7 +107,7 @@ export function getDefaultFromSchema(schema, root = true) {
     if (!schema) {
         return schema;
     }
-    if (schema.default) {
+    if (schema.default !== undefined) {
         return schema.default;
     }
     if (schema.defaultJSON) {

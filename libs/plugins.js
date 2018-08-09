@@ -948,7 +948,7 @@ function execWith(expression, context) {
         }
     }),
     beforeMount: function beforeMount() {
-        if (this.schema.default && (this.model === null || this.model === undefined)) {
+        if (this.schema.default !== undefined && (this.model === null || this.model === undefined)) {
             this.model = this.schema.default;
         }
 
@@ -1146,7 +1146,7 @@ function getDefaultFromSchema(schema) {
     if (!schema) {
         return schema;
     }
-    if (schema.default) {
+    if (schema.default !== undefined) {
         return schema.default;
     }
     if (schema.defaultJSON) {

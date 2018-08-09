@@ -173,7 +173,7 @@ export default {
         }
     },
     beforeMount() {
-        if (this.schema.default && (this.model === null || this.model === undefined)) {
+        if (this.schema.default !== undefined && (this.model === null || this.model === undefined)) {
             this.model = this.schema.default;
         }
 
