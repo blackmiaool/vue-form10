@@ -44,7 +44,8 @@ export default {
             checkbox: '复选框',
             noItems: 'schema中未定义“items”字段',
             Draggable: "可以拖动",
-            'invalid format': '非法格式'
+            'invalid format': '非法格式',
+            "Auto Remove": '空值(提交时)自动删除'
         }
     }
 }

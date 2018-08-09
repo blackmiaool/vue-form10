@@ -110,6 +110,9 @@ export function getDefaultFromSchema(schema, root = true) {
     if (schema.default) {
         return schema.default;
     }
+    if (schema.defaultJSON) {
+        return JSON.parse(schema.defaultJSON);
+    }
 
     if (schema.type === "object") {
         const ret = {};

@@ -174,6 +174,17 @@ export default {
                 title: "readonly",
                 autoRemove: true
             },
+            autoRemove: {
+                type: "boolean",
+                title: "Auto Remove",
+                autoRemove: true
+            },
+            defaultJSON: {
+                type: 'string',
+                title: '默认值',
+                description: `格式为JSON，比如字符串的默认值形如"abc"（带引号）`,
+                autoRemove: true
+            },
             description: {
                 type: "string",
                 title: "描述",

@@ -172,9 +172,13 @@ export default {
             };
         }
     },
-    mounted() {
-        if (this.schema.default && this.model === undefined) {
+    beforeMount() {
+        if (this.schema.default && (this.model === null || this.model === undefined)) {
             this.model = this.schema.default;
+        }
+
+        if (this.schema.defaultJSON && (this.model === null || this.model === undefined)) {
+            this.model = JSON.parse(this.schema.defaultJSON);
         }
     },
     data() {

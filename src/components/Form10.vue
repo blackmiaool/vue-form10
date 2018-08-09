@@ -40,7 +40,9 @@ export default {
                 if (item.type === "object" && item.properties) {
                     if (item.required && Array.isArray(item.required)) {
                         item.required.forEach(key => {
-                            item.properties[key].required = true;
+                            if (item.properties[key].type !== 'object') {
+                                item.properties[key].required = true;
+                            }
                         });
                     }
                     Object.keys(item.properties).forEach(key => {

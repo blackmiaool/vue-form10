@@ -947,9 +947,13 @@ function execWith(expression, context) {
             };
         }
     }),
-    mounted: function mounted() {
-        if (this.schema.default && this.model === undefined) {
+    beforeMount: function beforeMount() {
+        if (this.schema.default && (this.model === null || this.model === undefined)) {
             this.model = this.schema.default;
+        }
+
+        if (this.schema.defaultJSON && (this.model === null || this.model === undefined)) {
+            this.model = JSON.parse(this.schema.defaultJSON);
         }
     },
     data: function data() {
@@ -1144,6 +1148,9 @@ function getDefaultFromSchema(schema) {
     }
     if (schema.default) {
         return schema.default;
+    }
+    if (schema.defaultJSON) {
+        return JSON.parse(schema.defaultJSON);
     }
 
     if (schema.type === "object") {
@@ -10763,6 +10770,15 @@ if (false) {(function () {
         format: {
             name: 'object',
             types: ['object']
+        },
+        formSchema: {
+            type: 'object',
+            properties: {
+                strip: {
+                    type: 'boolean',
+                    title: '去掉边框和小标题'
+                }
+            }
         }
     },
     methods: {

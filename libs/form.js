@@ -947,9 +947,13 @@ function execWith(expression, context) {
             };
         }
     }),
-    mounted: function mounted() {
-        if (this.schema.default && this.model === undefined) {
+    beforeMount: function beforeMount() {
+        if (this.schema.default && (this.model === null || this.model === undefined)) {
             this.model = this.schema.default;
+        }
+
+        if (this.schema.defaultJSON && (this.model === null || this.model === undefined)) {
+            this.model = JSON.parse(this.schema.defaultJSON);
         }
     },
     data: function data() {
@@ -1144,6 +1148,9 @@ function getDefaultFromSchema(schema) {
     }
     if (schema.default) {
         return schema.default;
+    }
+    if (schema.defaultJSON) {
+        return JSON.parse(schema.defaultJSON);
     }
 
     if (schema.type === "object") {
@@ -4650,7 +4657,8 @@ if (false) {(function () {
             checkbox: '复选框',
             noItems: 'schema中未定义“items”字段',
             Draggable: "可以拖动",
-            'invalid format': '非法格式'
+            'invalid format': '非法格式',
+            "Auto Remove": '空值(提交时)自动删除'
         }
     }
 });
@@ -10530,7 +10538,9 @@ if (!__WEBPACK_IMPORTED_MODULE_8_vue___default.a.prototype.$t) {
                 if (item.type === "object" && item.properties) {
                     if (item.required && Array.isArray(item.required)) {
                         item.required.forEach(function (key) {
-                            item.properties[key].required = true;
+                            if (item.properties[key].type !== 'object') {
+                                item.properties[key].required = true;
+                            }
                         });
                     }
                     __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_object_keys___default()(item.properties).forEach(function (key) {
@@ -10914,6 +10924,17 @@ var _draggableOptions = {
             readOnly: {
                 type: "boolean",
                 title: "readonly",
+                autoRemove: true
+            },
+            autoRemove: {
+                type: "boolean",
+                title: "Auto Remove",
+                autoRemove: true
+            },
+            defaultJSON: {
+                type: 'string',
+                title: '默认值',
+                description: "\u683C\u5F0F\u4E3AJSON\uFF0C\u6BD4\u5982\u5B57\u7B26\u4E32\u7684\u9ED8\u8BA4\u503C\u5F62\u5982\"abc\"\uFF08\u5E26\u5F15\u53F7\uFF09",
                 autoRemove: true
             },
             description: {

@@ -28,6 +28,15 @@ export default {
             name: 'object',
             types: ['object'],
         },
+        formSchema: {
+            type: 'object',
+            properties: {
+                strip: {
+                    type: 'boolean',
+                    title: '去掉边框和小标题'
+                }
+            }
+        }
     },
     methods: {
         getChildProps($index, key) {
