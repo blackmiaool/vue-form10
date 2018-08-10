@@ -15976,6 +15976,17 @@ if (false) {
         if (!this.model || __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof___default()(this.model) !== 'object' || __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default()(this.model).length === 0) {
             this.model = Object(__WEBPACK_IMPORTED_MODULE_3__util__["c" /* getDefaultFromSchema */])(this.schema);
         }
+
+        var properties = this.$options.form10.format.properties || {};
+        if (typeof properties === 'function') {
+            properties = properties(this.schema);
+        }
+        __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default()(properties).forEach(function (key) {
+            if (!Object.hasOwnProperty.call(_this.model, key) && properties[key].default !== undefined) {
+                _this.$set(_this.model, key, properties[key].default);
+            }
+        });
+
         this.keys.forEach(function (key) {
             if (!Object.hasOwnProperty.call(_this.model, key)) {
                 _this.$set(_this.model, key, null);
