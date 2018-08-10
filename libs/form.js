@@ -1045,16 +1045,18 @@ function getSchemaFromPath(schema, path) {
 function rag2schema(rag) {
     rag = JSON.parse(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_json_stringify___default()(rag));
     if (rag.type === "array") {
-        var items = void 0;
-        if (rag.rags.length > 1) {
-            items = rag2schema({
-                type: "object",
-                rags: rag.rags
-            });
-        } else if (rag.rags.length === 1) {
-            items = rag2schema(rag.rags[0]);
+        if (!rag.items) {
+            var items = void 0;
+            if (rag.rags.length > 1) {
+                items = rag2schema({
+                    type: "object",
+                    rags: rag.rags
+                });
+            } else if (rag.rags.length === 1) {
+                items = rag2schema(rag.rags[0]);
+            }
+            rag.items = items;
         }
-        rag.items = items;
     } else if (rag.type === "object") {
         rag.properties = rag.properties || {};
         rag.required = [];
@@ -11050,15 +11052,20 @@ var _draggableOptions = {
             }
         },
         editSubmit: function editSubmit() {
+            var _this4 = this;
+
             this.editResult = Object(__WEBPACK_IMPORTED_MODULE_3__util__["j" /* strip */])(this.editResult, this.combinedSchema);
 
-            var properties = this.targetPlugin.form10.format.properties;
-            if (properties) {
-                if (typeof properties === 'function') {
-                    properties = properties(this.editResult);
+            ['properties', 'items'].forEach(function (key) {
+                var child = _this4.targetPlugin.form10.format[key];
+                if (child) {
+                    if (typeof child === 'function') {
+                        child = child(_this4.editResult);
+                    }
+
+                    _this4.$set(_this4.editResult, key, child);
                 }
-                this.editResult.properties = properties;
-            }
+            });
 
             var _getPositionFromUid3 = getPositionFromUid(this.value, this.editingUid),
                 list = _getPositionFromUid3.list,
@@ -11200,14 +11207,18 @@ var _draggableOptions = {
             immediate: true,
             deep: true,
             handler: function handler() {
-                var properties = this.targetPlugin.form10.format.properties;
+                var _this2 = this;
 
-                if (properties) {
-                    if (typeof properties === 'function') {
-                        properties = properties(this.schema);
+                ['properties', 'items'].forEach(function (key) {
+                    var child = _this2.targetPlugin.form10.format[key];
+
+                    if (child) {
+                        if (typeof child === 'function') {
+                            child = child(_this2.schema);
+                        }
+                        _this2.$set(_this2.schema, key, child);
                     }
-                    this.$set(this.schema, 'properties', properties);
-                }
+                });
             }
         }
     },

@@ -94,14 +94,16 @@ export default {
             immediate: true,
             deep: true,
             handler() {
-                let properties = this.targetPlugin.form10.format.properties;
+                ['properties', 'items'].forEach((key) => {
+                    let child = this.targetPlugin.form10.format[key];
 
-                if (properties) {
-                    if (typeof properties === 'function') {
-                        properties = properties(this.schema);
+                    if (child) {
+                        if (typeof child === 'function') {
+                            child = child(this.schema);
+                        }
+                        this.$set(this.schema, key, child);
                     }
-                    this.$set(this.schema, 'properties', properties);
-                }
+                });
             }
         }
     },

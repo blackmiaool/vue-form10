@@ -1045,16 +1045,18 @@ function getSchemaFromPath(schema, path) {
 function rag2schema(rag) {
     rag = JSON.parse(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_json_stringify___default()(rag));
     if (rag.type === "array") {
-        var items = void 0;
-        if (rag.rags.length > 1) {
-            items = rag2schema({
-                type: "object",
-                rags: rag.rags
-            });
-        } else if (rag.rags.length === 1) {
-            items = rag2schema(rag.rags[0]);
+        if (!rag.items) {
+            var items = void 0;
+            if (rag.rags.length > 1) {
+                items = rag2schema({
+                    type: "object",
+                    rags: rag.rags
+                });
+            } else if (rag.rags.length === 1) {
+                items = rag2schema(rag.rags[0]);
+            }
+            rag.items = items;
         }
-        rag.items = items;
     } else if (rag.type === "object") {
         rag.properties = rag.properties || {};
         rag.required = [];

@@ -10,16 +10,18 @@ export function getSchemaFromPath(schema, path) {
 export function rag2schema(rag) {
     rag = JSON.parse(JSON.stringify(rag));
     if (rag.type === "array") {
-        let items;
-        if (rag.rags.length > 1) {
-            items = rag2schema({
-                type: "object",
-                rags: rag.rags
-            });
-        } else if (rag.rags.length === 1) {
-            items = rag2schema(rag.rags[0]);
+        if (!rag.items) {
+            let items;
+            if (rag.rags.length > 1) {
+                items = rag2schema({
+                    type: "object",
+                    rags: rag.rags
+                });
+            } else if (rag.rags.length === 1) {
+                items = rag2schema(rag.rags[0]);
+            }
+            rag.items = items;
         }
-        rag.items = items;
     } else if (rag.type === "object") {
         rag.properties = rag.properties || {};
         rag.required = [];
