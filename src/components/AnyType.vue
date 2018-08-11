@@ -1,6 +1,6 @@
 <template>
-    <div class="any-type-wrap" :class="{selected:isEqual(selected,path),expand:schema.type==='object'||schema.type==='array'||(targetPlugin&&targetPlugin.form10.format.expand)}">
-        <component v-if="condition" :is="componentId" :schema="schema" :parent="parent" :path="path" :options="options" :name="name" :margin="margin"></component>
+    <div class="any-type-wrap" :class="{selected:isEqual(selected,path),expand:schema.type==='object'||schema.type==='array'||(targetPlugin&&targetPlugin.form10.format.expand),inline:options.inline}">
+        <component v-if="condition" :is="componentId" :schema="schema" :parent="parent" :path="path" :name="name" :margin="margin"></component>
     </div>
 </template>
 
@@ -12,6 +12,17 @@ import { stdFormObj, getPluginFromSchemaAndPlugins } from "../util";
 
 export default {
     name: "AnyType",
+    inject: ["compMap", "plugins", "formats", "options"],
+    provide() {
+        let options = this.options;
+        if (this.schema.options) {
+            options = Object.assign({}, options, this.schema.options);
+        } else {
+            return;
+        }
+        const ret = { options };
+        return ret;
+    },
     methods: {
         isEqual,
         remove(destroyStrategy = "remove") {
@@ -67,8 +78,16 @@ export default {
             rootModel: state => state.model
         }),
         ...mapState(["selected"]),
+        parentModel: {
+            set(value) {
+                this.$vuexSet(this.path.slice(0, this.path.length - 1), value);
+            },
+            get() {
+                return get(this.$store.state, this.path.slice(0, this.path.length - 1));
+            }
+        },
         targetPlugin() {
-            return getPluginFromSchemaAndPlugins(this.schema, this.options.plugins, this.options.typeDefaultFormat);
+            return getPluginFromSchemaAndPlugins(this.schema, this.plugins, this.options.typeDefaultFormat);
         },
         form() {
             const form = stdFormObj(this.name, this.schema);
@@ -108,7 +127,7 @@ export default {
             if (this.schema.condition) {
                 try {
                     // eslint-disable-next-line
-                    ret = new Function("model", `return ${this.schema.condition};`)(this.rootModel);
+                    ret = new Function("model","parentModel", `return ${this.schema.condition};`)(this.rootModel,this.parentModel);
                 } catch (e) {
                     ret = false;
                 }
@@ -128,9 +147,9 @@ export default {
         }
     },
     beforeMount() {
-        Object.assign(this.$options.components, this.options.compMap);
+        Object.assign(this.$options.components, this.compMap);
     },
-    props: ["schema", "options", "name", "parent", "is-last", "parent-path", "margin"],
+    props: ["schema", "name", "parent", "is-last", "parent-path", "margin"],
     data() {
         return {};
     }
@@ -142,14 +161,27 @@ export default {
 </style>
 
 <style lang="less">
-.any-type-wrap {
-    &.expand {
-        > .el-form-item {
-            display: block;
-            > .el-form-item__content {
-                display: block;
-            }
+.any-type-wrap:not(.inline) {
+    > .el-form-item {
+        >.el-form-item__content{
+            clear: both;
         }
     }
+}
+.any-type-wrap.inline {
+    > .el-form-item {
+        display: flex;
+        >.el-form-item__content{
+            flex:1;
+        }
+    }
+    // &.expand {
+    //     > .el-form-item {
+    //         display: block;
+    //         > .el-form-item__content {
+    //             display: block;
+    //         }
+    //     }
+    // }
 }
 </style>

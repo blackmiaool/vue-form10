@@ -29,6 +29,7 @@ import i18n from "@/i18n";
 import Rag from "./Rag";
 import Form10 from "./Form10";
 
+const vue = new Vue();
 function getPositionFromUid(rags, uid) {
     let ret;
     rags.some((rag, index, list) => {
@@ -57,7 +58,8 @@ const draggableOptions = {
 };
 export default {
     provide: {
-        draggableOptions
+        draggableOptions,
+        eventHub: vue
     },
     name: "NestedList",
     i18n,
@@ -122,8 +124,6 @@ export default {
         }
     },
     beforeMount() {
-        const vue = new Vue();
-        this.$options.provide.eventHub = vue;
         vue.$on("remove", uid => {
             const { list, index } = getPositionFromUid(this.value, uid);
             list.splice(index, 1);
@@ -147,23 +147,7 @@ export default {
                 type: "string",
                 title: "标题"
             },
-            type: {
-                type: "string",
-                title: "类型",
-                format: "select",
-                readOnly: true,
-                form: {
-                    titleMap: ["object", "array", "string", "boolean", "number"].map(type => ({
-                        value: type,
-                        name: this.$t(type)
-                    }))
-                }
-            },
-            format: {
-                type: "string",
-                title: "格式",
-                readOnly: true
-            },
+
             required: {
                 type: "boolean",
                 title: "必填",
@@ -177,12 +161,13 @@ export default {
             autoRemove: {
                 type: "boolean",
                 title: "Auto Remove",
-                autoRemove: true
+                autoRemove: true,
+                description: "提交时如果是空值则自动删除省位置",
             },
             defaultJSON: {
                 type: 'string',
                 title: '默认值',
-                description: `格式为JSON，比如字符串的默认值形如"abc"（带引号）`,
+                description: `格式为JSON\n字符串的默认值形如"abc"（带引号）`,
                 autoRemove: true
             },
             description: {
@@ -190,7 +175,30 @@ export default {
                 title: "描述",
                 format: "textarea",
                 autoRemove: true
-            }
+            },
+            condition: {
+                type: "string",
+                title: "出现条件",
+                autoRemove: true,
+                description: "注入变量：\nmodel：最上层的值\nparentModel：上一层的值"
+            },
+            type: {
+                type: "string",
+                title: "类型",
+                format: "select",
+                readOnly: true,
+                form: {
+                    titleMap: ["object", "array", "string", "boolean", "number", "null", "integer"].map(type => ({
+                        value: type,
+                        name: this.$t(type)
+                    }))
+                }
+            },
+            format: {
+                type: "string",
+                title: "格式",
+                readOnly: true
+            },
         };
         this.typeSchema = {
             string: {
@@ -224,8 +232,9 @@ export default {
             },
             array: {
                 startEmpty: {
-                    title: "是否一开始一项都没有",
+                    title: "开始为空",
                     type: "boolean",
+                    description: "是否一开始一项都没有",
                     autoRemove: true
                 },
                 maxItems: {
@@ -252,8 +261,7 @@ export default {
             options: {
                 inline: true,
                 formProps: {
-                    inline: true,
-                    // "label-width": "100px"
+                    "label-width": "80px"
                 }
             },
             editResult: {}

@@ -3,10 +3,6 @@ import get from "lodash/get";
 
 export const emptyValue = {};
 
-export function getSchemaFromPath(schema, path) {
-    console.log(schema, path);
-}
-
 export function rag2schema(rag) {
     rag = JSON.parse(JSON.stringify(rag));
     if (rag.type === "array") {
@@ -138,10 +134,7 @@ export function getDefaultFromSchema(schema, root = true) {
     return emptyValue;
 }
 
-export function stdFormObj(name, schema, options) {
-    // from json-schema-form-core
-    options = options || {};
-
+export function stdFormObj(name, schema, options = {}) {
     // The Object.assign used to be a angular.copy. Should work though.
     const f = options.global && options.global.formDefaults ? Object.assign({}, options.global.formDefaults) : {};
 
@@ -196,4 +189,45 @@ export function getFormSchema(plugin, schema) {
         }
     }
     return pluginSchema;
+}
+
+/**
+ * Remove some schema from condition
+ * @param {object} schema
+ * @param {any} data
+ */
+
+export function getSchemaForTv4(schema0, data0) {
+    function getSchemaForTv4One(objSchema, data, root) {
+        if (objSchema.type === "object") {
+            if (!objSchema.properties) {
+                return;
+            }
+            Object.keys(objSchema.properties).forEach((key) => {
+                const schema = objSchema.properties[key];
+                const condition = schema.condition;
+                if (condition) {
+                    // eslint-disable-next-line no-new-func
+                    const result = new Function("model", "parentModel", `return ${condition};`)(root, data);
+                    if (!result) {
+                        delete objSchema.properties[key];
+                        if (objSchema.required) {
+                            const index = objSchema.required.indexOf(key);
+                            if (index > -1) {
+                                objSchema.required.splice(index, 1);
+                            }
+                        }
+                    }
+                }
+                getSchemaForTv4One(schema, data[key], root);
+            });
+        } else if (objSchema.type === "array" && objSchema.items) {
+            data.forEach((item) => {
+                getSchemaForTv4One(objSchema.items, item, root);
+            });
+        }
+    }
+    schema0 = JSON.parse(JSON.stringify(schema0));
+    getSchemaForTv4One(schema0, data0, data0);
+    return schema0;
 }

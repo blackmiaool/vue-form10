@@ -33,7 +33,8 @@ export default {
             properties: {
                 strip: {
                     type: 'boolean',
-                    title: '去掉边框和小标题'
+                    title: '裸体模式',
+                    description: '去掉边框和小标题',
                 }
             }
         }
@@ -51,7 +52,6 @@ export default {
                 name: key,
                 isLast: $index === this.keys.length - 1,
                 parent: "object",
-                options: this.options,
                 parentPath: this.path,
                 margin,
                 style: this.childStyle

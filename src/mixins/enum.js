@@ -28,10 +28,17 @@ export const editorSchema = {
     properties: {
         titleMap: {
             type: "array",
+            options: {
+                inline: false
+            },
+            form: {
+                draggable: true
+            },
             items: {
                 type: "object",
                 form: {
-                    layout: 'half'
+                    layout: 'half',
+
                 },
                 properties: {
                     name: {

@@ -2,20 +2,19 @@
     <el-form-item :label="(hideTitle||form.notitle)?'':$t(form.title)"
         :style="{margin}" :class="{[schema.htmlClass]:true,'el-form-item-full-width':schema.fullWidth}"
         :required="schema.required===true"
-        ref="formItem">
-        <div style="clear:both;">
+        ref="formItem" :label-width="options.inline?'':'auto'">
+        <!-- <div style="clear:both;"> -->
             <slot name="input">
             </slot>
-        </div>
-        <span v-if="schema.description" class="form10-description">
-            {{schema.description}}
-        </span>
+        <!-- </div> -->
+        <pre v-if="schema.description" class="form10-description">{{schema.description}}</pre>
     </el-form-item>
 </template>
 
 <script>
 export default {
     name: "TypeWrapper",
+    inject: ['options'],
     computed: {
         style() {
             const ret = { margin: this.margin };
@@ -25,7 +24,7 @@ export default {
             return ret;
         }
     },
-    props: { form: {}, options: {}, "hide-title": { type: Boolean }, margin: {}, schema: {} }
+    props: { form: {}, "hide-title": { type: Boolean }, margin: {}, schema: {} }
 };
 </script>
 
@@ -39,6 +38,7 @@ export default {
 </style>
 <style scoped>
 .form10-description {
+    margin:0;
     line-height: 20px;
     font-size: 14px;
     vertical-align: baseline;

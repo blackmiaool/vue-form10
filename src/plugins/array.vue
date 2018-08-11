@@ -10,8 +10,8 @@
                         :name="$index" :is-last="$index===model.length-1"
                         v-bind="getChildProps($index)"
                     />
-                    <i class="el-icon-sort sort-handle" :title="'drag to sort (index:'+$index+')'" v-if="form.draggable"></i>
-                    <i class="el-icon-delete delete-btn" @click="deleteItem($index)"
+                    <i class="el-icon-sort sort-handle tool-btn" :title="'drag to sort (index:'+$index+')'" v-if="form.draggable"></i>
+                    <i class="el-icon-delete delete-btn tool-btn" @click="deleteItem($index)"
                         title="delete"></i>
                 </li>
             </draggable>
@@ -134,18 +134,17 @@ export default {
         &:last-child {
             border-bottom: none;
         }
-        > .delete-btn {
+        .tool-btn{
             position: absolute;
-            top: 4px;
-            right: 1px;
+            top: 8px;
             color: #555;
+        }
+        > .delete-btn {
+            right: 1px;
             cursor: pointer;
         }
         > .sort-handle {
-            position: absolute;
-            top: 4px;
             right: 18px;
-            color: #555;
             cursor: move;
         }
     }

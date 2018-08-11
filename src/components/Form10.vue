@@ -1,6 +1,6 @@
 <template>
-    <el-form class="vue-form10" v-bind="options.formProps||{}" :inline="options.inline">
-        <AnyType :parent-path="rootPath" :key="uid" parent="root" :schema="refinedSchema" :options="refinedOptions"></AnyType>
+    <el-form class="vue-form10" v-bind="provide.options.formProps||{}" :inline="provide.options.inline">
+        <AnyType :parent-path="rootPath" :key="uid" parent="root" :schema="refinedSchema" ></AnyType>
     </el-form>
 </template>
 
@@ -19,15 +19,28 @@ require("tv4/lang/zh-CN");
 if (!Vue.prototype.$t) {
     Vue.use(vuei18n);
 }
-
+const defaultOptions = {
+    formats: [],
+    $rootParent: this.$parent,
+    $root: this,
+    typeDefaultFormat: {
+        object: "object",
+        array: "array",
+        number: "number",
+        integer: "number",
+        string: "string",
+        boolean: "boolean",
+        null: "null"
+    }
+};
 export default {
     name: "Form10",
     i18n,
+    provide() {
+        return this.provide;
+    },
     beforeCreate() {
         this.$store = store();
-    },
-    provide() {
-        return { options: this.options };
     },
     computed: {
         ...mapState(["model"]),
@@ -40,7 +53,7 @@ export default {
                 if (item.type === "object" && item.properties) {
                     if (item.required && Array.isArray(item.required)) {
                         item.required.forEach(key => {
-                            if (item.properties[key].type !== 'object') {
+                            if (item.properties[key].type !== "object") {
                                 item.properties[key].required = true;
                             }
                         });
@@ -71,8 +84,8 @@ export default {
                 plugins.forEach(plugin => {
                     this.use(plugin);
                 });
-                this.$set(this.refinedOptions, "compMap", this.getAnyTypeCompMap());
-                this.$set(this.refinedOptions, "plugins", plugins);
+                this.$set(this.provide, "compMap", this.getAnyTypeCompMap());
+                this.$set(this.provide, "plugins", plugins);
             }
         },
         options: {
@@ -83,8 +96,9 @@ export default {
                     return;
                 }
                 Object.keys(value).forEach(key => {
-                    this.$set(this.refinedOptions, key, value[key]);
+                    this.$set(this.provide.options, key, value[key]);
                 });
+                this.provide.options = Object.assign({}, value, defaultOptions);
             }
         },
         model: {
@@ -139,7 +153,7 @@ export default {
         },
         getAnyTypeCompMap() {
             const ret = {};
-            this.refinedOptions.formats.forEach(({ name, component }) => {
+            this.provide.formats.forEach(({ name, component }) => {
                 ret[`format-${name}`] = component;
             });
             return ret;
@@ -149,7 +163,7 @@ export default {
                 const pluginConfig = plugin.form10 || {};
                 if (pluginConfig.format) {
                     const formatConfig = pluginConfig.format;
-                    this.refinedOptions.formats.push(
+                    this.provide.formats.push(
                         Object.assign(
                             {
                                 component: plugin
@@ -188,24 +202,16 @@ export default {
     },
     data() {
         return {
+            provide: {
+                compMap: {},
+                plugins: [],
+                formats: [],
+                options: {}
+            },
             rootPath: ["model"],
             uid: 0,
             componentId: "div",
             compForm: {},
-            refinedOptions: {
-                formats: [],
-                $rootParent: this.$parent,
-                $root: this,
-                typeDefaultFormat: {
-                    object: "object",
-                    array: "array",
-                    number: "number",
-                    integer: "number",
-                    string: "string",
-                    boolean: "boolean",
-                    null: "null"
-                }
-            }
         };
     },
     components: {

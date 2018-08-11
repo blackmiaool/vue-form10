@@ -24,6 +24,7 @@ import { assignDeep, getPluginFromSchemaAndPlugins } from "../util";
 export default {
     name: "drag-list-format",
     mixins: [FormatMixin],
+    inject: ['plugins'],
     form10: {
         format: {
             name: 'drag-list',
@@ -36,7 +37,7 @@ export default {
             const ret = JSON.parse(JSON.stringify(obj));
 
             delete ret.form.notitle;
-            const plugin = getPluginFromSchemaAndPlugins(obj, this.options.plugins);
+            const plugin = getPluginFromSchemaAndPlugins(obj, this.plugins);
 
             if (plugin.form10.defaultSchema) {
                 assignDeep(ret, plugin.form10.defaultSchema);

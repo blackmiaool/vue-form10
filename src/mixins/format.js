@@ -14,6 +14,7 @@ function execWith(expression, context) {
 }
 
 export default {
+    inject: ["options"],
     methods: {
         interpolate(str, context) {
             if (typeof str === 'function') {
@@ -187,7 +188,7 @@ export default {
             $validateState: null,
         };
     },
-    props: ['schema', "options", "name", 'parent', 'is-last', 'path', 'margin'],
+    props: ['schema', "name", 'parent', 'is-last', 'path', 'margin'],
     components: { TypeWrapper, AnyType }
 };
 
