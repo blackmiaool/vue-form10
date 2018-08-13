@@ -122,7 +122,7 @@ export default {
     },
     methods: {
         ...mapMutations(["mergeState"]),
-        submit() {
+        async submit() {
             let value = JSON.parse(JSON.stringify(this.value));
             function stripEmptyStr(obj) {
                 Object.keys(obj).forEach(key => {
@@ -145,7 +145,7 @@ export default {
                 }
             }
 
-            const validateResult = validate(value, this.refinedSchema);
+            const validateResult = await validate(value, this.refinedSchema);
             if (validateResult && validateResult.length) {
                 return { error: validateResult[0], errors: validateResult };
             }

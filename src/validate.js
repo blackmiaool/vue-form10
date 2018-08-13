@@ -1,5 +1,4 @@
 import tv4 from "tv4";
-import { getSchemaForTv4 } from "./util";
 
 function getSchameFromErrorAndSchema(error, schema) {
     function getObjFromPath(obj, path) {
@@ -18,9 +17,8 @@ function error302Handler(error, schema) {
     const title = getSchameFromErrorAndSchema(error, schema).title;
     return `没有填写字段: ${title}`;
 }
-export default function validate(value, schema) {
-    schema = getSchemaForTv4(schema, value);
-    const { valid, errors } = tv4.validateMultiple(value, schema);
+export default async function validate(value, schema) {
+    const { valid, errors } = await tv4.validateMultiple(value, schema);
     if (!valid) {
         errors.forEach((error) => {
             if (error.code === 302) {

@@ -107,8 +107,8 @@ export default {
         saveRags() {
             localStorage.setItem('rags', JSON.stringify(this.rags));
         },
-        submit() {
-            console.log(this.$refs.form10.submit());
+        async submit() {
+            console.log(await this.$refs.form10.submit());
         },
         onSelect(path) {
             this.selectingPath = path;

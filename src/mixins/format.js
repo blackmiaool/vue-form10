@@ -32,7 +32,7 @@ export default {
     watch: {
         model: {
             immediate: true,
-            handler(value, prev) {
+            async handler(value, prev) {
                 if (value === prev) {
                     return;
                 }
@@ -66,7 +66,7 @@ export default {
                 if (isEmpty) {
                     valid = true;
                 } else {
-                    tv4ValidateResult = tv4.validateResult(value, schema);
+                    tv4ValidateResult = await tv4.validateResult(value, schema);
                     valid = tv4ValidateResult.valid;
                 }
 
