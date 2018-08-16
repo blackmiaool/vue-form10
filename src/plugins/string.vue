@@ -18,6 +18,15 @@ export default {
             name: 'string',
             types: ['string'],
         },
+        formSchema: {
+            type: 'object',
+            properties: {
+                placeholder: {
+                    type: 'string',
+                    title: 'placeholder'
+                }
+            }
+        }
     },
 };
 </script>
