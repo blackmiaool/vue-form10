@@ -25,7 +25,7 @@ export function getCondition(schema, params) {
     let func;
     const paramsArr = [params.root, params.root, params.root, params.parent, params.parent];
     if (this.conditionFunc) {
-        func = this.conditionFunc.bind(this);
+        func = this.conditionFunc;
     } else {
         func = getConditionFunc(schema.condition);
     }

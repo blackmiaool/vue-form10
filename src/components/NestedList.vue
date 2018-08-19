@@ -180,7 +180,7 @@ export default {
                 type: "string",
                 title: "出现条件",
                 autoRemove: true,
-                description: "注入变量：\nmodel：最上层的值\nparentModel：上一层的值"
+                description: "注入变量：\nroot：最上层的值\nparent：上一层的值"
             },
             type: {
                 type: "string",
