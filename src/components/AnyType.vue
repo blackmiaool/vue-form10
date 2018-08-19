@@ -10,6 +10,33 @@ import get from "lodash/get";
 import isEqual from "lodash/isEqual";
 import { stdFormObj, getPluginFromSchemaAndPlugins } from "../util";
 
+function getConditionFunc(condition) {
+    // eslint-disable-next-line no-new-func
+    return new Function("model", "root", "rootModel", "parent", "parentModel", `return ${condition};`);
+}
+/**
+ * @param params object {root,parent}
+ */
+export function getCondition(schema, params) {
+    if (!schema.condition) {
+        return true;
+    }
+    let ret;
+    let func;
+    const paramsArr = [params.root, params.root, params.root, params.parent, params.parent];
+    if (this.conditionFunc) {
+        func = this.conditionFunc.bind(this);
+    } else {
+        func = getConditionFunc(schema.condition);
+    }
+    try {
+        console.log(func, paramsArr);
+        ret = Boolean(func(...paramsArr));
+    } catch (e) {
+        ret = true;
+    }
+    return ret;
+}
 export default {
     name: "AnyType",
     inject: ["compMap", "plugins", "formats", "options"],
@@ -25,6 +52,7 @@ export default {
     },
     methods: {
         isEqual,
+        getCondition,
         remove(destroyStrategy = "remove") {
             let breaked = false;
             switch (destroyStrategy) {
@@ -122,19 +150,14 @@ export default {
 
             return null;
         },
+        conditionFunc() {
+            return getConditionFunc(this.schema.condition);
+        },
         condition() {
-            let ret;
-            if (this.schema.condition) {
-                try {
-                    // eslint-disable-next-line
-                    ret = new Function("model","parentModel", `return ${this.schema.condition};`)(this.rootModel,this.parentModel);
-                } catch (e) {
-                    ret = false;
-                }
-            } else {
-                ret = true;
-            }
-            return ret;
+            return this.getCondition(this.schema, {
+                root: this.rootModel,
+                parent: this.parentModel,
+            });
         },
         path() {
             let ret;
