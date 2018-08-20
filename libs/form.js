@@ -2949,6 +2949,7 @@ module.exports = function (exec, skipClosing) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export getCondition */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__ = __webpack_require__(60);
@@ -2977,6 +2978,33 @@ module.exports = function (exec, skipClosing) {
 
 
 
+function getConditionFunc(condition) {
+    // eslint-disable-next-line no-new-func
+    return new Function("model", "root", "rootModel", "parent", "parentModel", "return " + condition + ";");
+}
+/**
+ * @param params object {root,parent}
+ */
+function getCondition(schema, params) {
+    if (!schema.condition) {
+        return true;
+    }
+    var ret = void 0;
+    var func = void 0;
+    var paramsArr = [params.root, params.root, params.root, params.parent, params.parent];
+    if (this.conditionFunc) {
+        func = this.conditionFunc;
+    } else {
+        func = getConditionFunc(schema.condition);
+    }
+    try {
+        console.log(func, paramsArr);
+        ret = Boolean(func.apply(undefined, paramsArr));
+    } catch (e) {
+        ret = true;
+    }
+    return ret;
+}
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: "AnyType",
     inject: ["compMap", "plugins", "formats", "options"],
@@ -2993,6 +3021,7 @@ module.exports = function (exec, skipClosing) {
 
     methods: {
         isEqual: __WEBPACK_IMPORTED_MODULE_5_lodash_isEqual___default.a,
+        getCondition: getCondition,
         remove: function remove() {
             var destroyStrategy = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "remove";
 
@@ -3093,19 +3122,14 @@ module.exports = function (exec, skipClosing) {
 
             return null;
         },
+        conditionFunc: function conditionFunc() {
+            return getConditionFunc(this.schema.condition);
+        },
         condition: function condition() {
-            var ret = void 0;
-            if (this.schema.condition) {
-                try {
-                    // eslint-disable-next-line
-                    ret = new Function("model", "parentModel", "return " + this.schema.condition + ";")(this.rootModel, this.parentModel);
-                } catch (e) {
-                    ret = false;
-                }
-            } else {
-                ret = true;
-            }
-            return ret;
+            return this.getCondition(this.schema, {
+                root: this.rootModel,
+                parent: this.parentModel
+            });
         },
         path: function path() {
             var ret = void 0;
@@ -6785,7 +6809,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.any-type-wrap:not(.inline) > .el-form-item > .el-form-item__content {\n  clear: both;\n}\n.any-type-wrap.inline > .el-form-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.any-type-wrap.inline > .el-form-item > .el-form-item__content {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";AACA;EACE,YAAY;CACb;AACD;EACE,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;CACf;AACD;EACE,oBAAoB;MAChB,YAAY;UACR,QAAQ;CACjB","file":"AnyType.vue","sourcesContent":["\n.any-type-wrap:not(.inline) > .el-form-item > .el-form-item__content {\n  clear: both;\n}\n.any-type-wrap.inline > .el-form-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.any-type-wrap.inline > .el-form-item > .el-form-item__content {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.any-type-wrap:not(.inline) > .el-form-item > .el-form-item__content {\n  clear: both;\n}\n.any-type-wrap.inline > .el-form-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.any-type-wrap.inline > .el-form-item > .el-form-item__content {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";AACA;EACE,YAAY;CACb;AACD;EACE,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;CACf;AACD;EACE,oBAAoB;MAChB,YAAY;UACR,QAAQ;CACjB","file":"AnyType.vue","sourcesContent":["\n.any-type-wrap:not(.inline) > .el-form-item > .el-form-item__content {\n  clear: both;\n}\n.any-type-wrap.inline > .el-form-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.any-type-wrap.inline > .el-form-item > .el-form-item__content {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -10389,7 +10413,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.el-form-item-full-width {\n  display: block !important;\n}\n.el-form-item-full-width > .el-form-item__content {\n  display: block !important;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/components/TypeWrapper.vue"],"names":[],"mappings":";AACA;EACE,0BAA0B;CAC3B;AACD;EACE,0BAA0B;CAC3B","file":"TypeWrapper.vue","sourcesContent":["\n.el-form-item-full-width {\n  display: block !important;\n}\n.el-form-item-full-width > .el-form-item__content {\n  display: block !important;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.el-form-item-full-width {\n  display: block !important;\n}\n.el-form-item-full-width > .el-form-item__content {\n  display: block !important;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/TypeWrapper.vue"],"names":[],"mappings":";AACA;EACE,0BAA0B;CAC3B;AACD;EACE,0BAA0B;CAC3B","file":"TypeWrapper.vue","sourcesContent":["\n.el-form-item-full-width {\n  display: block !important;\n}\n.el-form-item-full-width > .el-form-item__content {\n  display: block !important;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -10429,7 +10453,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.form10-description[data-v-af6d1d0e] {\n    margin:0;\n    line-height: 20px;\n    font-size: 14px;\n    vertical-align: baseline;\n    color: #737373;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/components/TypeWrapper.vue"],"names":[],"mappings":";AACA;IACI,SAAS;IACT,kBAAkB;IAClB,gBAAgB;IAChB,yBAAyB;IACzB,eAAe;CAClB","file":"TypeWrapper.vue","sourcesContent":["\n.form10-description[data-v-af6d1d0e] {\n    margin:0;\n    line-height: 20px;\n    font-size: 14px;\n    vertical-align: baseline;\n    color: #737373;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.form10-description[data-v-af6d1d0e] {\n    margin:0;\n    line-height: 20px;\n    font-size: 14px;\n    vertical-align: baseline;\n    color: #737373;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/TypeWrapper.vue"],"names":[],"mappings":";AACA;IACI,SAAS;IACT,kBAAkB;IAClB,gBAAgB;IAChB,yBAAyB;IACzB,eAAe;CAClB","file":"TypeWrapper.vue","sourcesContent":["\n.form10-description[data-v-af6d1d0e] {\n    margin:0;\n    line-height: 20px;\n    font-size: 14px;\n    vertical-align: baseline;\n    color: #737373;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -10986,7 +11010,7 @@ var _draggableOptions = {
                 type: "string",
                 title: "出现条件",
                 autoRemove: true,
-                description: "注入变量：\nmodel：最上层的值\nparentModel：上一层的值"
+                description: "注入变量：\nroot：最上层的值\nparent：上一层的值"
             },
             type: {
                 type: "string",
@@ -11552,7 +11576,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.vue-form10 .el-form-item__content {\n  line-height: 25px;\n}\n.vue-form10 .el-form-item__label {\n  line-height: 35px;\n}\n.vue-form10 .el-form-item {\n  margin-bottom: 10px;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/components/Form10.vue"],"names":[],"mappings":";AACA;EACE,kBAAkB;CACnB;AACD;EACE,kBAAkB;CACnB;AACD;EACE,oBAAoB;CACrB","file":"Form10.vue","sourcesContent":["\n.vue-form10 .el-form-item__content {\n  line-height: 25px;\n}\n.vue-form10 .el-form-item__label {\n  line-height: 35px;\n}\n.vue-form10 .el-form-item {\n  margin-bottom: 10px;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.vue-form10 .el-form-item__content {\n  line-height: 25px;\n}\n.vue-form10 .el-form-item__label {\n  line-height: 35px;\n}\n.vue-form10 .el-form-item {\n  margin-bottom: 10px;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/Form10.vue"],"names":[],"mappings":";AACA;EACE,kBAAkB;CACnB;AACD;EACE,kBAAkB;CACnB;AACD;EACE,oBAAoB;CACrB","file":"Form10.vue","sourcesContent":["\n.vue-form10 .el-form-item__content {\n  line-height: 25px;\n}\n.vue-form10 .el-form-item__label {\n  line-height: 35px;\n}\n.vue-form10 .el-form-item {\n  margin-bottom: 10px;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -13976,7 +14000,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.draggable[data-v-685c29e5] {\n  min-height: 100px;\n  padding: 10px;\n}\n.draggable.empty[data-v-685c29e5] {\n  background-color: #f3f3f3;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/components/NestedList.vue"],"names":[],"mappings":";AACA;EACE,kBAAkB;EAClB,cAAc;CACf;AACD;EACE,0BAA0B;CAC3B","file":"NestedList.vue","sourcesContent":["\n.draggable[data-v-685c29e5] {\n  min-height: 100px;\n  padding: 10px;\n}\n.draggable.empty[data-v-685c29e5] {\n  background-color: #f3f3f3;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.draggable[data-v-685c29e5] {\n  min-height: 100px;\n  padding: 10px;\n}\n.draggable.empty[data-v-685c29e5] {\n  background-color: #f3f3f3;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/NestedList.vue"],"names":[],"mappings":";AACA;EACE,kBAAkB;EAClB,cAAc;CACf;AACD;EACE,0BAA0B;CAC3B","file":"NestedList.vue","sourcesContent":["\n.draggable[data-v-685c29e5] {\n  min-height: 100px;\n  padding: 10px;\n}\n.draggable.empty[data-v-685c29e5] {\n  background-color: #f3f3f3;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -14072,7 +14096,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.box-card[data-v-38751218] {\n  margin-bottom: 10px;\n}\n.box-card .card-header:hover .header-cover[data-v-38751218] {\n  display: none;\n}\n.box-card .card-header:hover .header-hover[data-v-38751218] {\n  display: block;\n}\n.box-card .card-header:hover .tools[data-v-38751218] {\n  visibility: visible;\n}\n.box-card .card-header .input-wrap[data-v-38751218] {\n  display: inline-block;\n  width: 50%;\n  position: relative;\n}\n.box-card .card-header .input-wrap .input-prefix[data-v-38751218] {\n  position: absolute;\n  top: -6px;\n  color: #333;\n  font-size: 12px;\n  white-space: nowrap;\n  left: 10px;\n  padding: 0 2px;\n  background-color: white;\n  line-height: 1.4;\n}\n.box-card .tools[data-v-38751218] {\n  padding-top: 10px;\n  padding-bottom: 3px;\n  text-align: right;\n}\n.header-hover[data-v-38751218],\n.header-cover[data-v-38751218] {\n  font-size: 0;\n}\n.header-hover .title[data-v-38751218],\n.header-cover .title[data-v-38751218] {\n  font-size: 16px;\n}\n.header-hover .form10key[data-v-38751218],\n.header-cover .form10key[data-v-38751218] {\n  font-size: 16px;\n  font-weight: normal;\n}\n.header-hover[data-v-38751218] {\n  display: none;\n}\n.header-hover .title[data-v-38751218] {\n  display: inline-block;\n}\n.header-hover .title > *[data-v-38751218] {\n  padding-left: 15px !important;\n}\n.header-hover .form10key[data-v-38751218] {\n  display: inline-block;\n}\n.header-cover[data-v-38751218] {\n  margin: 0;\n  height: 40px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.header-cover .title[data-v-38751218] {\n  margin-right: 10px;\n}\n.type[data-v-38751218] {\n  display: inline-block;\n  width: 120px;\n}\n.draggable[data-v-38751218] {\n  min-height: 100px;\n  background-color: #f3f3f3;\n  padding: 10px;\n}\n.clickable[data-v-38751218] {\n  cursor: pointer;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/components/Rag.vue"],"names":[],"mappings":";AACA;EACE,oBAAoB;CACrB;AACD;EACE,cAAc;CACf;AACD;EACE,eAAe;CAChB;AACD;EACE,oBAAoB;CACrB;AACD;EACE,sBAAsB;EACtB,WAAW;EACX,mBAAmB;CACpB;AACD;EACE,mBAAmB;EACnB,UAAU;EACV,YAAY;EACZ,gBAAgB;EAChB,oBAAoB;EACpB,WAAW;EACX,eAAe;EACf,wBAAwB;EACxB,iBAAiB;CAClB;AACD;EACE,kBAAkB;EAClB,oBAAoB;EACpB,kBAAkB;CACnB;AACD;;EAEE,aAAa;CACd;AACD;;EAEE,gBAAgB;CACjB;AACD;;EAEE,gBAAgB;EAChB,oBAAoB;CACrB;AACD;EACE,cAAc;CACf;AACD;EACE,sBAAsB;CACvB;AACD;EACE,8BAA8B;CAC/B;AACD;EACE,sBAAsB;CACvB;AACD;EACE,UAAU;EACV,aAAa;EACb,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;EACd,0BAA0B;MACtB,uBAAuB;UACnB,oBAAoB;CAC7B;AACD;EACE,mBAAmB;CACpB;AACD;EACE,sBAAsB;EACtB,aAAa;CACd;AACD;EACE,kBAAkB;EAClB,0BAA0B;EAC1B,cAAc;CACf;AACD;EACE,gBAAgB;EAChB,0BAA0B;KACvB,uBAAuB;MACtB,sBAAsB;UAClB,kBAAkB;CAC3B","file":"Rag.vue","sourcesContent":["\n.box-card[data-v-38751218] {\n  margin-bottom: 10px;\n}\n.box-card .card-header:hover .header-cover[data-v-38751218] {\n  display: none;\n}\n.box-card .card-header:hover .header-hover[data-v-38751218] {\n  display: block;\n}\n.box-card .card-header:hover .tools[data-v-38751218] {\n  visibility: visible;\n}\n.box-card .card-header .input-wrap[data-v-38751218] {\n  display: inline-block;\n  width: 50%;\n  position: relative;\n}\n.box-card .card-header .input-wrap .input-prefix[data-v-38751218] {\n  position: absolute;\n  top: -6px;\n  color: #333;\n  font-size: 12px;\n  white-space: nowrap;\n  left: 10px;\n  padding: 0 2px;\n  background-color: white;\n  line-height: 1.4;\n}\n.box-card .tools[data-v-38751218] {\n  padding-top: 10px;\n  padding-bottom: 3px;\n  text-align: right;\n}\n.header-hover[data-v-38751218],\n.header-cover[data-v-38751218] {\n  font-size: 0;\n}\n.header-hover .title[data-v-38751218],\n.header-cover .title[data-v-38751218] {\n  font-size: 16px;\n}\n.header-hover .form10key[data-v-38751218],\n.header-cover .form10key[data-v-38751218] {\n  font-size: 16px;\n  font-weight: normal;\n}\n.header-hover[data-v-38751218] {\n  display: none;\n}\n.header-hover .title[data-v-38751218] {\n  display: inline-block;\n}\n.header-hover .title > *[data-v-38751218] {\n  padding-left: 15px !important;\n}\n.header-hover .form10key[data-v-38751218] {\n  display: inline-block;\n}\n.header-cover[data-v-38751218] {\n  margin: 0;\n  height: 40px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.header-cover .title[data-v-38751218] {\n  margin-right: 10px;\n}\n.type[data-v-38751218] {\n  display: inline-block;\n  width: 120px;\n}\n.draggable[data-v-38751218] {\n  min-height: 100px;\n  background-color: #f3f3f3;\n  padding: 10px;\n}\n.clickable[data-v-38751218] {\n  cursor: pointer;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.box-card[data-v-38751218] {\n  margin-bottom: 10px;\n}\n.box-card .card-header:hover .header-cover[data-v-38751218] {\n  display: none;\n}\n.box-card .card-header:hover .header-hover[data-v-38751218] {\n  display: block;\n}\n.box-card .card-header:hover .tools[data-v-38751218] {\n  visibility: visible;\n}\n.box-card .card-header .input-wrap[data-v-38751218] {\n  display: inline-block;\n  width: 50%;\n  position: relative;\n}\n.box-card .card-header .input-wrap .input-prefix[data-v-38751218] {\n  position: absolute;\n  top: -6px;\n  color: #333;\n  font-size: 12px;\n  white-space: nowrap;\n  left: 10px;\n  padding: 0 2px;\n  background-color: white;\n  line-height: 1.4;\n}\n.box-card .tools[data-v-38751218] {\n  padding-top: 10px;\n  padding-bottom: 3px;\n  text-align: right;\n}\n.header-hover[data-v-38751218],\n.header-cover[data-v-38751218] {\n  font-size: 0;\n}\n.header-hover .title[data-v-38751218],\n.header-cover .title[data-v-38751218] {\n  font-size: 16px;\n}\n.header-hover .form10key[data-v-38751218],\n.header-cover .form10key[data-v-38751218] {\n  font-size: 16px;\n  font-weight: normal;\n}\n.header-hover[data-v-38751218] {\n  display: none;\n}\n.header-hover .title[data-v-38751218] {\n  display: inline-block;\n}\n.header-hover .title > *[data-v-38751218] {\n  padding-left: 15px !important;\n}\n.header-hover .form10key[data-v-38751218] {\n  display: inline-block;\n}\n.header-cover[data-v-38751218] {\n  margin: 0;\n  height: 40px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.header-cover .title[data-v-38751218] {\n  margin-right: 10px;\n}\n.type[data-v-38751218] {\n  display: inline-block;\n  width: 120px;\n}\n.draggable[data-v-38751218] {\n  min-height: 100px;\n  background-color: #f3f3f3;\n  padding: 10px;\n}\n.clickable[data-v-38751218] {\n  cursor: pointer;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/Rag.vue"],"names":[],"mappings":";AACA;EACE,oBAAoB;CACrB;AACD;EACE,cAAc;CACf;AACD;EACE,eAAe;CAChB;AACD;EACE,oBAAoB;CACrB;AACD;EACE,sBAAsB;EACtB,WAAW;EACX,mBAAmB;CACpB;AACD;EACE,mBAAmB;EACnB,UAAU;EACV,YAAY;EACZ,gBAAgB;EAChB,oBAAoB;EACpB,WAAW;EACX,eAAe;EACf,wBAAwB;EACxB,iBAAiB;CAClB;AACD;EACE,kBAAkB;EAClB,oBAAoB;EACpB,kBAAkB;CACnB;AACD;;EAEE,aAAa;CACd;AACD;;EAEE,gBAAgB;CACjB;AACD;;EAEE,gBAAgB;EAChB,oBAAoB;CACrB;AACD;EACE,cAAc;CACf;AACD;EACE,sBAAsB;CACvB;AACD;EACE,8BAA8B;CAC/B;AACD;EACE,sBAAsB;CACvB;AACD;EACE,UAAU;EACV,aAAa;EACb,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;EACd,0BAA0B;MACtB,uBAAuB;UACnB,oBAAoB;CAC7B;AACD;EACE,mBAAmB;CACpB;AACD;EACE,sBAAsB;EACtB,aAAa;CACd;AACD;EACE,kBAAkB;EAClB,0BAA0B;EAC1B,cAAc;CACf;AACD;EACE,gBAAgB;EAChB,0BAA0B;KACvB,uBAAuB;MACtB,sBAAsB;UAClB,kBAAkB;CAC3B","file":"Rag.vue","sourcesContent":["\n.box-card[data-v-38751218] {\n  margin-bottom: 10px;\n}\n.box-card .card-header:hover .header-cover[data-v-38751218] {\n  display: none;\n}\n.box-card .card-header:hover .header-hover[data-v-38751218] {\n  display: block;\n}\n.box-card .card-header:hover .tools[data-v-38751218] {\n  visibility: visible;\n}\n.box-card .card-header .input-wrap[data-v-38751218] {\n  display: inline-block;\n  width: 50%;\n  position: relative;\n}\n.box-card .card-header .input-wrap .input-prefix[data-v-38751218] {\n  position: absolute;\n  top: -6px;\n  color: #333;\n  font-size: 12px;\n  white-space: nowrap;\n  left: 10px;\n  padding: 0 2px;\n  background-color: white;\n  line-height: 1.4;\n}\n.box-card .tools[data-v-38751218] {\n  padding-top: 10px;\n  padding-bottom: 3px;\n  text-align: right;\n}\n.header-hover[data-v-38751218],\n.header-cover[data-v-38751218] {\n  font-size: 0;\n}\n.header-hover .title[data-v-38751218],\n.header-cover .title[data-v-38751218] {\n  font-size: 16px;\n}\n.header-hover .form10key[data-v-38751218],\n.header-cover .form10key[data-v-38751218] {\n  font-size: 16px;\n  font-weight: normal;\n}\n.header-hover[data-v-38751218] {\n  display: none;\n}\n.header-hover .title[data-v-38751218] {\n  display: inline-block;\n}\n.header-hover .title > *[data-v-38751218] {\n  padding-left: 15px !important;\n}\n.header-hover .form10key[data-v-38751218] {\n  display: inline-block;\n}\n.header-cover[data-v-38751218] {\n  margin: 0;\n  height: 40px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.header-cover .title[data-v-38751218] {\n  margin-right: 10px;\n}\n.type[data-v-38751218] {\n  display: inline-block;\n  width: 120px;\n}\n.draggable[data-v-38751218] {\n  min-height: 100px;\n  background-color: #f3f3f3;\n  padding: 10px;\n}\n.clickable[data-v-38751218] {\n  cursor: pointer;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -14493,7 +14517,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.format-list-header {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n}\n.format-list-header > .tag {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  -ms-flex-preferred-size: 30%;\n      flex-basis: 30%;\n  text-align: center;\n  display: inline-block;\n  margin: 5px;\n  cursor: pointer;\n}\n.format-list-header > .tag.active {\n  color: white;\n  background-color: #409EFF;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/components/FormatList.vue"],"names":[],"mappings":";AACA;EACE,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;EACd,oBAAoB;MAChB,gBAAgB;CACrB;AACD;EACE,oBAAoB;MAChB,YAAY;UACR,QAAQ;EAChB,6BAA6B;MACzB,gBAAgB;EACpB,mBAAmB;EACnB,sBAAsB;EACtB,YAAY;EACZ,gBAAgB;CACjB;AACD;EACE,aAAa;EACb,0BAA0B;CAC3B","file":"FormatList.vue","sourcesContent":["\n.format-list-header {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n}\n.format-list-header > .tag {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  -ms-flex-preferred-size: 30%;\n      flex-basis: 30%;\n  text-align: center;\n  display: inline-block;\n  margin: 5px;\n  cursor: pointer;\n}\n.format-list-header > .tag.active {\n  color: white;\n  background-color: #409EFF;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.format-list-header {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n}\n.format-list-header > .tag {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  -ms-flex-preferred-size: 30%;\n      flex-basis: 30%;\n  text-align: center;\n  display: inline-block;\n  margin: 5px;\n  cursor: pointer;\n}\n.format-list-header > .tag.active {\n  color: white;\n  background-color: #409EFF;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/FormatList.vue"],"names":[],"mappings":";AACA;EACE,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;EACd,oBAAoB;MAChB,gBAAgB;CACrB;AACD;EACE,oBAAoB;MAChB,YAAY;UACR,QAAQ;EAChB,6BAA6B;MACzB,gBAAgB;EACpB,mBAAmB;EACnB,sBAAsB;EACtB,YAAY;EACZ,gBAAgB;CACjB;AACD;EACE,aAAa;EACb,0BAA0B;CAC3B","file":"FormatList.vue","sourcesContent":["\n.format-list-header {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n}\n.format-list-header > .tag {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  -ms-flex-preferred-size: 30%;\n      flex-basis: 30%;\n  text-align: center;\n  display: inline-block;\n  margin: 5px;\n  cursor: pointer;\n}\n.format-list-header > .tag.active {\n  color: white;\n  background-color: #409EFF;\n}\n"],"sourceRoot":""}]);
 
 // exports
 

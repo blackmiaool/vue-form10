@@ -2949,6 +2949,7 @@ module.exports = function (exec, skipClosing) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export getCondition */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__ = __webpack_require__(60);
@@ -2977,6 +2978,33 @@ module.exports = function (exec, skipClosing) {
 
 
 
+function getConditionFunc(condition) {
+    // eslint-disable-next-line no-new-func
+    return new Function("model", "root", "rootModel", "parent", "parentModel", "return " + condition + ";");
+}
+/**
+ * @param params object {root,parent}
+ */
+function getCondition(schema, params) {
+    if (!schema.condition) {
+        return true;
+    }
+    var ret = void 0;
+    var func = void 0;
+    var paramsArr = [params.root, params.root, params.root, params.parent, params.parent];
+    if (this.conditionFunc) {
+        func = this.conditionFunc;
+    } else {
+        func = getConditionFunc(schema.condition);
+    }
+    try {
+        console.log(func, paramsArr);
+        ret = Boolean(func.apply(undefined, paramsArr));
+    } catch (e) {
+        ret = true;
+    }
+    return ret;
+}
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: "AnyType",
     inject: ["compMap", "plugins", "formats", "options"],
@@ -2993,6 +3021,7 @@ module.exports = function (exec, skipClosing) {
 
     methods: {
         isEqual: __WEBPACK_IMPORTED_MODULE_5_lodash_isEqual___default.a,
+        getCondition: getCondition,
         remove: function remove() {
             var destroyStrategy = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "remove";
 
@@ -3093,19 +3122,14 @@ module.exports = function (exec, skipClosing) {
 
             return null;
         },
+        conditionFunc: function conditionFunc() {
+            return getConditionFunc(this.schema.condition);
+        },
         condition: function condition() {
-            var ret = void 0;
-            if (this.schema.condition) {
-                try {
-                    // eslint-disable-next-line
-                    ret = new Function("model", "parentModel", "return " + this.schema.condition + ";")(this.rootModel, this.parentModel);
-                } catch (e) {
-                    ret = false;
-                }
-            } else {
-                ret = true;
-            }
-            return ret;
+            return this.getCondition(this.schema, {
+                root: this.rootModel,
+                parent: this.parentModel
+            });
         },
         path: function path() {
             var ret = void 0;
@@ -6674,7 +6698,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.any-type-wrap:not(.inline) > .el-form-item > .el-form-item__content {\n  clear: both;\n}\n.any-type-wrap.inline > .el-form-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.any-type-wrap.inline > .el-form-item > .el-form-item__content {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";AACA;EACE,YAAY;CACb;AACD;EACE,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;CACf;AACD;EACE,oBAAoB;MAChB,YAAY;UACR,QAAQ;CACjB","file":"AnyType.vue","sourcesContent":["\n.any-type-wrap:not(.inline) > .el-form-item > .el-form-item__content {\n  clear: both;\n}\n.any-type-wrap.inline > .el-form-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.any-type-wrap.inline > .el-form-item > .el-form-item__content {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.any-type-wrap:not(.inline) > .el-form-item > .el-form-item__content {\n  clear: both;\n}\n.any-type-wrap.inline > .el-form-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.any-type-wrap.inline > .el-form-item > .el-form-item__content {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/AnyType.vue"],"names":[],"mappings":";AACA;EACE,YAAY;CACb;AACD;EACE,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;CACf;AACD;EACE,oBAAoB;MAChB,YAAY;UACR,QAAQ;CACjB","file":"AnyType.vue","sourcesContent":["\n.any-type-wrap:not(.inline) > .el-form-item > .el-form-item__content {\n  clear: both;\n}\n.any-type-wrap.inline > .el-form-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.any-type-wrap.inline > .el-form-item > .el-form-item__content {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -10278,7 +10302,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.el-form-item-full-width {\n  display: block !important;\n}\n.el-form-item-full-width > .el-form-item__content {\n  display: block !important;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/components/TypeWrapper.vue"],"names":[],"mappings":";AACA;EACE,0BAA0B;CAC3B;AACD;EACE,0BAA0B;CAC3B","file":"TypeWrapper.vue","sourcesContent":["\n.el-form-item-full-width {\n  display: block !important;\n}\n.el-form-item-full-width > .el-form-item__content {\n  display: block !important;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.el-form-item-full-width {\n  display: block !important;\n}\n.el-form-item-full-width > .el-form-item__content {\n  display: block !important;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/TypeWrapper.vue"],"names":[],"mappings":";AACA;EACE,0BAA0B;CAC3B;AACD;EACE,0BAA0B;CAC3B","file":"TypeWrapper.vue","sourcesContent":["\n.el-form-item-full-width {\n  display: block !important;\n}\n.el-form-item-full-width > .el-form-item__content {\n  display: block !important;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -10318,7 +10342,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.form10-description[data-v-af6d1d0e] {\n    margin:0;\n    line-height: 20px;\n    font-size: 14px;\n    vertical-align: baseline;\n    color: #737373;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/components/TypeWrapper.vue"],"names":[],"mappings":";AACA;IACI,SAAS;IACT,kBAAkB;IAClB,gBAAgB;IAChB,yBAAyB;IACzB,eAAe;CAClB","file":"TypeWrapper.vue","sourcesContent":["\n.form10-description[data-v-af6d1d0e] {\n    margin:0;\n    line-height: 20px;\n    font-size: 14px;\n    vertical-align: baseline;\n    color: #737373;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.form10-description[data-v-af6d1d0e] {\n    margin:0;\n    line-height: 20px;\n    font-size: 14px;\n    vertical-align: baseline;\n    color: #737373;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/components/TypeWrapper.vue"],"names":[],"mappings":";AACA;IACI,SAAS;IACT,kBAAkB;IAClB,gBAAgB;IAChB,yBAAyB;IACzB,eAAe;CAClB","file":"TypeWrapper.vue","sourcesContent":["\n.form10-description[data-v-af6d1d0e] {\n    margin:0;\n    line-height: 20px;\n    font-size: 14px;\n    vertical-align: baseline;\n    color: #737373;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -11352,7 +11376,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.array-wrap[data-v-660d3f21] {\n  overflow: auto;\n}\n.array-wrap .add-btn[data-v-660d3f21] {\n  float: right;\n  margin-top: 10px;\n}\n.list-group[data-v-660d3f21] {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  overflow: auto;\n  margin: 0;\n  width: 100%;\n  list-style-type: none;\n  margin-right: 0;\n  margin-left: 0;\n  background-color: #fff;\n  border: 1px solid #dcdfe6;\n  border-radius: 4px;\n  padding: 10px;\n  padding-bottom: 15px;\n}\n.list-group .list-group-item[data-v-660d3f21] {\n  position: relative;\n  border-bottom: 1px solid #dcdfe6;\n  margin-top: 5px;\n}\n.list-group .list-group-item[data-v-660d3f21]:first-child {\n  margin-top: 0;\n}\n.list-group .list-group-item[data-v-660d3f21]:last-child {\n  border-bottom: none;\n}\n.list-group .list-group-item .tool-btn[data-v-660d3f21] {\n  position: absolute;\n  top: 8px;\n  color: #555;\n}\n.list-group .list-group-item > .delete-btn[data-v-660d3f21] {\n  right: 1px;\n  cursor: pointer;\n}\n.list-group .list-group-item > .sort-handle[data-v-660d3f21] {\n  right: 18px;\n  cursor: move;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/plugins/array.vue"],"names":[],"mappings":";AACA;EACE,eAAe;CAChB;AACD;EACE,aAAa;EACb,iBAAiB;CAClB;AACD;EACE,+BAA+B;UACvB,uBAAuB;EAC/B,eAAe;EACf,UAAU;EACV,YAAY;EACZ,sBAAsB;EACtB,gBAAgB;EAChB,eAAe;EACf,uBAAuB;EACvB,0BAA0B;EAC1B,mBAAmB;EACnB,cAAc;EACd,qBAAqB;CACtB;AACD;EACE,mBAAmB;EACnB,iCAAiC;EACjC,gBAAgB;CACjB;AACD;EACE,cAAc;CACf;AACD;EACE,oBAAoB;CACrB;AACD;EACE,mBAAmB;EACnB,SAAS;EACT,YAAY;CACb;AACD;EACE,WAAW;EACX,gBAAgB;CACjB;AACD;EACE,YAAY;EACZ,aAAa;CACd","file":"array.vue","sourcesContent":["\n.array-wrap[data-v-660d3f21] {\n  overflow: auto;\n}\n.array-wrap .add-btn[data-v-660d3f21] {\n  float: right;\n  margin-top: 10px;\n}\n.list-group[data-v-660d3f21] {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  overflow: auto;\n  margin: 0;\n  width: 100%;\n  list-style-type: none;\n  margin-right: 0;\n  margin-left: 0;\n  background-color: #fff;\n  border: 1px solid #dcdfe6;\n  border-radius: 4px;\n  padding: 10px;\n  padding-bottom: 15px;\n}\n.list-group .list-group-item[data-v-660d3f21] {\n  position: relative;\n  border-bottom: 1px solid #dcdfe6;\n  margin-top: 5px;\n}\n.list-group .list-group-item[data-v-660d3f21]:first-child {\n  margin-top: 0;\n}\n.list-group .list-group-item[data-v-660d3f21]:last-child {\n  border-bottom: none;\n}\n.list-group .list-group-item .tool-btn[data-v-660d3f21] {\n  position: absolute;\n  top: 8px;\n  color: #555;\n}\n.list-group .list-group-item > .delete-btn[data-v-660d3f21] {\n  right: 1px;\n  cursor: pointer;\n}\n.list-group .list-group-item > .sort-handle[data-v-660d3f21] {\n  right: 18px;\n  cursor: move;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.array-wrap[data-v-660d3f21] {\n  overflow: auto;\n}\n.array-wrap .add-btn[data-v-660d3f21] {\n  float: right;\n  margin-top: 10px;\n}\n.list-group[data-v-660d3f21] {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  overflow: auto;\n  margin: 0;\n  width: 100%;\n  list-style-type: none;\n  margin-right: 0;\n  margin-left: 0;\n  background-color: #fff;\n  border: 1px solid #dcdfe6;\n  border-radius: 4px;\n  padding: 10px;\n  padding-bottom: 15px;\n}\n.list-group .list-group-item[data-v-660d3f21] {\n  position: relative;\n  border-bottom: 1px solid #dcdfe6;\n  margin-top: 5px;\n}\n.list-group .list-group-item[data-v-660d3f21]:first-child {\n  margin-top: 0;\n}\n.list-group .list-group-item[data-v-660d3f21]:last-child {\n  border-bottom: none;\n}\n.list-group .list-group-item .tool-btn[data-v-660d3f21] {\n  position: absolute;\n  top: 8px;\n  color: #555;\n}\n.list-group .list-group-item > .delete-btn[data-v-660d3f21] {\n  right: 1px;\n  cursor: pointer;\n}\n.list-group .list-group-item > .sort-handle[data-v-660d3f21] {\n  right: 18px;\n  cursor: move;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/plugins/array.vue"],"names":[],"mappings":";AACA;EACE,eAAe;CAChB;AACD;EACE,aAAa;EACb,iBAAiB;CAClB;AACD;EACE,+BAA+B;UACvB,uBAAuB;EAC/B,eAAe;EACf,UAAU;EACV,YAAY;EACZ,sBAAsB;EACtB,gBAAgB;EAChB,eAAe;EACf,uBAAuB;EACvB,0BAA0B;EAC1B,mBAAmB;EACnB,cAAc;EACd,qBAAqB;CACtB;AACD;EACE,mBAAmB;EACnB,iCAAiC;EACjC,gBAAgB;CACjB;AACD;EACE,cAAc;CACf;AACD;EACE,oBAAoB;CACrB;AACD;EACE,mBAAmB;EACnB,SAAS;EACT,YAAY;CACb;AACD;EACE,WAAW;EACX,gBAAgB;CACjB;AACD;EACE,YAAY;EACZ,aAAa;CACd","file":"array.vue","sourcesContent":["\n.array-wrap[data-v-660d3f21] {\n  overflow: auto;\n}\n.array-wrap .add-btn[data-v-660d3f21] {\n  float: right;\n  margin-top: 10px;\n}\n.list-group[data-v-660d3f21] {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  overflow: auto;\n  margin: 0;\n  width: 100%;\n  list-style-type: none;\n  margin-right: 0;\n  margin-left: 0;\n  background-color: #fff;\n  border: 1px solid #dcdfe6;\n  border-radius: 4px;\n  padding: 10px;\n  padding-bottom: 15px;\n}\n.list-group .list-group-item[data-v-660d3f21] {\n  position: relative;\n  border-bottom: 1px solid #dcdfe6;\n  margin-top: 5px;\n}\n.list-group .list-group-item[data-v-660d3f21]:first-child {\n  margin-top: 0;\n}\n.list-group .list-group-item[data-v-660d3f21]:last-child {\n  border-bottom: none;\n}\n.list-group .list-group-item .tool-btn[data-v-660d3f21] {\n  position: absolute;\n  top: 8px;\n  color: #555;\n}\n.list-group .list-group-item > .delete-btn[data-v-660d3f21] {\n  right: 1px;\n  cursor: pointer;\n}\n.list-group .list-group-item > .sort-handle[data-v-660d3f21] {\n  right: 18px;\n  cursor: move;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -11565,7 +11589,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.el-form-item__content[data-v-83c86520] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/plugins/boolean.vue"],"names":[],"mappings":";AACA;EACE,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;EACd,0BAA0B;MACtB,uBAAuB;UACnB,oBAAoB;CAC7B","file":"boolean.vue","sourcesContent":["\n.el-form-item__content[data-v-83c86520] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.el-form-item__content[data-v-83c86520] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/plugins/boolean.vue"],"names":[],"mappings":";AACA;EACE,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;EACd,0BAA0B;MACtB,uBAAuB;UACnB,oBAAoB;CAC7B","file":"boolean.vue","sourcesContent":["\n.el-form-item__content[data-v-83c86520] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -11863,7 +11887,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.rag-card[data-v-253feb5f] {\n  margin-bottom: 10px;\n}\nsection[data-v-253feb5f] {\n  pointer-events: none;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/plugins/drag-list.vue"],"names":[],"mappings":";AACA;EACE,oBAAoB;CACrB;AACD;EACE,qBAAqB;CACtB","file":"drag-list.vue","sourcesContent":["\n.rag-card[data-v-253feb5f] {\n  margin-bottom: 10px;\n}\nsection[data-v-253feb5f] {\n  pointer-events: none;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.rag-card[data-v-253feb5f] {\n  margin-bottom: 10px;\n}\nsection[data-v-253feb5f] {\n  pointer-events: none;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/plugins/drag-list.vue"],"names":[],"mappings":";AACA;EACE,oBAAoB;CACrB;AACD;EACE,qBAAqB;CACtB","file":"drag-list.vue","sourcesContent":["\n.rag-card[data-v-253feb5f] {\n  margin-bottom: 10px;\n}\nsection[data-v-253feb5f] {\n  pointer-events: none;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -11903,7 +11927,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.format-list .el-card__header {\n  padding: 8px 12px;\n}\n.format-list .el-card__body {\n  padding: 10px;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/plugins/drag-list.vue"],"names":[],"mappings":";AACA;EACE,kBAAkB;CACnB;AACD;EACE,cAAc;CACf","file":"drag-list.vue","sourcesContent":["\n.format-list .el-card__header {\n  padding: 8px 12px;\n}\n.format-list .el-card__body {\n  padding: 10px;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.format-list .el-card__header {\n  padding: 8px 12px;\n}\n.format-list .el-card__body {\n  padding: 10px;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/plugins/drag-list.vue"],"names":[],"mappings":";AACA;EACE,kBAAkB;CACnB;AACD;EACE,cAAc;CACf","file":"drag-list.vue","sourcesContent":["\n.format-list .el-card__header {\n  padding: 8px 12px;\n}\n.format-list .el-card__body {\n  padding: 10px;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -11943,7 +11967,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\nfieldset[data-v-33d2f4b2] {\n    border: 1px solid #dcdfe6;\n    border-width: 1px;\n    border-radius: 4px;\n    margin-left: 0;\n    padding-top:0;\n}\nlegend[data-v-33d2f4b2] {\n    color: #606266;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/plugins/object.vue"],"names":[],"mappings":";AACA;IACI,0BAA0B;IAC1B,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,cAAc;CACjB;AACD;IACI,eAAe;CAClB","file":"object.vue","sourcesContent":["\nfieldset[data-v-33d2f4b2] {\n    border: 1px solid #dcdfe6;\n    border-width: 1px;\n    border-radius: 4px;\n    margin-left: 0;\n    padding-top:0;\n}\nlegend[data-v-33d2f4b2] {\n    color: #606266;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\nfieldset[data-v-33d2f4b2] {\n    border: 1px solid #dcdfe6;\n    border-width: 1px;\n    border-radius: 4px;\n    margin-left: 0;\n    padding-top:0;\n}\nlegend[data-v-33d2f4b2] {\n    color: #606266;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/plugins/object.vue"],"names":[],"mappings":";AACA;IACI,0BAA0B;IAC1B,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,cAAc;CACjB;AACD;IACI,eAAe;CAClB","file":"object.vue","sourcesContent":["\nfieldset[data-v-33d2f4b2] {\n    border: 1px solid #dcdfe6;\n    border-width: 1px;\n    border-radius: 4px;\n    margin-left: 0;\n    padding-top:0;\n}\nlegend[data-v-33d2f4b2] {\n    color: #606266;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -12447,7 +12471,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.splitter[data-v-7aeee12f] {\n  background-color: #f2f5f5;\n  height: 10px;\n}\n", "", {"version":3,"sources":["/Users/zuochenxue/workspace/vue-form10/src/plugins/splitter.vue"],"names":[],"mappings":";AACA;EACE,0BAA0B;EAC1B,aAAa;CACd","file":"splitter.vue","sourcesContent":["\n.splitter[data-v-7aeee12f] {\n  background-color: #f2f5f5;\n  height: 10px;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.splitter[data-v-7aeee12f] {\n  background-color: #f2f5f5;\n  height: 10px;\n}\n", "", {"version":3,"sources":["/home/blackmiaool/github/vue-form10/src/plugins/splitter.vue"],"names":[],"mappings":";AACA;EACE,0BAA0B;EAC1B,aAAa;CACd","file":"splitter.vue","sourcesContent":["\n.splitter[data-v-7aeee12f] {\n  background-color: #f2f5f5;\n  height: 10px;\n}\n"],"sourceRoot":""}]);
 
 // exports
 
