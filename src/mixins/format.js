@@ -169,7 +169,8 @@ export default {
             return {
                 form: this.form,
                 margin: this.margin,
-                schema: this.schema
+                schema: this.schema,
+                name: this.name
             };
         }
     },

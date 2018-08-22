@@ -57,10 +57,10 @@ export default {
         preview: {
             schema: {
                 type: 'array',
-                items: {
-                    type: 'object',
-                    title: 'content'
-                },
+                // items: {
+                //     type: 'object',
+                //     title: 'content'
+                // },
                 form: {
                     draggable: true,
                 }
