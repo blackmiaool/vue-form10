@@ -3582,7 +3582,6 @@ function getCondition(schema, params) {
         func = getConditionFunc(schema.condition);
     }
     try {
-        console.log(func, paramsArr);
         ret = Boolean(func.apply(undefined, paramsArr));
     } catch (e) {
         ret = true;
