@@ -13,7 +13,7 @@ export default {
                 if (property.default !== undefined) {
                     this.$set(this.model, key, property.default);
                 } else {
-                    this.$set(this.model, key, pluginEmptyValues);
+                    this.$set(this.model, key, pluginEmptyValues[property.type]);
                 }
             }
         });

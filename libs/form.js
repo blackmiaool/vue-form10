@@ -14515,7 +14515,7 @@ if (false) {
                 if (property.default !== undefined) {
                     _this.$set(_this.model, key, property.default);
                 } else {
-                    _this.$set(_this.model, key, __WEBPACK_IMPORTED_MODULE_3__util__["g" /* pluginEmptyValues */]);
+                    _this.$set(_this.model, key, __WEBPACK_IMPORTED_MODULE_3__util__["g" /* pluginEmptyValues */][property.type]);
                 }
             }
         });
