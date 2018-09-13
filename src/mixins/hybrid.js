@@ -17,20 +17,22 @@ export default {
             }
         });
 
-        this.keys.forEach((key) => {
+        Object.keys(this.ownProperties).forEach((key) => {
             if (!Object.hasOwnProperty.call(this.model, key)) {
                 this.$set(this.model, key, null);
-                delete this.model.key;
             }
         });
     },
     computed: {
-        keys() {
+        ownProperties() {
             let properties = this.$options.form10.format.properties || {};
             if (typeof properties === 'function') {
                 properties = properties(this.schema);
             }
-            return difference(Object.keys(this.schema.properties || {}), Object.keys(properties));
+            return properties;
+        },
+        keys() {
+            return difference(Object.keys(this.schema.properties || {}), Object.keys(this.ownProperties));
         }
     },
 };

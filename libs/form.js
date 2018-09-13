@@ -14519,21 +14519,23 @@ if (false) {
             }
         });
 
-        this.keys.forEach(function (key) {
+        __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default()(this.ownProperties).forEach(function (key) {
             if (!Object.hasOwnProperty.call(_this.model, key)) {
                 _this.$set(_this.model, key, null);
-                delete _this.model.key;
             }
         });
     },
 
     computed: {
-        keys: function keys() {
+        ownProperties: function ownProperties() {
             var properties = this.$options.form10.format.properties || {};
             if (typeof properties === 'function') {
                 properties = properties(this.schema);
             }
-            return __WEBPACK_IMPORTED_MODULE_2_lodash_difference___default()(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default()(this.schema.properties || {}), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default()(properties));
+            return properties;
+        },
+        keys: function keys() {
+            return __WEBPACK_IMPORTED_MODULE_2_lodash_difference___default()(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default()(this.schema.properties || {}), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default()(this.ownProperties));
         }
     }
 });
