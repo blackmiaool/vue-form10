@@ -14509,19 +14509,14 @@ if (false) {
             this.model = Object(__WEBPACK_IMPORTED_MODULE_3__util__["c" /* getDefaultFromSchema */])(this.schema);
         }
 
-        var properties = this.$options.form10.format.properties || {};
-        if (typeof properties === 'function') {
-            properties = properties(this.schema);
-        }
-        __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default()(properties).forEach(function (key) {
-            if (!Object.hasOwnProperty.call(_this.model, key) && properties[key].default !== undefined) {
-                _this.$set(_this.model, key, properties[key].default);
-            }
-        });
-
         __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_keys___default()(this.ownProperties).forEach(function (key) {
             if (!Object.hasOwnProperty.call(_this.model, key)) {
-                _this.$set(_this.model, key, null);
+                var property = _this.ownProperties[key];
+                if (property.default !== undefined) {
+                    _this.$set(_this.model, key, property.default);
+                } else {
+                    _this.$set(_this.model, key, __WEBPACK_IMPORTED_MODULE_3__util__["g" /* pluginEmptyValues */]);
+                }
             }
         });
     },
