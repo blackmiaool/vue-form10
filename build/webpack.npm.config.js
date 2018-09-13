@@ -31,7 +31,8 @@ const npmConfig={
         extensions: [".js", ".vue", ".json"],
         alias: {            
             vue$: "vue/dist/vue.esm.js",
-            "@": resolve("src")
+            "@": resolve("src"),
+            "tv4":"@blackmiaool/tv4"
         }
     },
     // externals: function (context, request, callback) {
