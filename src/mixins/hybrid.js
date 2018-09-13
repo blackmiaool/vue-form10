@@ -20,6 +20,7 @@ export default {
         this.keys.forEach((key) => {
             if (!Object.hasOwnProperty.call(this.model, key)) {
                 this.$set(this.model, key, null);
+                delete this.model.key;
             }
         });
     },

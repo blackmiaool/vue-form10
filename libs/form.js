@@ -14522,6 +14522,7 @@ if (false) {
         this.keys.forEach(function (key) {
             if (!Object.hasOwnProperty.call(_this.model, key)) {
                 _this.$set(_this.model, key, null);
+                delete _this.model.key;
             }
         });
     },
