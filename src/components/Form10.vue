@@ -1,6 +1,6 @@
 <template>
     <el-form class="vue-form10" v-bind="provide.options.formProps||{}" :inline="provide.options.inline">
-        <AnyType :parent-path="rootPath" :key="uid" parent="root" :schema="refinedSchema" ></AnyType>
+        <AnyType :parent-path="rootPath" :key="uid" parent="root" :schema="refinedSchema"></AnyType>
     </el-form>
 </template>
 
@@ -13,6 +13,7 @@ import vuei18n from "vue-i18n";
 import validate from "../validate";
 import AnyType from "./AnyType";
 import store from "../store";
+import { rag2schema, getPluginFromSchemaAndPlugins } from "../util";
 
 require("tv4/lang/zh-CN");
 
@@ -45,7 +46,11 @@ export default {
     computed: {
         ...mapState(["model"]),
         refinedSchema() {
-            const ret = JSON.parse(JSON.stringify(this.schema || {}));
+            let schema = this.schema;
+            if (!schema && this.rags && this.rags.length) {
+                schema = this.rag2schema(this.rags[0]);
+            }
+            const ret = JSON.parse(JSON.stringify(schema || {}));
             function addRequired(item) {
                 if (!item) {
                     return;
@@ -66,6 +71,9 @@ export default {
                 }
             }
             addRequired(ret);
+            if (this.computeSchema) {
+                return this.computeSchema(ret);
+            }
             return ret;
         }
     },
@@ -107,6 +115,12 @@ export default {
                 this.$emit("input", model);
             }
         },
+        rags: {
+            deep: true,
+            handler() {
+                this.uid++;
+            }
+        },
         schema: {
             deep: true,
             handler() {
@@ -122,6 +136,11 @@ export default {
     },
     methods: {
         ...mapMutations(["mergeState"]),
+        rag2schema(rag) {
+            return rag2schema(rag, ragThis => {
+                return getPluginFromSchemaAndPlugins(ragThis, this.plugins, this.options.typeDefaultFormat);
+            });
+        },
         async submit() {
             let value = JSON.parse(JSON.stringify(this.value));
             function stripEmptyStr(obj) {
@@ -186,10 +205,16 @@ export default {
         }
     },
     props: {
+        rags: {
+            type: Array
+        },
         schema: {
             type: Object
         },
         value: {},
+        computeSchema: {
+            type: Function
+        },
         options: {
             type: Object,
             default() {
@@ -211,7 +236,7 @@ export default {
             rootPath: ["model"],
             uid: 0,
             componentId: "div",
-            compForm: {},
+            compForm: {}
         };
     },
     components: {

@@ -306,17 +306,6 @@ export default {
         editSubmit() {
             this.editResult = strip(this.editResult, this.combinedSchema);
 
-            ['properties', 'items'].forEach((key) => {
-                let child = this.targetPlugin.form10.format[key];
-                if (child) {
-                    if (typeof child === 'function') {
-                        child = child(this.editResult);
-                    }
-
-                    this.$set(this.editResult, key, child);
-                }
-            });
-
             const { list, index } = getPositionFromUid(this.value, this.editingUid);
             list.splice(index, 1, JSON.parse(JSON.stringify(this.editResult)));
             this.editDialogVisible = false;

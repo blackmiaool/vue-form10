@@ -3,9 +3,24 @@ import get from "lodash/get";
 
 export const emptyValue = {};
 
-export function rag2schema(rag) {
+export function rag2schema(rag, getFormat) {
     rag = JSON.parse(JSON.stringify(rag));
+    function makeChild(parent, key) {
+        if (!getFormat) {
+            return;
+        }
+        const targetFormat = getFormat(parent);
+        let child = targetFormat.form10.format[key];
+        if (child) {
+            if (typeof child === 'function') {
+                child = child(parent);
+            }
+            parent[key] = child;
+        }
+    }
     if (rag.type === "array") {
+        makeChild(rag, 'items');
+
         if (!rag.items) {
             let items;
             if (rag.rags.length > 1) {
@@ -19,12 +34,15 @@ export function rag2schema(rag) {
             rag.items = items;
         }
     } else if (rag.type === "object") {
+        makeChild(rag, 'properties');
+
         rag.properties = rag.properties || {};
         rag.required = [];
         rag.rags.forEach(child => {
             const key = child.form10key || child.form10uid;
             rag.properties[key] = rag2schema(child);
         });
+
         Object.keys(rag.properties).forEach(key => {
             if (rag.properties[key].required) {
                 rag.required.push(key);

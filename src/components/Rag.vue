@@ -89,24 +89,6 @@ export default {
             this.eventHub.$emit('edit', this.schema.form10uid);
         }
     },
-    watch: {
-        "schema.form": {
-            immediate: true,
-            deep: true,
-            handler() {
-                ['properties', 'items'].forEach((key) => {
-                    let child = this.targetPlugin.form10.format[key];
-
-                    if (child) {
-                        if (typeof child === 'function') {
-                            child = child(this.schema);
-                        }
-                        this.$set(this.schema, key, child);
-                    }
-                });
-            }
-        }
-    },
     computed: {
         targetPlugin() {
             return getPluginFromSchemaAndPlugins(this.schema, this.plugins);

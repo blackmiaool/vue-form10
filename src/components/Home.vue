@@ -17,7 +17,7 @@
             <el-col :span="8" style="height:100%;">
                 <div style="height:100%;overflow:auto;">
                     <header>{{$t('Preview Area')}}</header>
-                    <Form10 ref="form10" :schema="schema"
+                    <Form10 ref="form10" :rags="rags"
                         v-model="model"
                         :options="options"
                         @select="onSelect" :plugins="plugins"
@@ -38,7 +38,6 @@ import VueCodemirror from "vue-codemirror";
 import ElementUI from "element-ui";
 import VueI18n from "vue-i18n";
 import "element-ui/lib/theme-chalk/index.css";
-import { rag2schema } from "../util";
 // eslint-disable-next-line
 import "codemirror/mode/javascript/javascript.js";
 import Form10 from "./Form10";
@@ -93,8 +92,7 @@ export default {
             if (this.rags.length !== 1) {
                 return null;
             }
-            const ret = this.rags[0];
-            return rag2schema(ret);
+            return this.$refs.form10.rag2schema(this.rags[0]);
         },
         modelCode() {
             return JSON5.stringify(this.model, false, 4);
