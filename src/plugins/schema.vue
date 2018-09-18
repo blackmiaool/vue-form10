@@ -27,12 +27,12 @@ import HybridMixin from "../mixins/hybrid";
 import ObjectFormat from "./object";
 
 export default {
-    name: "JianyuCommon",
+    name: "Schema",
     mixins: [FormatMixin, HybridMixin],
     extends: ObjectFormat,
     form10: {
         format: {
-            name: "jianyu-common",
+            name: "schema",
             title: "schema",
             types: ["object"],
             properties(schema) {

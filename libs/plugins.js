@@ -11639,12 +11639,12 @@ if (false) {(function () {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    name: "JianyuCommon",
+    name: "Schema",
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_format__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_hybrid__["a" /* default */]],
     extends: __WEBPACK_IMPORTED_MODULE_2__object__["default"],
     form10: {
         format: {
-            name: "jianyu-common",
+            name: "schema",
             title: "schema",
             types: ["object"],
             properties: function properties(schema) {
