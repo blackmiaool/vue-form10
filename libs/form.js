@@ -14400,9 +14400,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (globa
 		OBJECT_ADDITIONAL_PROPERTIES: "不允许多余的字段",
 		OBJECT_DEPENDENCY_KEY: "依赖失败 - 缺少键 {missing} (来自键: {key})",
 		// Array errors
-		ARRAY_LENGTH_SHORT: "数组长度太短 ({data.length}), 最小长度 {schema.minItems}",
-		ARRAY_LENGTH_LONG: "数组长度太长 ({data.length}), 最大长度 {schema.maxItems}",
-		ARRAY_LENGTH_NOT_MATCH:"数组应有{schema.minItems}项, 当前有{data.length}项",
+		ARRAY_LENGTH_SHORT: "数组({schema.title})长度太短 ({data.length}), 最小长度 {schema.minItems}",
+		ARRAY_LENGTH_LONG: "数组({schema.title})长度太长 ({data.length}), 最大长度 {schema.maxItems}",
+		ARRAY_LENGTH_NOT_MATCH:"数组({schema.title})应有{schema.minItems}项, 当前有{data.length}项",
 		ARRAY_UNIQUE: "数组元素不唯一 (下标 {match1} 和 {match2})",
 		ARRAY_ADDITIONAL_ITEMS: "不允许多余的元素",
 		// Format errors
