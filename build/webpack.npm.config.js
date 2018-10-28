@@ -45,7 +45,9 @@ const npmConfig={
     //     }
     //     callback();
     // },
-    externals: ["vue", /^element-ui\//, "vuex"],
+    externals: ["vue", /^element-ui\//, "vuex",{
+        tv4:`@blackmiaool/tv4`
+    }],
     module: {
         rules: [
             {
