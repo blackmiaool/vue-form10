@@ -16,7 +16,7 @@
     "prepublishOnly": "npm run npm"
   },
   "dependencies": {
-    "@blackmiaool/tv4": "git+https://git@github.com/blackmiaool/tv4.git"
+    "@blackmiaool/tv4": "latest"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
