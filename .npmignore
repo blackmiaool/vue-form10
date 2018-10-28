@@ -1,10 +1,11 @@
 build
-dist/static
-dist/index.html
+dist
+.history
 config
 src/examples
 static
 webpack-stats.json
+compilation-stats.json
 *.html
 ./*.js
 .editorconfig
