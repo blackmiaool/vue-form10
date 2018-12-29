@@ -13962,9 +13962,10 @@ function getSchameFromErrorAndSchema(error, schema) {
     function getObjFromPath(obj, path) {
         if (!path.length) {
             return obj;
-        }
-        if (path[0] === '') {
+        } else if (path[0] === '') {
             return getObjFromPath(obj, path.slice(1));
+        } else if (obj.type === 'array') {
+            return getObjFromPath(obj.items, path.slice(1));
         }
         return getObjFromPath(obj.properties[path[0]], path.slice(1));
     }
@@ -13973,7 +13974,7 @@ function getSchameFromErrorAndSchema(error, schema) {
 
 function error302Handler(error, schema) {
     var title = getSchameFromErrorAndSchema(error, schema).title;
-    return "\u6CA1\u6709\u586B\u5199\u5B57\u6BB5: " + title;
+    return '\u6CA1\u6709\u586B\u5199\u5B57\u6BB5: ' + title;
 }
 /* harmony default export */ __webpack_exports__["a"] = ((function () {
     var _ref = __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_asyncToGenerator___default()( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(value, schema) {
@@ -13998,10 +13999,10 @@ function error302Handler(error, schema) {
                                 }
                             });
                         }
-                        return _context.abrupt("return", errors);
+                        return _context.abrupt('return', errors);
 
                     case 7:
-                    case "end":
+                    case 'end':
                         return _context.stop();
                 }
             }

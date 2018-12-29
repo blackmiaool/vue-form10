@@ -4,9 +4,10 @@ function getSchameFromErrorAndSchema(error, schema) {
     function getObjFromPath(obj, path) {
         if (!path.length) {
             return obj;
-        }
-        if (path[0] === '') {
+        } else if (path[0] === '') {
             return getObjFromPath(obj, path.slice(1));
+        } else if (obj.type === 'array') {
+            return getObjFromPath(obj.items, path.slice(1));
         }
         return getObjFromPath(obj.properties[path[0]], path.slice(1));
     }
@@ -18,7 +19,10 @@ function error302Handler(error, schema) {
     return `没有填写字段: ${title}`;
 }
 export default async function validate(value, schema) {
-    const { valid, errors } = await tv4.validateMultiple(value, schema);
+    const {
+        valid,
+        errors
+    } = await tv4.validateMultiple(value, schema);
     if (!valid) {
         errors.forEach((error) => {
             if (error.code === 302) {
