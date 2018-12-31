@@ -1,5 +1,5 @@
 <template>
-    <el-form class="vue-form10" v-bind="provide.options.formProps||{}" :inline="provide.options.inline">
+    <el-form class="vue-form10" v-bind="provide.options.formProps||{}" :inline="provide.options.inline" @submit.native.prevent>
         <AnyType :parent-path="rootPath" :key="uid" parent="root" :schema="refinedSchema"></AnyType>
     </el-form>
 </template>
@@ -88,7 +88,7 @@ export default {
         plugins: {
             immediate: true,
             deep: true,
-            handler(plugins) {
+            handler(plugins = []) {
                 plugins.forEach(plugin => {
                     this.use(plugin);
                 });
@@ -178,18 +178,26 @@ export default {
             return ret;
         },
         use(plugin) {
+            function getFormatConfig() {
+                return Object.assign(
+                    {
+                        component: plugin
+                    },
+                    plugin.form10.format
+                );
+            }
             if (plugin.render) {
                 const pluginConfig = plugin.form10 || {};
                 if (pluginConfig.format) {
-                    const formatConfig = pluginConfig.format;
-                    this.provide.formats.push(
-                        Object.assign(
-                            {
-                                component: plugin
-                            },
-                            formatConfig
-                        )
-                    );
+                    const formatConfig = getFormatConfig();
+                    const index = this.provide.formats.findIndex((format) => {
+                        return format.name === formatConfig.name;
+                    });
+                    if (index > -1) {
+                        this.provide.formats.splice(index, 1, formatConfig);
+                    } else {
+                        this.provide.formats.push(formatConfig);
+                    }
                     if (formatConfig.format instanceof RegExp) {
                         tv4.addFormat(formatConfig.name, data => {
                             if (!formatConfig.format.test(data)) {
