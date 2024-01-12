@@ -2,6 +2,9 @@
 
 <img src="https://user-images.githubusercontent.com/5674588/43684427-5771226a-98d2-11e8-8e90-3f8931abea12.gif"/>
 
+# Try
+https://github.com/blackmiaool/vue-form10/settings
+
 # Install
 ```bash
 npm i -S vue-form10
